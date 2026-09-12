@@ -3,9 +3,9 @@
 # 🩸 DBD Randomizer & Hub
 
 <p align="center">
-  <img src="[https://img.shields.io/badge/Dead%20by%20Daylight-Fan%20Project-red?style=for-the-badge](https://img.shields.io/badge/Dead%20by%20Daylight-Fan%20Project-red?style=for-the-badge)" alt="DBD Fan Project">
-  <img src="[https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)" alt="Status Active">
-  <img src="[https://img.shields.io/badge/Stack-HTML5%20%7C%20JS%20%7C%20CSS3-orange?style=for-the-badge](https://img.shields.io/badge/Stack-HTML5%20%7C%20JS%20%7C%20CSS3-orange?style=for-the-badge)" alt="Stack">
+  <img src="https://img.shields.io/badge/Dead_by_Daylight-Fan_Project-red?style=for-the-badge" alt="DBD Fan Project">
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" alt="Status Active">
+  <img src="https://img.shields.io/badge/Stack-HTML5_%7C_JS_%7C_CSS3-orange?style=for-the-badge" alt="Stack">
 </p>
 
 > **Dead by Daylight Randomizer & Hub** — компактный клиентский веб-сервис для игроков и стримеров DBD. Рандомизация персонажей, трекинг статистики побегов и полноценный челлендж-режим LUCKY в одном мрачном интерфейсе.
