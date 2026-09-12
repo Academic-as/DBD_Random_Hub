@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dead by Daylight - Randomizer</title>
+    <link rel="icon" type="image/png" href="icon/d5e8f729-88e7-4fdb-83cb-60f39c987508.png">
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --panel-bg: rgba(22, 22, 26, 0.95);
+            --accent-red: #ff2a2a;
+            --accent-red-glow: rgba(255, 42, 42, 0.4);
+            --text-main: #f0f0f0;
+            --text-muted: #8a8a93;
+            --border-color: #2a2a32;
+            --card-bg: #18181c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(255, 42, 42, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(20, 20, 30, 0.6) 0%, transparent 50%);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            z-index: 20;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .escape-stats-tab {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .escape-stats-shell {
+            width: min(1100px, 100%);
+        }
+
+        .escape-stats-header {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .escape-stats-header h1 {
+            color: var(--accent-red);
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .escape-stats-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .escape-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto 24px;
+            flex-wrap: wrap;
+        }
+
+        .escape-mode-btn {
+            padding: 12px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: #111017;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .escape-mode-btn.active {
+            background: #6e40b2;
+            border-color: #b58cff;
+            color: #fff;
+            box-shadow: 0 0 12px rgba(181, 140, 255, .25);
+        }
+
+        .escape-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .escape-stat-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        }
+
+        .escape-stat-card h2 {
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .escape-stat-card h2 span {
+            color: var(--accent-red);
+        }
+
+        .escape-summary {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .mana-summary {
+            grid-template-columns: 1fr;
+        }
+
+        .escape-summary-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .escape-summary-box small {
+            display: block;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.72rem;
+            margin-bottom: 8px;
+        }
+
+        .escape-summary-box strong {
+            font-size: clamp(1.6rem, 3vw, 2.3rem);
+            color: #fff;
+        }
+
+        .escape-rate {
+            margin-bottom: 18px;
+            background: rgba(255, 42, 42, 0.06);
+            border: 1px solid rgba(255, 42, 42, 0.3);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .escape-rate span {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.72rem;
+        }
+
+        .escape-rate strong {
+            font-size: 1.7rem;
+            color: #fff;
+        }
+
+        .escape-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .escape-download-wrap {
+            margin-top: 18px;
+        }
+
+        .escape-action-btn {
+            background: linear-gradient(135deg, #1e1e26, #111115);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .escape-action-btn:hover {
+            border-color: var(--accent-red);
+            transform: translateY(-1px);
+        }
+
+        .escape-action-btn.success {
+            background: linear-gradient(135deg, rgba(42, 124, 85, 0.35), rgba(20, 28, 24, 0.9));
+            border-color: rgba(78, 196, 126, 0.6);
+            color: #d9ffe9;
+        }
+
+        .escape-action-btn.failure {
+            background: linear-gradient(135deg, rgba(152, 44, 44, 0.3), rgba(28, 18, 18, 0.9));
+            border-color: rgba(255, 82, 82, 0.45);
+            color: #ffd1d1;
+        }
+
+        .escape-actions .reset-btn {
+            grid-column: 1 / -1;
+            background: var(--card-bg);
+        }
+
+        @media (max-width: 700px) {
+            .escape-stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-red);
+            border-bottom-color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-red-glow);
+        }
+
+        .lang-switcher {
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--accent-red);
+            color: #fff;
+            box-shadow: 0 0 8px var(--accent-red-glow);
+        }
+
+        .app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding-top: 60px;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .home-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 42px 20px 32px;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+        .home-hero {
+            background: linear-gradient(135deg, rgba(24, 24, 29, 0.95), rgba(14, 14, 19, 0.98));
+            border: 1px solid rgba(255, 42, 42, 0.18);
+            border-radius: 20px;
+            padding: clamp(24px, 5vw, 44px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-hero::before {
+            content: "";
+            position: absolute;
+            inset: -20% auto auto -8%;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255, 42, 42, 0.18), transparent 65%);
+            pointer-events: none;
+        }
+
+        .home-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 42, 42, 0.28);
+            background: rgba(255, 42, 42, 0.06);
+            color: #ffb1b1;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .home-hero h1 {
+            position: relative;
+            font-size: clamp(2.2rem, 4vw, 4.4rem);
+            color: #fff;
+            text-shadow: 0 0 18px rgba(255, 42, 42, 0.2);
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            line-height: 1.08;
+        }
+
+        .home-hero h1 .accent {
+            color: var(--accent-red);
+        }
+
+        .home-hero p {
+            position: relative;
+            max-width: 760px;
+            font-size: 1.08rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .home-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .home-stat {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px 18px;
+        }
+
+        .home-stat strong {
+            display: block;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .home-stat span {
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .feature-card {
+            background: linear-gradient(180deg, rgba(24, 24, 29, 0.98), rgba(15, 15, 18, 1));
+            border: 1px solid var(--border-color);
+            padding: 26px 22px;
+            border-radius: 16px;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(181, 140, 255, 0.7);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1.18rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .home-footer-note {
+            background: rgba(110, 64, 178, 0.08);
+            border: 1px solid rgba(181, 140, 255, 0.28);
+            border-radius: 14px;
+            padding: 18px 20px;
+            color: #d9d0f2;
+            line-height: 1.6;
+            font-size: 0.96rem;
+        }
+
+        .subtabs-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .subtab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex: 1;
+            transition: all 0.2s;
+        }
+
+        .subtab-btn.active {
+            background: var(--accent-red);
+            color: #fff;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red-glow);
+        }
+
+        .sidebar {
+            width: 360px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 10;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+        }
+
+        .sidebar h2 {
+            margin-bottom: 15px;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sidebar h2 span {
+            color: var(--accent-red);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preset-controls {
+            display: flex;
+            gap: 10px;
+            margin: -5px 0 15px;
+        }
+
+        .preset-controls .btn-action {
+            font-size: 0.78rem;
+        }
+
+        .data-loss-notice {
+            color: #e9c36b;
+            background: rgba(233,195,107,.08);
+            border: 1px solid rgba(233,195,107,.25);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: .78rem;
+            line-height: 1.4;
+        }
+
+        .wheel-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .wheel-option input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-red);
+            cursor: pointer;
+        }
+
+        .btn-action {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .btn-action:hover {
+            background-color: #222228;
+            border-color: var(--accent-red);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red-glow);
+        }
+
+        .entity-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 5px;
+        }
+
+        .entity-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--card-bg);
+            border: 1px solid transparent;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .entity-item:hover {
+            border-color: #3a3a45;
+            background-color: #1e1e24;
+        }
+
+        .entity-item input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-red);
+        }
+
+        .wheel-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        .wheels-wrapper {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wheel-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+        }
+
+        .wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 15px var(--accent-red-glow);
+            transition: transform 4s cubic-bezier(0.15, 0.99, 0.15, 0.99);
+        }
+
+        .pointer {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 30px solid var(--accent-red);
+            z-index: 5;
+            filter: drop-shadow(0 0 6px var(--accent-red));
+        }
+
+        .spin-btn {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff2a2a, #aa0000);
+            color: #fff;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-red-glow);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 25px rgba(255, 42, 42, 0.6);
+        }
+
+        .spin-btn:disabled {
+            background: #2a2a30;
+            color: #555;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--panel-bg);
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--accent-red);
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 0 30px var(--accent-red-glow);
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content h1 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .meme-text {
+            color: #ffca28;
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            background: rgba(255, 202, 40, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px dashed rgba(255, 202, 40, 0.4);
+        }
+        .lucky-tab { display: block; width: 100%; overflow-y: auto; padding: 28px clamp(18px, 4vw, 56px) 50px; background: radial-gradient(circle at 75% 10%, rgba(157, 79, 255, 0.12), transparent 32%), rgba(8, 8, 12, 0.35); }
+        .lucky-shell { max-width: 1500px; margin: 0 auto; }
+        .lucky-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+        .lucky-kicker { color: #b58cff; letter-spacing: 3px; font-size: .75rem; font-weight: 800; text-transform: uppercase; }
+        .lucky-title-row { display: flex; align-items: center; gap: 16px; }
+        .lucky-brand-mark { width: 64px; height: 64px; object-fit: cover; border: 1px solid #6e40b2; border-radius: 12px; box-shadow: 0 0 22px rgba(181, 36, 36, .4); }
+        .lucky-hero h1 { margin-top: 6px; font-size: clamp(2rem, 5vw, 3.8rem); letter-spacing: 5px; color: #fff; text-shadow: 0 0 24px rgba(181, 140, 255, .35); }
+        .lucky-hero p { color: var(--text-muted); max-width: 620px; margin-top: 8px; line-height: 1.5; }
+        .lucky-author {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(181, 140, 255, 0.28);
+            background: rgba(181, 140, 255, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+            color: #d8bdff !important;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .4px;
+            opacity: .96;
+        }
+        .lucky-author::before {
+            content: '✦';
+            color: #f5d27a;
+            font-size: .7rem;
+            opacity: .95;
+        }
+        .lucky-author a {
+            color: #f0dfff;
+            text-decoration: none;
+            transition: color .2s ease, opacity .2s ease;
+        }
+        .lucky-author a:hover {
+            color: #fff;
+            opacity: 1;
+        }
+        .lucky-balance { position: sticky; top: 16px; z-index: 15; min-width: 215px; width: 215px; margin: -82px 0 22px auto; padding: 18px 20px; border: 1px solid #3c285e; background: linear-gradient(145deg, rgba(45, 25, 75, .96), rgba(20, 18, 29, .97)); border-radius: 10px; box-shadow: 0 10px 28px rgba(0, 0, 0, .28); }
+        .lucky-balance small { color: #b9a8d1; text-transform: uppercase; letter-spacing: 1px; }
+        .lucky-balance strong { display: block; color: #d8bdff; font-size: 1.65rem; margin-top: 5px; }
+        .lucky-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+        .lucky-grid > aside { order: -1; }
+        .lucky-panel { background: rgba(20, 18, 27, .92); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; }
+        .lucky-panel h2 { font-size: 1.05rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+        .lucky-panel h2 span { color: #b58cff; }
+        .lucky-wheels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+        .lucky-wheel-card { border: 1px solid #31283d; background: #15131b; padding: 15px; border-radius: 8px; }
+        .lucky-wheel-card h3 { font-size: .95rem; margin-bottom: 10px; }
+        .lucky-wheel-stage { position: relative; width: min(100%, 570px); margin: 8px auto 2px; }
+        .lucky-wheel-canvas { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; border: 5px solid #24202b; box-shadow: 0 0 0 3px #0b0a0e, 0 0 28px rgba(110,64,178,.34); transition: transform 1.7s cubic-bezier(.15,.99,.15,.99); }
+        .lucky-pointer { position: absolute; top: -19px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 27px solid #ff2a2a; filter: drop-shadow(0 0 6px rgba(255,42,42,.8)); z-index: 4; }
+        .lucky-result { min-height: 42px; padding: 10px 0 5px; color: #d8bdff; font-weight: 700; line-height: 1.3; }
+        .lucky-wheel-card:has(#killer-wheel) { border-color: #62418e; background: linear-gradient(145deg, #1a1524, #15131b); }
+        .lucky-wheel-card:has(#killer-wheel) .lucky-result { color: #f0cfff; }
+        .lucky-spin { width: 100%; background: #6e40b2; box-shadow: 0 4px 16px rgba(110,64,178,.28); }
+        .lucky-spin:hover { background: #8251c8; }
+        .lucky-spin:disabled { background: #2a2730; }
+        .lucky-list { display: grid; gap: 9px; }
+        .lucky-list label { display: flex; justify-content: space-between; gap: 15px; color: #d4d0db; padding: 10px 0; border-bottom: 1px solid #28252d; font-size: .9rem; }
+        .lucky-list strong { color: #d8bdff; white-space: nowrap; }
+        .lucky-killers { grid-column: 1 / -1; }
+        .lucky-killer-controls { display: flex; gap: 10px; margin-bottom: 12px; }
+        .lucky-killer-search { width: 100%; padding: 10px 12px; margin-bottom: 12px; background: #111017; color: #fff; border: 1px solid var(--border-color); border-radius: 5px; outline: none; }
+        .lucky-killer-search:focus { border-color: #b58cff; }
+        .lucky-killer-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; max-height: 245px; overflow-y: auto; }
+        .lucky-killer-item { display: flex; align-items: center; gap: 8px; padding: 9px 10px; background: #17151c; border: 1px solid #342c3d; border-radius: 5px; color: #d4d0db; cursor: pointer; font-size: .83rem; }
+        .lucky-killer-item:hover { border-color: #b58cff; }
+        .lucky-killer-item input { accent-color: #b58cff; cursor: pointer; }
+        .lucky-killer-count { color: var(--text-muted); font-size: .82rem; margin-bottom: 10px; }
+        .lucky-shop { grid-column: 1 / -1; }
+        .shop-grid { display: grid; gap: 20px; }
+        .shop-category { display: grid; gap: 10px; }
+        .shop-category-title { color: #d8bdff; font-size: .82rem; letter-spacing: 1.5px; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid #3a2c4e; }
+        .shop-category-items { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 10px; }
+        .shop-item { padding: 13px; border: 1px solid #342c3d; border-left: 4px solid var(--item-color, #777); background: #17151c; border-radius: 6px; }
+        .shop-item h3 { font-size: .87rem; margin-bottom: 10px; min-height: 32px; }
+        .shop-item p { color: var(--text-muted); font-size: .78rem; margin-bottom: 12px; }
+        .shop-buy { width: 100%; padding: 9px; font-size: .75rem; }
+        .shop-buy:disabled { opacity: .45; cursor: not-allowed; }
+        .lucky-tools { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+        .lucky-tools .btn-action { flex: 0 1 auto; }
+        .lucky-notice { color: #e9c36b; background: rgba(233,195,107,.08); border: 1px solid rgba(233,195,107,.25); padding: 11px 13px; border-radius: 6px; margin-top: 14px; font-size: .85rem; line-height: 1.45; }
+        .lucky-match { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+        .lucky-match input { width: 70px; padding: 9px; background: #111017; border: 1px solid var(--border-color); color: #fff; border-radius: 5px; }
+        .lucky-match-modal { display: none; position: fixed; inset: 0; z-index: 110; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,.82); backdrop-filter: blur(5px); }
+        .lucky-match-modal.open { display: flex; }
+        .lucky-match-dialog { width: min(100%, 390px); padding: 25px; background: var(--panel-bg); border: 1px solid #b58cff; border-radius: 10px; box-shadow: 0 0 30px rgba(181,140,255,.25); }
+        .lucky-match-dialog h2 { margin-bottom: 8px; color: #fff; }
+        .lucky-match-dialog p { color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
+        .escape-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 14px; }
+        .escape-option { padding: 12px 8px; background: #111017; color: var(--text-muted); border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .escape-option:hover, .escape-option.active { color: #fff; background: #6e40b2; border-color: #b58cff; box-shadow: 0 0 12px rgba(181, 140, 255, .25); }
+        .escape-message { min-height: 42px; margin-bottom: 14px; padding: 10px 12px; color: #e9c36b; background: rgba(233,195,107,.08); border: 1px solid rgba(233,195,107,.25); border-radius: 6px; font-size: .9rem; line-height: 1.4; text-align: center; }
+        .lucky-match-dialog-actions { display: flex; gap: 10px; }
+        .lucky-match-dialog-actions .btn-action { flex: 1; }
+        #lucky-purchase-modal { pointer-events: none; align-items: flex-start; justify-content: flex-end; padding: 78px 20px 20px; background: transparent; backdrop-filter: none; }
+        .lucky-purchase-dialog { pointer-events: auto; width: min(100%, 430px); max-height: calc(100vh - 98px); overflow-y: auto; padding: 25px; background: var(--panel-bg); border: 1px solid #b58cff; border-radius: 10px; box-shadow: 0 0 30px rgba(181,140,255,.25); }
+        .lucky-purchase-dialog h2 { margin-bottom: 8px; color: #fff; }
+        .lucky-purchase-dialog p { color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
+        .lucky-purchase-list { display: grid; gap: 8px; max-height: 320px; overflow-y: auto; margin-bottom: 16px; }
+        .lucky-purchase-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 10px; padding: 10px 12px; background: #17151c; border: 1px solid #342c3d; border-radius: 6px; }
+        .lucky-purchase-row strong { color: #fff; font-size: .9rem; }
+        .lucky-purchase-row span { color: #d8bdff; font-size: .82rem; white-space: nowrap; }
+        .lucky-purchase-quantity { min-width: 24px; color: #fff; text-align: center; font-weight: 700; }
+        .lucky-purchase-step, .lucky-purchase-remove { padding: 5px 9px; flex: 0 0 auto; }
+        .lucky-purchase-total { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid #342c3d; color: var(--text-muted); }
+        .lucky-purchase-total strong { color: #d8bdff; }
+        .lucky-purchase-remaining { display: block; margin: -6px 0 12px; color: var(--text-muted); font-size: .85rem; }
+        .lucky-purchase-remaining strong { color: #d8bdff; }
+        .lucky-purchase-error { min-height: 22px; margin-bottom: 10px; color: #ff8b8b; font-size: .85rem; }
+        .lucky-purchase-dialog-actions { display: flex; gap: 10px; }
+        .lucky-purchase-dialog-actions .btn-action { flex: 1; }
+        .challenge-content { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 0; }
+        .challenge-tabs { display: flex; gap: 10px; padding: 16px clamp(18px, 4vw, 56px) 0; background: rgba(10, 10, 12, .8); border-bottom: 1px solid var(--border-color); }
+        .challenge-tab-btn { background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); padding: 10px 16px; cursor: pointer; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .challenge-tab-btn:hover { color: var(--text-main); }
+        .challenge-tab-btn.active { color: #b58cff; border-bottom-color: #b58cff; }
+        .challenge-tab-panel { display: none; flex: 1; min-height: 0; }
+        .challenge-tab-panel.active { display: flex; }
+        .development-panel { width: 100%; overflow-y: auto; padding: 60px 20px; text-align: center; }
+        .development-panel h1 { color: #b58cff; margin-bottom: 12px; letter-spacing: 2px; }
+        .development-panel p { color: var(--text-muted); }
+        @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #2a2a32; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+    </style>
+</head>
+<body>
+
+    <header class="header-nav">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="home" id="tab-home-btn">Главная</button>
+            <button class="tab-btn" data-tab="wheel" id="tab-wheel-btn">Колесо</button>
+            <button class="tab-btn" data-tab="escapes" id="tab-escapes-btn">Побег</button>
+            <button class="tab-btn" data-tab="challenges" id="tab-challenges-btn">Челленджи</button>
+        </div>
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="lang-ru">RU</button>
+            <button class="lang-btn" id="lang-en">EN</button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <div class="tab-content active" id="home-tab">
+            <div class="home-container">
+                <div class="home-hero">
+                    <div class="home-hero-badge">DBD Utility</div>
+                    <h1 id="home-hero-title">DBD <span class="accent">Randomizer</span> & Hub</h1>
+                    <p id="home-hero-desc">Ваш персональный помощник для Dead by Daylight: быстро выбирайте персонажей, ведите статистику побегов и добавляйте новые челленджи без лишнего хаоса.</p>
+
+                    <div class="home-stats">
+                        <div class="home-stat">
+                            <strong>3</strong>
+                            <span id="home-stat-tools">инструмента</span>
+                        </div>
+                        <div class="home-stat">
+                            <strong>RU / EN</strong>
+                            <span id="home-stat-language">язык</span>
+                        </div>
+                        <div class="home-stat">
+                            <strong>∞</strong>
+                            <span id="home-stat-variations">вариаций</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 id="feature-1-title">🎡 Колесо Судьбы</h3>
+                        <p id="feature-1-desc">Случайный выбор убийцы или выжившего с кастомным списком, фильтрацией и быстрым подбором ролей для любой катки.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 id="feature-2-title">🏆 Побеги</h3>
+                        <p id="feature-2-desc">Отслеживайте собственные и командные результаты, переключайтесь между режимами 1vs4 и 2vs8 и следите за процентом успеха в реальном времени.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 id="feature-3-title">🌐 Челленджи</h3>
+                        <p id="feature-3-desc">Проверяйте лимиты, банк, ротацию колес и сложные условия LUCKY, чтобы сделать каждую катку более живой и нестандартной.</p>
+                    </div>
+                </div>
+
+                <div class="home-footer-note" id="home-footer-note">
+                    Всё сохраняется только в рамках текущего сеанса: можно переключаться между вкладками и возвращаться к прогрессу, но при полном выходе со страницы всё сбрасывается.
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="wheel-tab">
+            <div class="sidebar">
+                <div class="subtabs-nav">
+                    <button class="subtab-btn active" id="subtab-killers">Убийцы</button>
+                    <button class="subtab-btn" id="subtab-survivors">Выжившие</button>
+                </div>
+
+                <h2><span id="title-entity">Персонажи</span> <span id="selected-count">(0/0)</span></h2>
+                <div class="controls">
+                    <button class="btn-action" id="select-all">Выбрать всех</button>
+                    <button class="btn-action" id="deselect-all">Убрать всех</button>
+                </div>
+                <div class="preset-controls">
+                    <button class="btn-action" id="export-wheel-preset">Скачать пресет</button>
+                    <button class="btn-action" id="import-wheel-preset">Импортировать пресет</button>
+                    <input type="file" id="wheel-preset-file" accept="application/json" hidden>
+                </div>
+                <label class="wheel-option">
+                    <input type="checkbox" id="remove-winner-toggle">
+                    <span>Убирать выпавшего персонажа после вращения</span>
+                </label>
+                <input type="text" class="search-box" id="search" placeholder="Поиск...">
+                <div class="entity-list" id="entity-list"></div>
+            </div>
+
+            <div class="wheel-section">
+                <div class="wheels-wrapper">
+                    <div class="wheel-box">
+                        <div class="wheel-container">
+                            <div class="pointer"></div>
+                            <canvas id="wheel" class="wheel-canvas" width="600" height="600"></canvas>
+                        </div>
+                        <button class="spin-btn" id="spin-main-btn">Крутить персонажа</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="escapes-tab">
+            <div class="escape-stats-tab">
+                <div class="escape-stats-shell">
+                    <div class="escape-stats-header">
+                        <h1 id="escapes-title">Побег/Убиты</h1>
+                        <p id="escapes-description">Считайте свои побеги, неудачные попытки и пойманных отдельно для себя и отдельно для команды.</p>
+                    </div>
+
+                    <div class="escape-mode-toggle" aria-label="Режим побега">
+                        <button class="escape-mode-btn active" type="button" data-escape-mode="1vs4">1vs4</button>
+                        <button class="escape-mode-btn" type="button" data-escape-mode="2vs8">2vs8</button>
+                    </div>
+
+                    <div class="escape-stats-grid">
+                        <div class="escape-stat-card">
+                            <h2 id="escape-self-title"><span>01</span> Я / Свой показатель</h2>
+                            <div class="escape-summary">
+                                <div class="escape-summary-box">
+                                    <small id="self-escaped-label">Сбежал</small>
+                                    <strong id="self-escaped-count">0</strong>
+                                </div>
+                                <div class="escape-summary-box">
+                                    <small id="self-failed-label">Не смог</small>
+                                    <strong id="self-failed-count">0</strong>
+                                </div>
+                            </div>
+                            <div class="escape-rate">
+                                <span id="self-escape-rate-label">Процент побега</span>
+                                <strong id="self-escape-rate">0%</strong>
+                            </div>
+                            <div class="escape-actions">
+                                <button id="self-escaped-btn" class="escape-action-btn success" data-scope="self" data-result="escaped">+ Сбежал</button>
+                                <button id="self-failed-btn" class="escape-action-btn failure" data-scope="self" data-result="failed">+ Не смог</button>
+                                <button id="self-reset-btn" class="escape-action-btn reset-btn" data-scope="self" data-result="reset">Сбросить</button>
+                                <button id="self-download-btn" class="escape-action-btn download-btn" data-scope="self" data-result="download">Скачать показатель</button>
+                            </div>
+                        </div>
+
+                        <div class="escape-stat-card">
+                            <h2 id="escape-team-title"><span>02</span> Команда</h2>
+                            <div class="escape-summary">
+                                <div class="escape-summary-box">
+                                    <small id="team-escaped-label">Сбежала</small>
+                                    <strong id="team-escaped-count">0</strong>
+                                </div>
+                                <div class="escape-summary-box">
+                                    <small id="team-failed-label">Не смогла</small>
+                                    <strong id="team-failed-count">0</strong>
+                                </div>
+                            </div>
+                            <div class="escape-rate">
+                                <span id="team-escape-rate-label">Процент побега</span>
+                                <strong id="team-escape-rate">0%</strong>
+                            </div>
+                            <div class="escape-actions">
+                                <button id="team-escaped-btn" class="escape-action-btn success" data-scope="team" data-result="escaped">+ Сбежала</button>
+                                <button id="team-failed-btn" class="escape-action-btn failure" data-scope="team" data-result="failed">+ Не смогла</button>
+                                <button id="team-reset-btn" class="escape-action-btn reset-btn" data-scope="team" data-result="reset">Сбросить</button>
+                                <button id="team-download-btn" class="escape-action-btn download-btn" data-scope="team" data-result="download">Скачать показатель</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="escape-download-wrap">
+                        <button class="btn-action" id="download-escape-stats">Скачать все показатели</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="challenges-tab">
+            <div class="challenge-content">
+                <nav class="challenge-tabs" aria-label="Вкладки челленджей">
+                    <button class="challenge-tab-btn active" data-challenge-tab="lucky">LUCKY</button>
+                    <button class="challenge-tab-btn" data-challenge-tab="development">В разработке</button>
+                </nav>
+                <div class="challenge-tab-panel active" id="lucky-challenge-panel">
+                    <main class="lucky-tab"><div class="lucky-shell">
+                <div class="lucky-hero"><div><div class="lucky-kicker">Dead by Daylight challenge</div><div class="lucky-title-row"><h1>LUCKY</h1></div><p>Банк, риск и случайность. Крутите колеса, собирайте билд и фиксируйте прогресс в файле.</p><p class="lucky-author">Идея: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a></p></div></div><div class="lucky-balance"><small>Nightfall Bank</small><strong id="lucky-balance">0 FC</strong></div>
+                <div class="lucky-grid">
+                    <aside class="lucky-panel"><h2><span>01</span> Правила катки И ИНФОРМАЦИЯ</h2><div class="lucky-list"><label>Каток сыграно <strong id="matches-count">0</strong></label><label>Поймано выживших <strong id="escaped-count">0</strong></label><label>Перк-блокировка <strong id="perk-status">Нет</strong></label><label>Закуп <strong id="buy-status">Разрешен</strong></label></div><div class="lucky-notice">При поражении банк и все покупки обнуляются. Если поймано 3 или более выживших, нажмите «Я проиграл».</div></aside>
+                    <section class="lucky-panel"><h2><span>02</span> Колеса испытания</h2><div class="lucky-wheels">
+                        <article class="lucky-wheel-card"><h3>Колесо валюты</h3><div class="lucky-wheel-stage"><span class="lucky-pointer"></span><canvas class="lucky-wheel-canvas" id="currency-wheel" width="600" height="600"></canvas></div><div class="lucky-result" id="currency-result">Готово к вращению</div><button class="spin-btn lucky-spin" id="currency-spin">Крутить валюту</button></article>
+                        <article class="lucky-wheel-card"><h3>Колесо модификатора</h3><div class="lucky-wheel-stage"><span class="lucky-pointer"></span><canvas class="lucky-wheel-canvas" id="modifier-wheel" width="600" height="600"></canvas></div><div class="lucky-result" id="modifier-result">Готово к вращению</div><button class="spin-btn lucky-spin" id="modifier-spin">Крутить модификатор</button></article>
+                        <article class="lucky-wheel-card"><h3>Колесо маньяков</h3><div class="lucky-wheel-stage"><span class="lucky-pointer"></span><canvas class="lucky-wheel-canvas" id="killer-wheel" width="600" height="600"></canvas></div><div class="lucky-result" id="killer-result">Готово к вращению</div><button class="spin-btn lucky-spin" id="killer-spin">Крутить маньяка</button></article>
+                    </div><div class="lucky-notice" id="lucky-status">Оба колеса можно крутить один раз за катку. После результата выберите победу или поражение.</div><div class="lucky-tools"><button class="btn-action" id="confirm-win" disabled>Я выиграл (+1 катка)</button><button class="btn-action" id="lose-match">Я проиграл</button><button class="btn-action" id="export-progress">Скачать прогресс</button><button class="btn-action" id="import-progress">Импортировать файл</button><input type="file" id="progress-file" accept="application/json" hidden></div></section>
+                    <section class="lucky-panel lucky-killers"><h2><span>03</span> Маньяки для испытания <span class="lucky-killer-count" id="lucky-killer-count">(0/0)</span></h2><div class="lucky-killer-controls"><button class="btn-action" id="lucky-select-all-killers">Выбрать всех</button><button class="btn-action" id="lucky-deselect-all-killers">Убрать всех</button></div><input class="lucky-killer-search" id="lucky-killer-search" type="text" placeholder="Поиск маньяка..."><div class="lucky-killer-list" id="lucky-killer-list"></div></section>
+                    <section class="lucky-panel lucky-shop"><h2><span>04</span> Закуп в банке</h2><div class="shop-grid" id="lucky-shop-grid"></div></section>
+                </div>
+                    </div></main>
+                </div>
+                <div class="challenge-tab-panel" id="development-challenge-panel">
+                    <section class="development-panel">
+                        <h1>В разработке</h1>
+                        <p>Новый челлендж скоро появится здесь.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3 id="modal-subtitle">Результат:</h3>
+            <h1 id="winner-name">---</h1>
+            <div id="winner-extra-info"></div>
+            <div id="meme-container"></div>
+            <button class="btn-action" id="close-modal" style="width: 100%; padding: 12px; background: var(--accent-red); color: #fff; font-weight: bold;">ОК</button>
+        </div>
+    </div>
+
+    <div class="lucky-match-modal" id="lucky-match-modal">
+        <div class="lucky-match-dialog">
+            <h2>Сколько поймано выживших?</h2>
+            <p>Если поймано 0, 1 или 2 - победа засчитана. При 3 или 4 срабатывает поражение и полный сброс.</p>
+            <div class="escape-options" id="lucky-escaped-input" data-value="0" aria-label="Сколько поймано выживших">
+                <button class="escape-option active" type="button" data-value="0">0</button>
+                <button class="escape-option" type="button" data-value="1">1</button>
+                <button class="escape-option" type="button" data-value="2">2</button>
+                <button class="escape-option" type="button" data-value="3">3</button>
+                <button class="escape-option" type="button" data-value="4">4</button>
+            </div>
+            <div class="escape-message" id="escape-message">Никто не сбежал? Вот это крутышка!</div>
+            <div class="lucky-match-dialog-actions"><button class="btn-action" id="cancel-win">Отмена</button><button class="btn-action" id="confirm-win-result">Подтвердить</button></div>
+        </div>
+    </div>
+
+    <div class="lucky-match-modal" id="lucky-purchase-modal">
+        <div class="lucky-purchase-dialog">
+            <h2 id="lucky-purchase-title">Выбор покупок</h2>
+            <p id="lucky-purchase-help">Добавьте нужные предметы, уберите лишние и подтвердите заказ.</p>
+            <div class="lucky-purchase-list" id="lucky-purchase-list"></div>
+            <div class="lucky-purchase-total"><span id="lucky-purchase-total-label">Итого</span><strong id="lucky-purchase-total">0 FanCoin</strong></div>
+            <div class="lucky-purchase-remaining" id="lucky-purchase-remaining">Останется: <strong>0 FanCoin</strong></div>
+            <div class="lucky-purchase-error" id="lucky-purchase-error" role="alert"></div>
+            <div class="lucky-purchase-dialog-actions"><button class="btn-action" id="cancel-purchases">Отмена</button><button class="btn-action" id="confirm-purchases">Подтвердить покупки</button></div>
+        </div>
+    </div>
+
+    <script>
+        const aliases = {
+            killers: {
+                "Ксеноморф (Xenomorph)": ["кошка", "кот", "котик", "мяу", "ксеноформ", "чужой", "xenomorph", "xeno", "cat"],
+                "Охотник (Trapper)": ["траппер", "ловушка"],
+                "Призрак (Wraith)": ["колокольчик", "врейт"],
+                "Деревенщина (Hillbilly)": ["билли", "пила"],
+                "Медсестра (Nurse)": ["нюрса", "нурса"],
+                "Форма / Майкл Майерс (Shape)": ["майерс", "майкл", "форма"],
+                "Ведьма (Hag)": ["хага", "бабка"],
+                "Доктор (Doctor)": ["док"],
+                "Охотница (Huntress)": ["анна", "топоры", "хунтресс"],
+                "Каннибал (Cannibal)": ["бубба", "кожаное лицо"],
+                "Кошмар (Nightmare)": ["фредди", "крюгер"],
+                "Свинья (Pig)": ["пиг", "аманда"],
+                "Клоун (Clown)": ["пухляк", "газ"],
+                "Дух (Spirit)": ["спирит", "рин"],
+                "Легион (Legion)": ["заяц", "нож"],
+                "Чума (Plague)": ["п吐ка", "рвота", "тошнит"],
+                "Призрачное Лицо (Ghost Face)": ["гостфейс", "крик"],
+                "Демогоргон (Demogorgon)": ["демо", "собака", "петух"],
+                "Они (Oni)": ["демон", "дубина"],
+                "Ковбой (Deathslinger)": ["стрелок", "дефслингер", "гарпун"],
+                "Палач (Executioner)": ["пирамидоголовый", "пирамида"],
+                "Мор (Blight)": ["блаqт", "блайт", "жижа"],
+                "Близнецы (Twins)": ["виктор", "шпунтик"],
+                "Трикстер (Trickster)": ["кореец", "ножи"],
+                "Немезис (Nemesis)": ["зомби", "кулак"],
+                "Сенобит (Cenobite)": ["пинхед", "шкатулка", "гвоздеголовый"],
+                "Художница (Artist)": ["птицы", "художка"],
+                "Онрё (Onryō)": ["садако", "звонок", "телевизор"],
+                "Дредж (Dredge)": ["шкаф", "тьма"],
+                "Гений / Вескер (Mastermind)": ["вескер", "альберт"],
+                "Рыцарь (Knight)": ["стража", "рыцари"],
+                "Торговка черепами (Skull Merchant)": ["мерчант", "дроны"],
+                "Сингулярность (Singularity)": ["робот", "камеры"],
+                "Хороший парень / Чаки (Good Guy)": ["чаки", "кукла"],
+                "Неизвестный (Unknown)": ["анкноун", "галлюцинация"],
+                "Лич / Векна (Lich)": ["векна", "магия"],
+                "Тёмный Владыка / Дракула (Dark Lord)": ["дракула", "вампир", "волк", "летучая мышь"],
+                "Хозяин гончих (Houndmaster)": ["собачник", "гончая"],
+                "Гуль / Канеки (Ghoul)": ["канеки", "гуль", "токийский гуль", "Дед инсайд", "1000-7", "993?", " dead inside", "Мертвый внутри"],
+                "Аниматроник / Спрингтрап (Animatronic)": ["спрингтрап", "фнаф", "fnaf"],
+                "Красу (Krasue)": ["голова", "летучая голова"],
+                "Первый / Генри Крил (First)": ["генри", "001", "одиннадцать"],
+                "Маньяк / Джейсон (Slasher)": ["джейсон", "пятница 13"],
+                "Судья (Judgment)": ["судья"]
+            },
+            survivors: {
+                "Ада Вонг (Ada Wong)": ["ада", "платье"],
+                "Леон С. Кеннеди (Leon S. Kennedy)": ["леон"],
+                "Джилл Валентайн (Jill Valentine)": ["джилл"],
+                "Шерил Мэйсон (Cheryl Mason)": ["шерил"],
+                "Николас Кейдж (Nicolas Cage)": ["кедж", "актер"],
+                "Лара Крофт (Lara Croft)": ["лара", "томб райдер"]
+            }
+        };
+
+        const i18n = {
+            ru: {
+                tabHome: "Главная",
+                tabWheel: "Колесо",
+                tabEscapes: "Побег",
+                tabChallenges: "Челленджи",
+                homeHeroTitle: "DBD Randomizer & Hub",
+                homeHeroDesc: "Панель для Dead by Daylight: колесо выбора, учет побегов и LUCKY - все в одном месте, с сохранением в рамках текущей сессии и без потери прогресса при переходе между вкладками.",
+                feature1Title: "🎡 Колесо Судьбы",
+                feature1Desc: "Генерация случайного убийцы или выжившего по кастомному списку, фильтрам и быстрым настройкам под любую катку.",
+                feature2Title: "🏆 Побеги",
+                feature2Desc: "Ведите учет своих и командных побегов, переключайтесь между режимами 1vs4 и 2vs8 и следите за процентом успеха без сброса при переходах между вкладками.",
+                feature3Title: "🌐 Челленджи",
+                feature3Desc: "Набор DBD-челленджей для разнообразия игры: пока доступен LUCKY, но в будущем здесь появятся новые режимы, условия и вариации для каждой катки.",
+                homeFooter: "Все сохраняется только в рамках текущего сеанса: можно переключаться между вкладками и возвращаться к прогрессу, но при полном выходе со страницы всё сбрасывается.",
+                homeStatTools: "инструмента",
+                homeStatLanguage: "язык",
+                homeStatVariations: "вариаций",
+                escapeHeader: "Побег",
+                escapeDescription: "Считайте свои побеги, неудачные попытки и пойманных отдельно для себя и отдельно для команды.",
+                escapeSelfTitle: "Я / Свой показатель",
+                escapeSelfEscaped: "Сбежал",
+                escapeSelfFailed: "Не смог",
+                escapeSelfCaught: "Пойман",
+                escapePercent: "Процент побега",
+                escapeSelfActionEscaped: "+ Сбежал",
+                escapeSelfActionFailed: "+ Не смог",
+                escapeSelfActionCaught: "+ Пойман",
+                escapeReset: "Сбросить",
+                escapeDownload: "Скачать показатель",
+                escapeTeamTitle: "Команда",
+                escapeTeamEscaped: "Сбежала",
+                escapeTeamFailed: "Не смогла",
+                escapeTeamCaught: "Поймана",
+                escapeTeamActionEscaped: "+ Сбежала",
+                escapeTeamActionFailed: "+ Не смогла",
+                escapeTeamActionCaught: "+ Поймана",
+                manaTitle: "Маньяк",
+                manaLabel: "Поймано",
+                manaRateLabel: "Сумма",
+                manaPlus: "+ Поймано",
+                manaMinus: "- Поймано",
+                killersSubtab: "Убийцы",
+                survivorsSubtab: "Выжившие",
+                selectAll: "Выбрать всех",
+                deselectAll: "Убрать всех",
+                searchPlaceholder: "Поиск (например: кошка, билли...)...",
+                spinMainBtn: "Крутить персонажа",
+                modalSubtitle: "Сущность выбрала:",
+                challengesTitle: "Челленджи",
+                challengesDesc: "Откройте вкладку LUCKY для челленджа.",
+                emptyWheel: "Выберите хотя бы 1 вариант",
+                singleMeme: "Вот это выбор! А точно ли нужно было крутить колесо ради этого? 😂",
+                killers: [
+                    "Охотник (Trapper)", "Призрак (Wraith)", "Деревенщина (Hillbilly)", "Медсестра (Nurse)",
+                    "Форма / Майкл Майерс (Shape)", "Ведьма (Hag)", "Доктор (Doctor)", "Охотница (Huntress)",
+                    "Каннибал (Cannibal)", "Кошмар (Nightmare)", "Свинья (Pig)", "Клоун (Clown)",
+                    "Дух (Spirit)", "Легион (Legion)", "Чума (Plague)", "Призрачное Лицо (Ghost Face)",
+                    "Демогоргон (Demogorgon)", "Они (Oni)", "Ковбой (Deathslinger)", "Палач (Executioner)",
+                    "Мор (Blight)", "Близнецы (Twins)", "Трикстер (Trickster)", "Немезис (Nemesis)",
+                    "Сенобит (Cenobite)", "Художница (Artist)", "Онрё (Onryō)", "Дредж (Dredge)",
+                    "Гений / Вескер (Mastermind)", "Рыцарь (Knight)", "Торговка черепами (Skull Merchant)",
+                    "Сингулярность (Singularity)", "Ксеноморф (Xenomorph)", "Хороший парень / Чаки (Good Guy)",
+                    "Неизвестный (Unknown)", "Лич / Векна (Lich)", "Тёмный Владыка / Дракула (Dark Lord)",
+                    "Хозяин гончих (Houndmaster)", "Гуль / Канеки (Ghoul)", "Аниматроник / Спрингтрап (Animatronic)",
+                    "Красу (Krasue)", "Первый / Генри Крил (First)", "Маньяк / Джейсон (Slasher)", "Судья (Judgment)"
+                ],
+                survivors: [
+                    "Дуайт Фэйрфилд (Dwight Fairfield)", "Мэг Томас (Meg Thomas)", "Клодетт Морель (Claudette Morel)",
+                    "Джейк Парк (Jake Park)", "Неа Карлссон (Nea Karlsson)", "Лори Строуд (Laurie Strode)",
+                    "Эйс Висконти (Ace Visconti)", "Билл Овербек (Bill Overbeck)", "Фэн Мин (Feng Min)",
+                    "Дэвид Кинг (David King)", "Квентин Смит (Quentin Smith)", "Дэвид Тапп (David Tapp)",
+                    "Кейт Денсон (Kate Denson)", "Адам Фрэнсис (Adam Francis)", "Джефф Йохансен (Jeff Johansen)",
+                    "Джейн Ромеро (Jane Romero)", "Эш Уильямс (Ash Williams)", "Нэнси Уилер (Nancy Wheeler)",
+                    "Стив Харрингтон (Steve Harrington)", "Юи Кимура (Yui Kimura)", "Зарина Кассир (Zarina Kassir)",
+                    "Шерил Мэйсон (Cheryl Mason)", "Феликс Рихтер (Felix Richter)", "Элоди Ракото (Élodie Rakoto)",
+                    "Юн-Джин Ли (Yun-Jin Lee)", "Леон С. Кеннеди (Leon S. Kennedy)", "Джилл Валентайн (Jill Valentine)",
+                    "Микаэла Рид (Mikaela Reid)", "Джона Васкес (Jonah Vasquez)", "Ёити Асакава (Yoichi Asakawa)",
+                    "Хэдди Каур (Haddie Kaur)", "Ада Вонг (Ada Wong)", "Ребекка Чамберс (Rebecca Chambers)",
+                    "Витторио Тоскано (Vittorio Toscano)", "Талита Лира (Thalita Lyra)", "Ренато Лира (Renato Lyra)",
+                    "Габриэль Сома (Gabriel Soma)", "Николас Кейдж (Nicolas Cage)", "Эллен Рипли (Ellen Ripley)",
+                    "Алан Уэйк (Alan Wake)", "Сэйбл Уорд (Sable Ward)", "Эстри Язар (Aestri Yazar)",
+                    "Беймар Ураз (Baermar Uraz)", "Лара Крофт (Lara Croft)", "Тревор Бельмонт (Trevor Belmont)",
+                    "Таури Кейн (Taurie Cain)", "Орела Роуз (Orela Rose)", "Рик Граймс (Rick Grimes)",
+                    "Мишонн Граймс (Michonne Grimes)", "Ви Бунясак (Vee Boonyasak)", "Дастин Хендерсон (Dustin Henderson)",
+                    "Одиннадцать (Eleven)", "Квон Тэ-ён (Kwon Tae-young)", "Аврора (Aurora)"
+                ]
+            },
+            en: {
+                tabHome: "Home",
+                tabWheel: "Wheel",
+                tabEscapes: "Escapes",
+                tabChallenges: "Challenges",
+                homeHeroTitle: "DBD Randomizer & Hub",
+                homeHeroDesc: "A Dead by Daylight companion for wheel picks, escape tracking, and LUCKY runs - all saved within the current session while you move across tabs.",
+                feature1Title: "🎡 Wheel of Fate",
+                feature1Desc: "Randomly choose a killer or survivor from custom lists with filters and quick setup.",
+                feature2Title: "🏆 Escapes",
+                feature2Desc: "Track personal and team escape results, switch between 1vs4 and 2vs8, and monitor percentages without losing progress when you move between tabs.",
+                feature3Title: "🌐 Challenges",
+                feature3Desc: "A DBD challenge hub to keep matches varied: LUCKY is live for now, and more challenge modes, rules, and twists are planned for the future.",
+                homeFooter: "Everything is saved only for the current session: you can switch tabs and return to your progress, but a full page exit resets everything.",
+                homeStatTools: "tools",
+                homeStatLanguage: "language",
+                homeStatVariations: "variations",
+                escapeHeader: "Escapes",
+                escapeDescription: "Track your escapes, failed attempts, and caught survivors separately for yourself and for the team.",
+                escapeSelfTitle: "Me / My stats",
+                escapeSelfEscaped: "Escaped",
+                escapeSelfFailed: "Failed",
+                escapeSelfCaught: "Caught",
+                escapePercent: "Escape rate",
+                escapeSelfActionEscaped: "+ Escaped",
+                escapeSelfActionFailed: "+ Failed",
+                escapeSelfActionCaught: "+ Caught",
+                escapeReset: "Reset",
+                escapeDownload: "Download stats",
+                escapeTeamTitle: "Team",
+                escapeTeamEscaped: "Escaped",
+                escapeTeamFailed: "Failed",
+                escapeTeamCaught: "Caught",
+                escapeTeamActionEscaped: "+ Escaped",
+                escapeTeamActionFailed: "+ Failed",
+                escapeTeamActionCaught: "+ Caught",
+                manaTitle: "Maniac",
+                manaLabel: "Caught",
+                manaRateLabel: "Total",
+                manaPlus: "+ Caught",
+                manaMinus: "- Caught",
+                killersSubtab: "Killers",
+                survivorsSubtab: "Survivors",
+                selectAll: "Select All",
+                deselectAll: "Deselect All",
+                searchPlaceholder: "Search (e.g. cat, xeno)...",
+                spinMainBtn: "Spin Character",
+                modalSubtitle: "The Entity chose:",
+                challengesTitle: "Challenges",
+                challengesDesc: "Open the LUCKY tab to play the challenge.",
+                emptyWheel: "Select at least 1 item",
+                singleMeme: "Now that's a choice! Did you really need to spin the wheel for this? 😂",
+                killers: [
+                    "The Trapper", "The Wraith", "The Hillbilly", "The Nurse",
+                    "The Shape", "The Hag", "The Doctor", "The Huntress",
+                    "The Cannibal", "The Nightmare", "The Pig", "The Clown",
+                    "The Spirit", "The Legion", "The Plague", "The Ghost Face",
+                    "The Demogorgon", "The Oni", "The Deathslinger", "The Executioner",
+                    "The Blight", "The Twins", "The Trickster", "The Nemesis",
+                    "The Cenobite", "The Artist", "The Onryō", "The Dredge",
+                    "The Mastermind", "The Knight", "The Skull Merchant",
+                    "The Singularity", "The Xenomorph", "The Good Guy",
+                    "The Unknown", "The Lich", "The Dark Lord",
+                    "The Houndmaster", "The Ghoul", "The Animatronic",
+                    "The Krasue", "The First", "The Slasher", "The Judgment"
+                ],
+                survivors: [
+                    "Dwight Fairfield", "Meg Thomas", "Claudette Morel",
+                    "Jake Park", "Nea Karlsson", "Laurie Strode",
+                    "Ace Visconti", "Bill Overbeck", "Feng Min",
+                    "David King", "Quentin Smith", "David Tapp",
+                    "Kate Denson", "Adam Francis", "Jeff Johansen",
+                    "Jane Romero", "Ash Williams", "Nancy Wheeler",
+                    "Steve Harrington", "Yui Kimura", "Zarina Kassir",
+                    "Cheryl Mason", "Felix Richter", "Élodie Rakoto",
+                    "Yun-Jin Lee", "Leon S. Kennedy", "Jill Valentine",
+                    "Mikaela Reid", "Jonah Vasquez", "Yoichi Asakawa",
+                    "Haddie Kaur", "Ada Wong", "Rebecca Chambers",
+                    "Vittorio Toscano", "Thalita Lyra", "Renato Lyra",
+                    "Gabriel Soma", "Nicolas Cage", "Ellen Ripley",
+                    "Alan Wake", "Sable Ward", "Aestri Yazar",
+                    "Baermar Uraz", "Lara Croft", "Trevor Belmont",
+                    "Taurie Cain", "Orela Rose", "Rick Grimes",
+                    "Michonne Grimes", "Vee Boonyasak", "Dustin Henderson",
+                    "Eleven", "Kwon Tae-young", "Aurora"
+                ]
+            }
+        };
+
+        const colors = ['#1b1b22', '#26191b', '#192226', '#221926', '#262319', '#19261d', '#261922', '#1d1d26'];
+        const sessionStorageKey = 'dbd-randomizer-session-v1';
+
+        const escapeTracker = {
+            '1vs4': {
+                self: { escaped: 0, failed: 0, caught: 0 },
+                team: { escaped: 0, failed: 0, caught: 0 }
+            },
+            '2vs8': {
+                self: { escaped: 0, failed: 0, caught: 0 },
+                team: { escaped: 0, failed: 0, caught: 0 }
+            }
+        };
+
+        let currentLang = 'ru';
+        let currentMode = 'killers';
+        let currentEscapeMode = '1vs4';
+        let activeTab = 'home';
+        let selectedIndices = [];
+        let selectedIndicesByMode = {
+            killers: Array.from(Array(i18n.ru.killers.length).keys()),
+            survivors: Array.from(Array(i18n.ru.survivors.length).keys())
+        };
+        let temporarilyExcludedIndex = null;
+        let sessionStateWasRecovered = false;
+        let luckySelectedKillers = Array.from(Array(i18n.ru.killers.length).keys());
+
+        let currentRotationMain = 0;
+        let isMainSpinning = false;
+
+        const mainCanvas = document.getElementById('wheel');
+        const mainCtx = mainCanvas.getContext('2d');
+
+        const spinMainBtn = document.getElementById('spin-main-btn');
+        const entityListEl = document.getElementById('entity-list');
+        const selectedCountEl = document.getElementById('selected-count');
+        const searchInput = document.getElementById('search');
+        const removeWinnerToggle = document.getElementById('remove-winner-toggle');
+        removeWinnerToggle.checked = false;
+
+        function getSavedSelection(mode) {
+            if (Array.isArray(selectedIndicesByMode?.[mode])) {
+                return [...selectedIndicesByMode[mode]];
+            }
+            const max = i18n.ru[mode].length;
+            return Array.from(Array(max).keys());
+        }
+
+        function exportWheelPreset() {
+            const preset = {
+                app: 'DBD-WHEEL',
+                version: 1,
+                savedAt: new Date().toISOString(),
+                selections: {
+                    [currentMode]: selectedIndices.map(index => i18n.ru[currentMode][index])
+                }
+            };
+            const blob = new Blob([JSON.stringify(preset, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'dbd-wheel-preset.json';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function importWheelPreset(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const imported = JSON.parse(reader.result);
+                    if (imported.app !== 'DBD-WHEEL' || !imported.selections || typeof imported.selections !== 'object') throw new Error('Invalid preset');
+                    const names = imported.selections[currentMode];
+                    if (!Array.isArray(names)) throw new Error('Preset has no selection for this mode');
+                    selectedIndices = names.map(name => i18n.ru[currentMode].indexOf(name)).filter(index => index >= 0);
+                    temporarilyExcludedIndex = null;
+                    renderEntityList(searchInput.value);
+                    drawMainWheel();
+                    saveSessionState();
+                } catch (error) {
+                    window.alert(currentLang === 'ru' ? 'Не удалось импортировать этот пресет.' : 'This preset could not be imported.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function renderLuckyKillers(filter = '') {
+            const list = document.getElementById('lucky-killer-list');
+            const count = document.getElementById('lucky-killer-count');
+            const search = filter.toLowerCase().trim();
+            list.innerHTML = '';
+
+            i18n[currentLang].killers.forEach((killer, index) => {
+                if (search && !matchesSearch(killer, search, 'killers', index)) return;
+                const item = document.createElement('label');
+                item.className = 'lucky-killer-item';
+                item.innerHTML = `<input type="checkbox" ${luckySelectedKillers.includes(index) ? 'checked' : ''}><span>${killer}</span>`;
+                item.querySelector('input').addEventListener('change', event => {
+                    if (event.target.checked) {
+                        if (!luckySelectedKillers.includes(index)) luckySelectedKillers.push(index);
+                    } else {
+                        luckySelectedKillers = luckySelectedKillers.filter(selectedIndex => selectedIndex !== index);
+                    }
+                    saveSessionState();
+                    renderLuckyKillers(document.getElementById('lucky-killer-search').value);
+                });
+                list.appendChild(item);
+            });
+
+            count.textContent = `(${luckySelectedKillers.length}/${i18n[currentLang].killers.length})`;
+            saveSessionState();
+            if (document.getElementById('killer-wheel')) drawLuckyKillerWheel();
+        }
+
+        const luckyCurrencyPrizes = [0, 20000, 60000, 100000, 130000, 160000, 200000, 300000, -50000, -100000, 'Бесплатный закуп', 'Закуп запрещен'];
+        const luckyModifiers = ['-1 купленный перк', '+1 перк бесплатно', '+50.000 к банку', 'Играть без перков + улучшений/дополнений', 'Игра без улучшений/дополнений', 'Рандом билд', 'Фулл закуп', 'Худшие перки', 'Цены x2', 'Цены x3', 'Цены x4'];
+        const luckyShopItems = [
+            { key: 'redUpgrade', name: 'Красное улучшение', price: 50000, color: '#e84d5b', category: 'upgrades' },
+            { key: 'purpleUpgrade', name: 'Фиолетовое улучшение', price: 30000, color: '#a768ed', category: 'upgrades' },
+            { key: 'greenUpgrade', name: 'Зеленое улучшение', price: 15000, color: '#56c784', category: 'upgrades' },
+            { key: 'grayUpgrade', name: 'Серое улучшение', price: 10000, color: '#92929b', category: 'upgrades' },
+            { key: 'perk', name: 'Один перк', price: 25000, color: '#f0c75e', category: 'perks' },
+            { key: 'twoPerks', name: 'Два перка', price: 50000, color: '#e6b84d', category: 'perks' },
+            { key: 'threePerks', name: 'Три перка', price: 75000, color: '#d89d38', category: 'perks' },
+            { key: 'fourPerks', name: 'Четыре перка', price: 100000, color: '#c9832e', category: 'perks' },
+            { key: 'redMemento', name: 'Красное мементо', price: 50000, color: '#ff704d', category: 'mementos' }
+        ];
+        const luckyPerkAmounts = { perk: 1, twoPerks: 2, threePerks: 3, fourPerks: 4 };
+        const defaultLuckyState = { balance: 0, matches: 0, escaped: 0, perkBlocked: false, upgradeBlocked: false, buyBlocked: false, buyFree: false, priceMultiplier: 1, spins: { currency: false, modifier: false, killer: false }, results: { currency: '', modifier: '', killer: '' }, inventory: {} };
+        let luckyState = structuredClone(defaultLuckyState);
+        let pendingLuckyPurchases = [];
+        if (luckyState.buyFree && (!luckyState.spins?.currency || luckyState.results.currency !== 'Бесплатный закуп')) luckyState.buyFree = false;
+        const luckyRotations = { currency: 0, modifier: 0, killer: 0 };
+
+        function luckyMoney(value) {
+            return `${Number(value).toLocaleString('ru-RU').replace(/\u00a0/g, '.')} FanCoin`;
+        }
+
+        function luckyText() {
+            return currentLang === 'en' ? {
+                author: 'Idea Borrowed: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a>',
+                description: 'Bank, risk and randomness. Spin the wheels, build your loadout and track your progress.',
+                rules: 'MATCH RULES',
+                matches: 'Matches played',
+                escaped: 'Survivors escaped',
+                perkBlocked: 'Perks blocked',
+                buy: 'Shopping',
+                allowed: 'Allowed',
+                no: 'No',
+                lossNotice: 'After a loss, the bank and all purchases are reset. If 2 or more survivors escape, press "I lost".',
+                challengeWheels: 'CHALLENGE WHEELS',
+                currencyWheel: 'Currency wheel',
+                modifierWheel: 'Modifier wheel',
+                killerWheel: 'Killer wheel',
+                ready: 'Ready to spin',
+                spinCurrency: 'Spin currency',
+                spinModifier: 'Spin modifier',
+                spinKiller: 'Spin killer',
+                wheelNotice: 'Both wheels can be spun once per match. After the result, choose a win or a loss.',
+                win: 'I won (+1 match)',
+                lose: 'I lost',
+                export: 'Download progress',
+                import: 'Import file',
+                killers: 'KILLERS FOR THE CHALLENGE',
+                selectAll: 'Select all',
+                deselectAll: 'Deselect all',
+                search: 'Search killer...',
+                shop: 'BANK SHOP',
+                upgrades: 'Upgrades',
+                perks: 'Perks',
+                mementos: 'Mementos',
+                escapedTitle: 'How many survivors were caught?',
+                escapedHelp: 'If 0, 1 or 2 were caught, the win counts. With 3 or 4, it is a loss and everything resets.',
+                cancel: 'Cancel',
+                confirm: 'Confirm',
+                messages: ['Nobody escaped? What a legend!', 'One escaped, but the others are still down!', 'Two? A draw, but still a win for the challenge!', 'Well... you tried, but that is a loss.', 'Did you even try? That is a brutal loss!'],
+                itemNames: { redUpgrade: 'Red upgrade', purpleUpgrade: 'Purple upgrade', greenUpgrade: 'Green upgrade', grayUpgrade: 'Gray upgrade', perk: 'One perk', twoPerks: 'Two perks', threePerks: 'Three perks', fourPerks: 'Four perks', redMemento: 'Red memento' }
+            } : {
+                author: 'Идея взята: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a>',
+                description: 'Банк, риск и случайность. Крутите колеса, собирайте билд и фиксируйте прогресс.',
+                rules: 'ПРАВИЛА КАТКИ', matches: 'Каток сыграно', escaped: 'Поймано выживших', perkBlocked: 'Перк-блокировка', buy: 'Закуп', allowed: 'Разрешен', no: 'Нет',
+                lossNotice: 'При поражении банк и все покупки обнуляются. Если поймано 3 или более выживших, нажмите «Я проиграл».',
+                challengeWheels: 'КОЛЕСА ИСПЫТАНИЯ', currencyWheel: 'Колесо валюты', modifierWheel: 'Колесо модификатора', killerWheel: 'Колесо маньяков', ready: 'Готово к вращению', spinCurrency: 'Крутить валюту', spinModifier: 'Крутить модификатор', spinKiller: 'Крутить маньяка',
+                wheelNotice: 'Оба колеса можно крутить один раз за катку. После результата выберите победу или поражение.', win: 'Я выиграл (+1 катка)', lose: 'Я проиграл', export: 'Скачать прогресс', import: 'Импортировать файл', killers: 'МАНЬЯКИ ДЛЯ ИСПЫТАНИЯ', selectAll: 'Выбрать всех', deselectAll: 'Убрать всех', search: 'Поиск маньяка...', shop: 'ЗАКУП В БАНКЕ', upgrades: 'Улучшения', perks: 'Перки', mementos: 'Мементо', escapedTitle: 'Сколько сбежало выживших?', escapedHelp: 'Если сбежали 0, 1 или 2 - победа засчитана. При 3 или 4 срабатывает поражение и полный сброс.', cancel: 'Отмена', confirm: 'Подтвердить', messages: ['Никто не сбежал? Вот это крутышка!', 'Один сбежал, зато остальные остались лежать!', 'Двое? Ничья, но для челленджа это тоже победа!', 'Ну... ты старался, но это поражение.', 'Ты вообще старался? Это уже лютый проигрыш!'], itemNames: { redUpgrade: 'Красное улучшение', purpleUpgrade: 'Фиолетовое улучшение', greenUpgrade: 'Зеленое улучшение', grayUpgrade: 'Серое улучшение', perk: 'Один перк', twoPerks: 'Два перка', threePerks: 'Три перка', fourPerks: 'Четыре перка', redMemento: 'Красное мементо' }
+            };
+        }
+
+        function resetLuckySpins() {
+            luckyState.spins = { currency: false, modifier: false, killer: false };
+            luckyState.results = { currency: '', modifier: '', killer: '' };
+            ['currency', 'modifier', 'killer'].forEach(type => {
+                luckyRotations[type] = 0;
+                const wheel = document.getElementById(`${type}-wheel`);
+                if (wheel) wheel.style.transform = 'rotate(0deg)';
+            });
+        }
+
+        function resetLuckyBank() {
+            luckyState.balance = 0;
+            luckyState.inventory = {};
+            luckyState.perkBlocked = false;
+            luckyState.upgradeBlocked = false;
+            luckyState.buyBlocked = false;
+            luckyState.buyFree = false;
+            luckyState.priceMultiplier = 1;
+        }
+
+        function resetLuckyModifiers() {
+            luckyState.perkBlocked = false;
+            luckyState.upgradeBlocked = false;
+            luckyState.buyBlocked = false;
+            luckyState.buyFree = false;
+            luckyState.priceMultiplier = 1;
+        }
+
+        function renderLuckyShop() {
+            const shop = document.getElementById('lucky-shop-grid');
+            const text = luckyText();
+            const categories = [
+                { key: 'upgrades', name: text.upgrades },
+                { key: 'perks', name: text.perks },
+                { key: 'mementos', name: text.mementos }
+            ];
+            shop.innerHTML = categories.map(category => {
+                const items = luckyShopItems.filter(item => item.category === category.key);
+                return `<div class="shop-category"><h3 class="shop-category-title">${category.name}</h3><div class="shop-category-items">${items.map(item => `<article class="shop-item" style="--item-color:${item.color}"><h3>${text.itemNames[item.key]}</h3><p>${luckyState.buyFree ? (currentLang === 'en' ? 'Free shopping' : 'Бесплатный закуп') : luckyMoney(item.price * luckyState.priceMultiplier)}</p><button class="btn-action shop-buy" data-shop-key="${item.key}">${currentLang === 'en' ? 'Buy' : 'Купить'}</button></article>`).join('')}</div></div>`;
+            }).join('');
+            shop.querySelectorAll('.shop-buy').forEach(button => button.addEventListener('click', () => openLuckyPurchaseModal(button.dataset.shopKey)));
+        }
+
+        function drawLuckyWheel(type) {
+            const options = type === 'currency' ? luckyCurrencyPrizes : luckyModifiers;
+            const colors = ['#5d35a4', '#d74d75', '#277f77', '#b77a35', '#443b83', '#9a3f54', '#367d53', '#777477', '#b14b91', '#3d7898', '#8c5b3c'];
+            const shortLabels = type === 'currency' ? ['0', '20K', '60K', '100K', '130K', '160K', '200K', '300K', '-50K', '-100K', 'FREE', 'NO BUY'] : ['-1 PERK', '+1 FREE', '+50K', 'NO PERKS', 'NO UPGR.', 'RANDOM', 'FULL BUY', 'WORST', 'X2', 'X3', 'X4'];
+            const wheel = document.getElementById(`${type}-wheel`);
+            const context = wheel.getContext('2d');
+            const center = wheel.width / 2;
+            const radius = center - 7;
+            const slice = 360 / options.length;
+            context.clearRect(0, 0, wheel.width, wheel.height);
+            context.save();
+            context.translate(center, center);
+            options.forEach((_, index) => {
+                const start = -Math.PI / 2 + index * (Math.PI * 2 / options.length);
+                const end = start + Math.PI * 2 / options.length;
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.arc(0, 0, radius, start, end);
+                context.closePath();
+                context.fillStyle = colors[index % colors.length];
+                context.fill();
+                context.strokeStyle = '#0a0a0c';
+                context.lineWidth = 3;
+                context.stroke();
+
+                const textAngle = start + (end - start) / 2;
+                context.save();
+                context.rotate(textAngle);
+                context.textAlign = 'right';
+                context.textBaseline = 'middle';
+                context.fillStyle = '#f1edf7';
+                context.font = options.length > 10 ? 'bold 14px Segoe UI' : 'bold 16px Segoe UI';
+                context.fillText(shortLabels[index], radius - 18, 0);
+                context.restore();
+            });
+            context.beginPath();
+            context.arc(0, 0, 34, 0, Math.PI * 2);
+            context.fillStyle = '#09090c';
+            context.fill();
+            context.strokeStyle = '#2b2535';
+            context.lineWidth = 4;
+            context.stroke();
+            context.restore();
+        }
+
+        function drawLuckyKillerWheel() {
+            const wheel = document.getElementById('killer-wheel');
+            const context = wheel.getContext('2d');
+            const center = wheel.width / 2;
+            const radius = center - 7;
+            const options = luckySelectedKillers;
+            context.clearRect(0, 0, wheel.width, wheel.height);
+            context.save();
+            context.translate(center, center);
+
+            if (options.length === 0) {
+                context.fillStyle = '#15131b';
+                context.beginPath();
+                context.arc(0, 0, radius, 0, Math.PI * 2);
+                context.fill();
+                context.fillStyle = '#9a94a5';
+                context.font = 'bold 18px Segoe UI';
+                context.textAlign = 'center';
+                context.fillText(currentLang === 'en' ? 'Add killers' : 'Добавьте маньяков', 0, 5);
+                context.restore();
+                return;
+            }
+
+            const colors = ['#5d35a4', '#d74d75', '#277f77', '#b77a35', '#443b83', '#9a3f54', '#367d53', '#777477'];
+            const slice = (Math.PI * 2) / options.length;
+            options.forEach((killerIndex, index) => {
+                const start = -Math.PI / 2 + index * slice;
+                const end = start + slice;
+                context.beginPath();
+                context.moveTo(0, 0);
+                context.arc(0, 0, radius, start, end);
+                context.closePath();
+                context.fillStyle = colors[index % colors.length];
+                context.fill();
+                context.strokeStyle = '#0a0a0c';
+                context.lineWidth = 3;
+                context.stroke();
+
+                context.save();
+                context.rotate(start + slice / 2);
+                context.textAlign = 'right';
+                context.textBaseline = 'middle';
+                context.fillStyle = '#f1edf7';
+                const killerName = i18n[currentLang].killers[killerIndex].split(' (')[0].replace(/^The /, '');
+                const wheelLabel = options.length > 18 && killerName.length > 6 ? `${killerName.slice(0, 6)}.` : killerName;
+                context.font = options.length > 24 ? 'bold 9px Segoe UI' : (options.length > 12 ? 'bold 11px Segoe UI' : 'bold 14px Segoe UI');
+                context.fillText(wheelLabel, radius - 12, 0);
+                context.restore();
+            });
+            context.beginPath();
+            context.arc(0, 0, 34, 0, Math.PI * 2);
+            context.fillStyle = '#09090c';
+            context.fill();
+            context.strokeStyle = '#2b2535';
+            context.lineWidth = 4;
+            context.stroke();
+            context.fillStyle = '#d8bdff';
+            context.font = 'bold 12px Segoe UI';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText('LUCKY', 0, 0);
+            context.restore();
+        }
+
+        function renderLuckyState() {
+            const text = luckyText();
+            document.getElementById('lucky-balance').textContent = luckyMoney(luckyState.balance);
+            document.getElementById('matches-count').textContent = luckyState.matches;
+            document.getElementById('escaped-count').textContent = luckyState.escaped;
+            document.getElementById('perk-status').textContent = luckyState.perkBlocked ? (currentLang === 'en' ? 'BLOCKED' : 'ЗАПРЕЩЕН') : text.no;
+            document.getElementById('buy-status').textContent = luckyState.buyBlocked ? (currentLang === 'en' ? 'BLOCKED' : 'ЗАПРЕЩЕН') : text.allowed;
+            document.getElementById('currency-result').textContent = luckyState.results.currency || text.ready;
+            document.getElementById('modifier-result').textContent = luckyState.results.modifier || text.ready;
+            document.getElementById('killer-result').textContent = luckyState.results.killer || text.ready;
+            document.getElementById('currency-spin').disabled = luckyState.spins.currency;
+            document.getElementById('modifier-spin').disabled = luckyState.spins.modifier;
+            document.getElementById('killer-spin').disabled = luckyState.spins.killer || luckySelectedKillers.length === 0;
+            document.getElementById('confirm-win').disabled = !(luckyState.spins.currency || luckyState.spins.modifier || luckyState.spins.killer);
+            renderLuckyShop();
+            document.querySelectorAll('.shop-buy').forEach(button => {
+                const item = luckyShopItems.find(shopItem => shopItem.key === button.dataset.shopKey);
+                button.disabled = luckyState.buyBlocked || (item.category === 'upgrades' && luckyState.upgradeBlocked) || (item.key === 'perk' && luckyState.perkBlocked);
+            });
+            saveSessionState();
+        }
+
+        function applyLuckyPrize(prize, type) {
+            if (type === 'currency') {
+                if (typeof prize === 'number') luckyState.balance += prize;
+                if (prize === 'Бесплатный закуп') luckyState.buyFree = true;
+                if (prize === 'Закуп запрещен') luckyState.buyBlocked = true;
+            } else if (prize === '-1 купленный перк') {
+                luckyState.perkBlocked = true;
+            } else if (prize === '+1 перк бесплатно') {
+                luckyState.inventory.perkFree = (luckyState.inventory.perkFree || 0) + 1;
+            } else if (prize === '+50.000 к банку') {
+                luckyState.balance += 50000;
+            } else if (prize === 'Играть без перков + улучшений/дополнений') {
+                luckyState.perkBlocked = true;
+                luckyState.buyBlocked = true;
+            } else if (prize === 'Игра без улучшений/дополнений') {
+                luckyState.upgradeBlocked = true;
+            } else if (prize === 'Цены x2') {
+                luckyState.priceMultiplier = 2;
+            } else if (prize === 'Цены x3') {
+                luckyState.priceMultiplier = 3;
+            } else if (prize === 'Цены x4') {
+                luckyState.priceMultiplier = 4;
+            }
+        }
+
+        function spinLuckyWheel(type) {
+            if (luckyState.spins[type]) return;
+            const wheel = document.getElementById(`${type}-wheel`);
+            const options = type === 'currency' ? luckyCurrencyPrizes : luckyModifiers;
+            const winnerIndex = Math.floor(Math.random() * options.length);
+            const result = options[winnerIndex];
+            const slice = 360 / options.length;
+            const winnerCenter = winnerIndex * slice + slice / 2;
+            const currentRotation = luckyRotations[type];
+            const correction = ((-winnerCenter - currentRotation) % 360 + 360) % 360;
+            const destination = currentRotation + 5 * 360 + correction;
+            luckyState.spins[type] = true;
+            luckyRotations[type] = destination;
+            wheel.style.transform = `rotate(${destination}deg)`;
+            setTimeout(() => {
+                luckyState.results[type] = typeof result === 'number' ? luckyMoney(result) : result;
+                applyLuckyPrize(result, type);
+                document.getElementById('lucky-status').textContent = currentLang === 'en' ? 'Result locked in. Confirm your win to start the next match.' : 'Результат зафиксирован. Подтвердите победу, чтобы открыть следующую катку.';
+                renderLuckyState();
+            }, 1750);
+        }
+
+        function spinLuckyKillerWheel() {
+            if (luckyState.spins.killer || luckySelectedKillers.length === 0) return;
+            const wheel = document.getElementById('killer-wheel');
+            const winnerIndex = Math.floor(Math.random() * luckySelectedKillers.length);
+            const killerIndex = luckySelectedKillers[winnerIndex];
+            const slice = 360 / luckySelectedKillers.length;
+            const winnerCenter = winnerIndex * slice + slice / 2;
+            const currentRotation = luckyRotations.killer;
+            const correction = ((-winnerCenter - currentRotation) % 360 + 360) % 360;
+            const destination = currentRotation + 5 * 360 + correction;
+            luckyState.spins.killer = true;
+            luckyRotations.killer = destination;
+            wheel.style.transform = `rotate(${destination}deg)`;
+            document.getElementById('killer-spin').disabled = true;
+            setTimeout(() => {
+                luckyState.results.killer = i18n[currentLang].killers[killerIndex];
+                document.getElementById('lucky-status').textContent = currentLang === 'en' ? 'Killer selected. Confirm your win to start the next match.' : 'Маньяк выбран. Подтвердите победу, чтобы открыть следующую катку.';
+                renderLuckyState();
+            }, 1750);
+        }
+
+        function getPendingLuckyPurchaseCount(key) {
+            return pendingLuckyPurchases.filter(purchaseKey => purchaseKey === key).length;
+        }
+
+        function getLuckyPurchaseTotals() {
+            const totals = { upgrades: 0, perks: 0, mementos: 0 };
+            luckyShopItems.forEach(item => {
+                const owned = luckyState.inventory[item.key] || 0;
+                if (item.category === 'upgrades') totals.upgrades += owned;
+                if (item.category === 'perks') totals.perks += owned * (luckyPerkAmounts[item.key] || 0);
+                if (item.category === 'mementos') totals.mementos += owned;
+            });
+            pendingLuckyPurchases.forEach(key => {
+                const item = luckyShopItems.find(shopItem => shopItem.key === key);
+                if (!item) return;
+                if (item.category === 'upgrades') totals.upgrades++;
+                if (item.category === 'perks') totals.perks += luckyPerkAmounts[key] || 0;
+                if (item.category === 'mementos') totals.mementos++;
+            });
+            return totals;
+        }
+
+        function getLuckyPurchaseLimitError(key) {
+            const item = luckyShopItems.find(shopItem => shopItem.key === key);
+            if (!item) return '';
+            const totals = getLuckyPurchaseTotals();
+            const isEnglish = currentLang === 'en';
+            if (item.category === 'upgrades' && luckyState.upgradeBlocked) return isEnglish ? 'Upgrades are blocked.' : 'Улучшения запрещены.';
+            if (item.category === 'upgrades' && totals.upgrades >= 2) return isEnglish ? 'Only 2 upgrades are allowed.' : 'Можно взять максимум 2 улучшения.';
+            if (item.category === 'perks' && totals.perks + (luckyPerkAmounts[key] || 0) > 4) return isEnglish ? 'Only 4 perks are allowed.' : 'Можно взять максимум 4 перка.';
+            if (item.category === 'mementos' && totals.mementos >= 1) return isEnglish ? 'Only 1 memento is allowed.' : 'Можно взять максимум 1 мементо.';
+            return '';
+        }
+
+        function getPendingLuckyPurchaseCost() {
+            let total = 0;
+            let freePerks = luckyState.inventory.perkFree || 0;
+            pendingLuckyPurchases.forEach(key => {
+                const item = luckyShopItems.find(shopItem => shopItem.key === key);
+                if (!item || luckyState.buyFree) return;
+                if (key === 'perk' && freePerks > 0) {
+                    freePerks--;
+                    return;
+                }
+                total += item.price * luckyState.priceMultiplier;
+            });
+            return total;
+        }
+
+        function renderLuckyPurchaseModal() {
+            const list = document.getElementById('lucky-purchase-list');
+            const error = document.getElementById('lucky-purchase-error');
+            const grouped = luckyShopItems.filter(item => getPendingLuckyPurchaseCount(item.key) > 0);
+            const isEnglish = currentLang === 'en';
+            list.innerHTML = grouped.length ? grouped.map(item => {
+                const count = getPendingLuckyPurchaseCount(item.key);
+                const price = luckyState.buyFree ? (isEnglish ? 'Free' : 'Бесплатно') : luckyMoney(item.price * luckyState.priceMultiplier);
+                return `<div class="lucky-purchase-row"><strong>${luckyText().itemNames[item.key]}</strong><span>${price}</span><button class="btn-action lucky-purchase-step" data-purchase-action="remove" data-shop-key="${item.key}">−</button><span class="lucky-purchase-quantity">${count}</span><button class="btn-action lucky-purchase-step" data-purchase-action="add" data-shop-key="${item.key}">+</button><button class="btn-action lucky-purchase-remove" data-purchase-action="clear" data-shop-key="${item.key}">${isEnglish ? 'Remove' : 'Убрать'}</button></div>`;
+            }).join('') : `<p>${isEnglish ? 'No items selected.' : 'Покупки не выбраны.'}</p>`;
+            const total = getPendingLuckyPurchaseCost();
+            const remaining = luckyState.buyFree ? luckyState.balance : luckyState.balance - total;
+            document.getElementById('lucky-purchase-total').textContent = luckyMoney(total);
+            document.getElementById('lucky-purchase-remaining').innerHTML = `${isEnglish ? 'Remaining' : 'Останется'}: <strong>${luckyMoney(remaining)}</strong>`;
+            error.textContent = '';
+            list.querySelectorAll('[data-purchase-action]').forEach(button => button.addEventListener('click', () => {
+                const key = button.dataset.shopKey;
+                const action = button.dataset.purchaseAction;
+                let limitError = '';
+                if (action === 'add') {
+                    limitError = getLuckyPurchaseLimitError(key);
+                    if (!limitError) pendingLuckyPurchases.push(key);
+                }
+                if (action === 'remove') {
+                    const index = pendingLuckyPurchases.lastIndexOf(key);
+                    if (index >= 0) pendingLuckyPurchases.splice(index, 1);
+                }
+                if (action === 'clear') pendingLuckyPurchases = pendingLuckyPurchases.filter(purchaseKey => purchaseKey !== key);
+                renderLuckyPurchaseModal();
+                if (limitError) document.getElementById('lucky-purchase-error').textContent = limitError;
+            }));
+        }
+
+        function openLuckyPurchaseModal(key) {
+            const limitError = getLuckyPurchaseLimitError(key);
+            if (!limitError) pendingLuckyPurchases.push(key);
+            document.getElementById('lucky-purchase-title').textContent = currentLang === 'en' ? 'Choose purchases' : 'Выбор покупок';
+            document.getElementById('lucky-purchase-help').textContent = currentLang === 'en' ? 'Add or remove items, then confirm the order.' : 'Добавьте или уберите предметы и подтвердите заказ.';
+            document.getElementById('lucky-purchase-total-label').textContent = currentLang === 'en' ? 'Total' : 'Итого';
+            document.getElementById('cancel-purchases').textContent = currentLang === 'en' ? 'Cancel' : 'Отмена';
+            document.getElementById('confirm-purchases').textContent = currentLang === 'en' ? 'Confirm purchases' : 'Подтвердить покупки';
+            renderLuckyPurchaseModal();
+            if (limitError) document.getElementById('lucky-purchase-error').textContent = limitError;
+            document.getElementById('lucky-purchase-modal').classList.add('open');
+        }
+
+        function cancelLuckyPurchases() {
+            pendingLuckyPurchases = [];
+            document.getElementById('lucky-purchase-modal').classList.remove('open');
+        }
+
+        function confirmLuckyPurchases() {
+            if (!pendingLuckyPurchases.length) return;
+            const totals = getLuckyPurchaseTotals();
+            const total = getPendingLuckyPurchaseCost();
+            const hasBlockedPerk = luckyState.perkBlocked && pendingLuckyPurchases.includes('perk');
+            const hasBlockedUpgrade = luckyState.upgradeBlocked && pendingLuckyPurchases.some(key => luckyShopItems.find(item => item.key === key)?.category === 'upgrades');
+            let purchaseError = '';
+            if (totals.upgrades > 2) purchaseError = currentLang === 'en' ? 'Only 2 upgrades are allowed.' : 'Можно взять максимум 2 улучшения.';
+            if (totals.perks > 4) purchaseError = currentLang === 'en' ? 'Only 4 perks are allowed.' : 'Можно взять максимум 4 перка.';
+            if (totals.mementos > 1) purchaseError = currentLang === 'en' ? 'Only 1 memento is allowed.' : 'Можно взять максимум 1 мементо.';
+            if (luckyState.buyBlocked || hasBlockedPerk) purchaseError = currentLang === 'en' ? 'Shopping is blocked.' : 'Закуп запрещен.';
+            if (hasBlockedUpgrade) purchaseError = currentLang === 'en' ? 'Upgrades are blocked.' : 'Улучшения запрещены.';
+            if (!purchaseError && !luckyState.buyFree && total > luckyState.balance) purchaseError = currentLang === 'en' ? 'Not enough FanCoin for this order.' : 'Недостаточно FanCoin для этой покупки.';
+            if (purchaseError) {
+                document.getElementById('lucky-purchase-error').textContent = purchaseError;
+                return;
+            }
+            let freePerks = luckyState.inventory.perkFree || 0;
+            pendingLuckyPurchases.forEach(key => {
+                if (key === 'perk' && freePerks > 0) {
+                    freePerks--;
+                }
+                luckyState.inventory[key] = (luckyState.inventory[key] || 0) + 1;
+            });
+            luckyState.inventory.perkFree = freePerks;
+            if (!luckyState.buyFree) luckyState.balance -= total;
+            pendingLuckyPurchases = [];
+            document.getElementById('lucky-purchase-modal').classList.remove('open');
+            renderLuckyState();
+        }
+
+        function completeLuckyRound() {
+            luckyState.matches++;
+            const escaped = getEscapedCount();
+            luckyState.escaped = escaped;
+            const escapeReward = [30000, 20000, 10000][escaped] || 0;
+            luckyState.balance += escapeReward;
+            resetLuckySpins();
+            resetLuckyModifiers();
+            document.getElementById('lucky-match-modal').classList.remove('open');
+            document.getElementById('lucky-status').textContent = currentLang === 'en'
+                ? `New match started. Both wheels are available again. Escape bonus: +${luckyMoney(escapeReward)}.`
+                : `Новая катка открыта. Оба колеса снова доступны. Бонус за пойманных: +${luckyMoney(escapeReward)}.`;
+            renderLuckyState();
+        }
+
+        function loseLuckyMatch(escaped = 0) {
+            luckyState.matches = 0;
+            luckyState.escaped = 0;
+            resetLuckyBank();
+            resetLuckySpins();
+            document.getElementById('lucky-match-modal').classList.remove('open');
+            document.getElementById('lucky-status').textContent = currentLang === 'en' ? 'Loss recorded. The bank, purchases and effects were reset.' : 'Поражение зафиксировано. Банк, закуп и эффекты обнулены.';
+            renderLuckyState();
+        }
+
+        function openLuckyWinDialog() {
+            setEscapedCount(0);
+            document.getElementById('lucky-match-modal').classList.add('open');
+            document.querySelector('.escape-option.active').focus();
+        }
+
+        function getEscapedCount() {
+            return Number(document.getElementById('lucky-escaped-input').dataset.value) || 0;
+        }
+
+        function setEscapedCount(value) {
+            const input = document.getElementById('lucky-escaped-input');
+            const messages = luckyText().messages;
+            input.dataset.value = String(value);
+            input.querySelectorAll('.escape-option').forEach(button => {
+                button.classList.toggle('active', button.dataset.value === String(value));
+            });
+            document.getElementById('escape-message').textContent = messages[value];
+            saveSessionState();
+        }
+
+        function resolveLuckyWin() {
+            const escaped = getEscapedCount();
+            if (escaped > 2) {
+                loseLuckyMatch(escaped);
+            } else {
+                completeLuckyRound();
+            }
+        }
+
+        function exportLuckyProgress() {
+            const blob = new Blob([JSON.stringify({ app: 'LUCKY', version: 1, savedAt: new Date().toISOString(), state: luckyState }, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'lucky-progress.json';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function importLuckyProgress(file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const imported = JSON.parse(reader.result);
+                    if (imported.app !== 'LUCKY' || !imported.state) throw new Error('Invalid file');
+                    luckyState = { ...structuredClone(defaultLuckyState), ...imported.state, spins: { ...defaultLuckyState.spins, ...imported.state.spins }, results: { ...defaultLuckyState.results, ...imported.state.results }, inventory: { ...imported.state.inventory } };
+                    document.getElementById('lucky-status').textContent = 'Прогресс успешно импортирован.';
+                    renderLuckyState();
+                } catch (error) {
+                    document.getElementById('lucky-status').textContent = currentLang === 'en' ? 'Could not import this progress file.' : 'Не удалось импортировать этот файл прогресса.';
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        document.getElementById('currency-spin').addEventListener('click', () => spinLuckyWheel('currency'));
+        document.getElementById('modifier-spin').addEventListener('click', () => spinLuckyWheel('modifier'));
+        document.getElementById('killer-spin').addEventListener('click', spinLuckyKillerWheel);
+        document.getElementById('confirm-win').addEventListener('click', openLuckyWinDialog);
+        document.getElementById('lose-match').addEventListener('click', loseLuckyMatch);
+        document.getElementById('cancel-win').addEventListener('click', () => document.getElementById('lucky-match-modal').classList.remove('open'));
+        document.getElementById('confirm-win-result').addEventListener('click', resolveLuckyWin);
+        document.querySelectorAll('.escape-option').forEach(button => {
+            button.addEventListener('click', () => setEscapedCount(button.dataset.value));
+        });
+        document.getElementById('export-progress').addEventListener('click', exportLuckyProgress);
+        document.getElementById('import-progress').addEventListener('click', () => document.getElementById('progress-file').click());
+        document.getElementById('progress-file').addEventListener('change', event => { if (event.target.files[0]) importLuckyProgress(event.target.files[0]); event.target.value = ''; });
+        document.getElementById('cancel-purchases').addEventListener('click', cancelLuckyPurchases);
+        document.getElementById('confirm-purchases').addEventListener('click', confirmLuckyPurchases);
+        document.getElementById('lucky-killer-search').addEventListener('input', event => renderLuckyKillers(event.target.value));
+        document.getElementById('lucky-select-all-killers').addEventListener('click', () => {
+            luckySelectedKillers = Array.from(Array(i18n.ru.killers.length).keys());
+            renderLuckyKillers(document.getElementById('lucky-killer-search').value);
+        });
+        document.getElementById('lucky-deselect-all-killers').addEventListener('click', () => {
+            luckySelectedKillers = [];
+            renderLuckyKillers(document.getElementById('lucky-killer-search').value);
+        });
+        restoreSessionState();
+        renderLuckyShop();
+        drawLuckyWheel('currency');
+        drawLuckyWheel('modifier');
+        drawLuckyKillerWheel();
+        renderLuckyState();
+
+        function initMode(mode, resetSelection = false) {
+            currentMode = mode;
+
+            if (resetSelection) {
+                temporarilyExcludedIndex = null;
+                selectedIndicesByMode[mode] = getDefaultSelection(mode);
+            } else if (!Array.isArray(selectedIndicesByMode[mode])) {
+                selectedIndicesByMode[mode] = getDefaultSelection(mode);
+            }
+
+            selectedIndices = getSavedSelection(mode);
+            renderEntityList(searchInput.value);
+            drawMainWheel();
+        }
+
+        function getDefaultSelection(mode) {
+            return Array.from(Array(i18n.ru[mode].length).keys());
+        }
+
+        function getEscapeRate(scope, mode = currentEscapeMode) {
+            const stats = escapeTracker[mode][scope];
+            const total = stats.escaped + stats.failed;
+            return total ? Math.round((stats.escaped / total) * 100) : 0;
+        }
+
+        function renderEscapeTracker() {
+            const modeStats = escapeTracker[currentEscapeMode];
+
+            document.getElementById('self-escaped-count').textContent = modeStats.self.escaped;
+            document.getElementById('self-failed-count').textContent = modeStats.self.failed;
+            document.getElementById('team-escaped-count').textContent = modeStats.team.escaped;
+            document.getElementById('team-failed-count').textContent = modeStats.team.failed;
+            document.getElementById('self-escape-rate').textContent = `${getEscapeRate('self')}%`;
+            document.getElementById('team-escape-rate').textContent = `${getEscapeRate('team')}%`;
+            document.querySelectorAll('.escape-mode-btn').forEach(button => {
+                button.classList.toggle('active', button.dataset.escapeMode === currentEscapeMode);
+            });
+            saveSessionState();
+        }
+
+        function resetEscapeTracker(scope, mode = currentEscapeMode) {
+            if (scope === 'self' || scope === 'all') {
+                escapeTracker[mode].self.escaped = 0;
+                escapeTracker[mode].self.failed = 0;
+                escapeTracker[mode].self.caught = 0;
+            }
+            if (scope === 'team' || scope === 'all') {
+                escapeTracker[mode].team.escaped = 0;
+                escapeTracker[mode].team.failed = 0;
+                escapeTracker[mode].team.caught = 0;
+            }
+            renderEscapeTracker();
+        }
+
+        function downloadStatsPayload(scope = 'all', mode = currentEscapeMode) {
+            const payload = {
+                savedAt: new Date().toISOString(),
+                mode,
+                scope,
+                stats: scope === 'all'
+                    ? { '1vs4': escapeTracker['1vs4'], '2vs8': escapeTracker['2vs8'] }
+                    : { [scope]: escapeTracker[mode][scope] },
+                rates: scope === 'all'
+                    ? {
+                        '1vs4': { self: `${getEscapeRate('self', '1vs4')}%`, team: `${getEscapeRate('team', '1vs4')}%` },
+                        '2vs8': { self: `${getEscapeRate('self', '2vs8')}%`, team: `${getEscapeRate('team', '2vs8')}%` }
+                    }
+                    : {
+                        self: `${getEscapeRate('self', mode)}%`,
+                        team: `${getEscapeRate('team', mode)}%`
+                    }
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = scope === 'all' ? `dbd-escape-stats-${mode}.json` : `dbd-escape-stats-${mode}-${scope}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function saveSessionState() {
+            selectedIndicesByMode = {
+                killers: Array.isArray(selectedIndicesByMode?.killers) ? [...selectedIndicesByMode.killers] : getSavedSelection('killers'),
+                survivors: Array.isArray(selectedIndicesByMode?.survivors) ? [...selectedIndicesByMode.survivors] : getSavedSelection('survivors')
+            };
+            if (currentMode === 'killers') {
+                selectedIndicesByMode.killers = [...selectedIndices];
+            } else if (currentMode === 'survivors') {
+                selectedIndicesByMode.survivors = [...selectedIndices];
+            }
+
+            const payload = {
+                currentLang,
+                currentMode,
+                currentEscapeMode,
+                activeTab,
+                selectedIndices,
+                selectedIndicesByMode: {
+                    killers: [...selectedIndicesByMode.killers],
+                    survivors: [...selectedIndicesByMode.survivors]
+                },
+                temporarilyExcludedIndex,
+                removeWinnerToggle: removeWinnerToggle.checked,
+                luckySelectedKillers,
+                escapeTracker: {
+                    '1vs4': {
+                        self: { ...escapeTracker['1vs4'].self },
+                        team: { ...escapeTracker['1vs4'].team }
+                    },
+                    '2vs8': {
+                        self: { ...escapeTracker['2vs8'].self },
+                        team: { ...escapeTracker['2vs8'].team }
+                    }
+                },
+                luckyState: {
+                    ...structuredClone(defaultLuckyState),
+                    ...luckyState,
+                    spins: { ...defaultLuckyState.spins, ...(luckyState?.spins || {}) },
+                    results: { ...defaultLuckyState.results, ...(luckyState?.results || {}) },
+                    inventory: { ...(luckyState?.inventory || {}) }
+                }
+            };
+            sessionStorage.setItem(sessionStorageKey, JSON.stringify(payload));
+        }
+
+        function restoreSessionState() {
+            const raw = sessionStorage.getItem(sessionStorageKey);
+            if (!raw) return;
+
+            try {
+                const state = JSON.parse(raw);
+                sessionStateWasRecovered = true;
+                if (state.currentLang) currentLang = state.currentLang;
+                if (state.currentMode) currentMode = state.currentMode;
+                if (state.currentEscapeMode && escapeTracker[state.currentEscapeMode]) currentEscapeMode = state.currentEscapeMode;
+                if (state.activeTab) activeTab = state.activeTab;
+                if (state.selectedIndicesByMode) {
+                    selectedIndicesByMode = {
+                        killers: Array.isArray(state.selectedIndicesByMode.killers) ? [...state.selectedIndicesByMode.killers] : getSavedSelection('killers'),
+                        survivors: Array.isArray(state.selectedIndicesByMode.survivors) ? [...state.selectedIndicesByMode.survivors] : getSavedSelection('survivors')
+                    };
+                }
+                if (Array.isArray(state.selectedIndices)) selectedIndices = state.selectedIndices;
+                if (!Array.isArray(selectedIndicesByMode?.[currentMode]) || selectedIndicesByMode[currentMode].length === 0) {
+                    selectedIndicesByMode[currentMode] = getSavedSelection(currentMode);
+                }
+                selectedIndices = getSavedSelection(currentMode);
+                if (state.temporarilyExcludedIndex !== undefined) temporarilyExcludedIndex = state.temporarilyExcludedIndex;
+                if (state.removeWinnerToggle !== undefined) removeWinnerToggle.checked = Boolean(state.removeWinnerToggle);
+                if (Array.isArray(state.luckySelectedKillers)) luckySelectedKillers = state.luckySelectedKillers;
+                if (state.escapeTracker) {
+                    if (state.escapeTracker['1vs4']) {
+                        escapeTracker['1vs4'] = {
+                            self: { escaped: 0, failed: 0, caught: 0, ...(escapeTracker['1vs4'].self || {}), ...(state.escapeTracker['1vs4'].self || {}) },
+                            team: { escaped: 0, failed: 0, caught: 0, ...(escapeTracker['1vs4'].team || {}), ...(state.escapeTracker['1vs4'].team || {}) }
+                        };
+                    }
+                    if (state.escapeTracker['2vs8']) {
+                        escapeTracker['2vs8'] = {
+                            self: { escaped: 0, failed: 0, caught: 0, ...(escapeTracker['2vs8'].self || {}), ...(state.escapeTracker['2vs8'].self || {}) },
+                            team: { escaped: 0, failed: 0, caught: 0, ...(escapeTracker['2vs8'].team || {}), ...(state.escapeTracker['2vs8'].team || {}) }
+                        };
+                    }
+                }
+                if (state.luckyState) {
+                    luckyState = {
+                        ...structuredClone(defaultLuckyState),
+                        ...state.luckyState,
+                        spins: { ...defaultLuckyState.spins, ...(state.luckyState.spins || {}) },
+                        results: { ...defaultLuckyState.results, ...(state.luckyState.results || {}) },
+                        inventory: { ...(state.luckyState.inventory || {}) }
+                    };
+                }
+            } catch (error) {
+                console.warn('Failed to restore session state', error);
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+
+            document.getElementById('tab-home-btn').textContent = i18n[lang].tabHome;
+            document.getElementById('tab-wheel-btn').textContent = i18n[lang].tabWheel;
+            document.getElementById('tab-escapes-btn').textContent = i18n[lang].tabEscapes;
+            document.getElementById('tab-challenges-btn').textContent = i18n[lang].tabChallenges;
+            document.querySelector('[data-challenge-tab="development"]').textContent = lang === 'en' ? 'In development' : 'В разработке';
+            document.getElementById('download-escape-stats').textContent = lang === 'en' ? 'Download all stats' : 'Скачать все показатели';
+            document.querySelectorAll('.download-btn').forEach(button => {
+                button.textContent = lang === 'en' ? 'Download stats' : 'Скачать показатель';
+            });
+
+            document.getElementById('home-hero-title').textContent = i18n[lang].homeHeroTitle;
+            document.getElementById('home-hero-desc').textContent = i18n[lang].homeHeroDesc;
+            document.getElementById('feature-1-title').textContent = i18n[lang].feature1Title;
+            document.getElementById('feature-1-desc').textContent = i18n[lang].feature1Desc;
+            document.getElementById('feature-2-title').textContent = i18n[lang].feature2Title;
+            document.getElementById('feature-2-desc').textContent = i18n[lang].feature2Desc;
+            document.getElementById('feature-3-title').textContent = i18n[lang].feature3Title;
+            document.getElementById('feature-3-desc').textContent = i18n[lang].feature3Desc;
+            document.getElementById('home-stat-tools').textContent = i18n[lang].homeStatTools;
+            document.getElementById('home-stat-language').textContent = i18n[lang].homeStatLanguage;
+            document.getElementById('home-stat-variations').textContent = i18n[lang].homeStatVariations;
+            document.getElementById('home-footer-note').textContent = i18n[lang].homeFooter;
+
+            document.getElementById('escapes-title').textContent = i18n[lang].escapeHeader;
+            document.getElementById('escapes-description').textContent = i18n[lang].escapeDescription;
+            document.getElementById('escape-self-title').innerHTML = '<span>01</span> ' + i18n[lang].escapeSelfTitle;
+            document.getElementById('self-escaped-label').textContent = i18n[lang].escapeSelfEscaped;
+            document.getElementById('self-failed-label').textContent = i18n[lang].escapeSelfFailed;
+            document.getElementById('self-escape-rate-label').textContent = i18n[lang].escapePercent;
+            document.getElementById('self-escaped-btn').textContent = i18n[lang].escapeSelfActionEscaped;
+            document.getElementById('self-failed-btn').textContent = i18n[lang].escapeSelfActionFailed;
+            document.getElementById('self-reset-btn').textContent = i18n[lang].escapeReset;
+            document.getElementById('self-download-btn').textContent = i18n[lang].escapeDownload;
+            document.getElementById('escape-team-title').innerHTML = '<span>02</span> ' + i18n[lang].escapeTeamTitle;
+            document.getElementById('team-escaped-label').textContent = i18n[lang].escapeTeamEscaped;
+            document.getElementById('team-failed-label').textContent = i18n[lang].escapeTeamFailed;
+            document.getElementById('team-escape-rate-label').textContent = i18n[lang].escapePercent;
+            document.getElementById('team-escaped-btn').textContent = i18n[lang].escapeTeamActionEscaped;
+            document.getElementById('team-failed-btn').textContent = i18n[lang].escapeTeamActionFailed;
+            document.getElementById('team-reset-btn').textContent = i18n[lang].escapeReset;
+            document.getElementById('team-download-btn').textContent = i18n[lang].escapeDownload;
+
+            document.getElementById('subtab-killers').textContent = i18n[lang].killersSubtab;
+            document.getElementById('subtab-survivors').textContent = i18n[lang].survivorsSubtab;
+            document.getElementById('select-all').textContent = i18n[lang].selectAll;
+            document.getElementById('deselect-all').textContent = i18n[lang].deselectAll;
+            document.getElementById('search').placeholder = i18n[lang].searchPlaceholder;
+            spinMainBtn.textContent = i18n[lang].spinMainBtn;
+            document.getElementById('modal-subtitle').textContent = i18n[lang].modalSubtitle;
+            applyLuckyLanguage();
+
+            renderEntityList(searchInput.value);
+            renderLuckyKillers(document.getElementById('lucky-killer-search').value);
+            drawMainWheel();
+        }
+
+        function applyLuckyLanguage() {
+            const text = luckyText();
+            const panelHeadings = document.querySelectorAll('#lucky-challenge-panel .lucky-panel h2');
+            const wheelCards = document.querySelectorAll('#lucky-challenge-panel .lucky-wheel-card h3');
+            const luckyButtons = document.querySelectorAll('#lucky-challenge-panel .lucky-tools .btn-action');
+            const escapeButtons = document.querySelectorAll('.lucky-match-dialog-actions .btn-action');
+            document.querySelector('.lucky-hero p:not(.lucky-author)').textContent = text.description;
+            document.querySelector('.lucky-author').innerHTML = text.author;
+            panelHeadings[0].innerHTML = `<span>01</span> ${text.rules}`;
+            panelHeadings[1].innerHTML = `<span>02</span> ${text.challengeWheels}`;
+            panelHeadings[2].innerHTML = `<span>03</span> ${text.killers} <span class="lucky-killer-count" id="lucky-killer-count">(${luckySelectedKillers.length}/${i18n[currentLang].killers.length})</span>`;
+            panelHeadings[3].innerHTML = `<span>04</span> ${text.shop}`;
+            document.querySelectorAll('#lucky-challenge-panel .lucky-list label')[0].childNodes[0].textContent = `${text.matches} `;
+            document.querySelectorAll('#lucky-challenge-panel .lucky-list label')[1].childNodes[0].textContent = `${text.escaped} `;
+            document.querySelectorAll('#lucky-challenge-panel .lucky-list label')[2].childNodes[0].textContent = `${text.perkBlocked} `;
+            document.querySelectorAll('#lucky-challenge-panel .lucky-list label')[3].childNodes[0].textContent = `${text.buy} `;
+            document.querySelector('.lucky-notice:not(#lucky-status)').textContent = text.lossNotice;
+            wheelCards[0].textContent = text.currencyWheel;
+            wheelCards[1].textContent = text.modifierWheel;
+            wheelCards[2].textContent = text.killerWheel;
+            document.getElementById('currency-spin').textContent = text.spinCurrency;
+            document.getElementById('modifier-spin').textContent = text.spinModifier;
+            document.getElementById('killer-spin').textContent = text.spinKiller;
+            document.getElementById('lucky-status').textContent = text.wheelNotice;
+            luckyButtons[0].textContent = text.win;
+            luckyButtons[1].textContent = text.lose;
+            luckyButtons[2].textContent = text.export;
+            luckyButtons[3].textContent = text.import;
+            document.getElementById('lucky-select-all-killers').textContent = text.selectAll;
+            document.getElementById('lucky-deselect-all-killers').textContent = text.deselectAll;
+            document.getElementById('lucky-killer-search').placeholder = text.search;
+            document.querySelector('.lucky-match-dialog h2').textContent = text.escapedTitle;
+            document.querySelector('.lucky-match-dialog p').textContent = text.escapedHelp;
+            escapeButtons[0].textContent = text.cancel;
+            escapeButtons[1].textContent = text.confirm;
+            setEscapedCount(getEscapedCount());
+            renderLuckyShop();
+            renderLuckyState();
+        }
+
+        function syncCurrentModeUI() {
+            const isSurvivors = currentMode === 'survivors';
+            const killersButton = document.getElementById('subtab-killers');
+            const survivorsButton = document.getElementById('subtab-survivors');
+
+            if (killersButton) killersButton.classList.toggle('active', !isSurvivors);
+            if (survivorsButton) survivorsButton.classList.toggle('active', isSurvivors);
+        }
+
+        function applySavedTabState() {
+            const tabToActivate = activeTab && document.querySelector(`[data-tab="${activeTab}"]`) ? activeTab : 'home';
+            switchTab(tabToActivate);
+            syncCurrentModeUI();
+        }
+
+        function switchTab(tabName) {
+            activeTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            saveSessionState();
+
+            if (tabName === 'wheel') {
+                drawMainWheel();
+            }
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tabName = e.target.getAttribute('data-tab');
+                switchTab(tabName);
+            });
+        });
+
+        document.querySelectorAll('.challenge-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const challengeTab = btn.getAttribute('data-challenge-tab');
+                document.querySelectorAll('.challenge-tab-btn').forEach(tabButton => tabButton.classList.remove('active'));
+                document.querySelectorAll('.challenge-tab-panel').forEach(panel => panel.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(`${challengeTab}-challenge-panel`).classList.add('active');
+            });
+        });
+
+        document.getElementById('subtab-killers').addEventListener('click', () => {
+            document.getElementById('subtab-killers').classList.add('active');
+            document.getElementById('subtab-survivors').classList.remove('active');
+            initMode('killers');
+            saveSessionState();
+        });
+
+        document.getElementById('subtab-survivors').addEventListener('click', () => {
+            document.getElementById('subtab-survivors').classList.add('active');
+            document.getElementById('subtab-killers').classList.remove('active');
+            initMode('survivors');
+            saveSessionState();
+        });
+
+        function matchesSearch(itemText, filter, mode, index) {
+            if (!filter) return true;
+            const query = filter.toLowerCase().trim();
+            
+            if (itemText.toLowerCase().includes(query)) return true;
+
+            const ruKey = i18n.ru[mode][index];
+            const itemAliases = aliases[mode]?.[ruKey] || [];
+            
+            return itemAliases.some(alias => alias.toLowerCase().includes(query) || query.includes(alias.toLowerCase()));
+        }
+
+        function renderEntityList(filter = '') {
+            entityListEl.innerHTML = '';
+            const list = i18n[currentLang][currentMode];
+
+            list.forEach((itemText, index) => {
+                if (matchesSearch(itemText, filter, currentMode, index)) {
+                    const item = document.createElement('div');
+                    item.className = 'entity-item';
+                    const isChecked = selectedIndices.includes(index);
+                    item.innerHTML = `<span>${itemText}</span><input type="checkbox" ${isChecked ? 'checked' : ''}>`;
+
+                    item.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'INPUT') {
+                            const checkbox = item.querySelector('input');
+                            checkbox.checked = !checkbox.checked;
+                        }
+                        toggleEntity(index);
+                    });
+
+                    entityListEl.appendChild(item);
+                }
+            });
+            selectedCountEl.textContent = `(${selectedIndices.length}/${list.length})`;
+        }
+
+        function toggleEntity(index) {
+            if (selectedIndices.includes(index)) {
+                selectedIndices = selectedIndices.filter(i => i !== index);
+            } else {
+                selectedIndices.push(index);
+            }
+            selectedIndicesByMode[currentMode] = [...selectedIndices];
+            selectedCountEl.textContent = `(${selectedIndices.length}/${i18n[currentLang][currentMode].length})`;
+            drawMainWheel();
+            saveSessionState();
+        }
+
+        function drawMainWheel() {
+            const wheelIndices = selectedIndices.filter(index => index !== temporarilyExcludedIndex);
+            const numSlices = wheelIndices.length;
+            mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+
+            if (numSlices === 0) {
+                mainCtx.fillStyle = '#18181c';
+                mainCtx.beginPath();
+                mainCtx.arc(300, 300, 290, 0, 2 * Math.PI);
+                mainCtx.fill();
+                mainCtx.fillStyle = '#666';
+                mainCtx.font = '18px Segoe UI';
+                mainCtx.textAlign = 'center';
+                mainCtx.fillText(i18n[currentLang].emptyWheel, 300, 305);
+                spinMainBtn.disabled = true;
+                return;
+            }
+
+            spinMainBtn.disabled = isMainSpinning;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+
+            for (let i = 0; i < numSlices; i++) {
+                const angle = i * sliceAngle;
+                const entityIndex = wheelIndices[i];
+                
+                mainCtx.beginPath();
+                mainCtx.fillStyle = colors[i % colors.length];
+                mainCtx.moveTo(300, 300);
+                mainCtx.arc(300, 300, 295, angle, angle + sliceAngle);
+                mainCtx.lineTo(300, 300);
+                mainCtx.fill();
+                mainCtx.strokeStyle = '#0a0a0c';
+                mainCtx.lineWidth = 2;
+                mainCtx.stroke();
+
+                mainCtx.save();
+                mainCtx.translate(300, 300);
+                mainCtx.rotate(angle + sliceAngle / 2);
+                mainCtx.textAlign = 'right';
+                mainCtx.fillStyle = '#e0e0e0';
+                mainCtx.font = numSlices > 30 ? '11px Segoe UI' : (numSlices > 15 ? '13px Segoe UI' : '15px Segoe UI');
+                
+                let text = i18n[currentLang][currentMode][entityIndex].split(' (')[0];
+                mainCtx.fillText(text, 280, 5);
+                mainCtx.restore();
+            }
+        }
+
+        spinMainBtn.addEventListener('click', () => {
+            const wheelIndices = selectedIndices.filter(index => index !== temporarilyExcludedIndex);
+            const availableIndices = wheelIndices.length > 0 ? wheelIndices : selectedIndices;
+            if (isMainSpinning || availableIndices.length === 0) return;
+
+            isMainSpinning = true;
+            spinMainBtn.disabled = true;
+
+            const extraRounds = 5 + Math.floor(Math.random() * 5);
+            const randomDegree = Math.floor(Math.random() * 360);
+            currentRotationMain += extraRounds * 360 + randomDegree;
+            mainCanvas.style.transform = `rotate(${currentRotationMain}deg)`;
+
+            setTimeout(() => {
+                isMainSpinning = false;
+                spinMainBtn.disabled = false;
+
+                const actualDegree = currentRotationMain % 360;
+                const numSlices = availableIndices.length;
+                const sliceAngle = 360 / numSlices;
+                let winnerSlice = Math.floor((360 - (actualDegree % 360) + 270) % 360 / sliceAngle);
+                const winnerIndex = availableIndices[winnerSlice];
+
+                document.getElementById('winner-name').textContent = i18n[currentLang][currentMode][winnerIndex];
+                document.getElementById('winner-extra-info').innerHTML = '';
+
+                if (removeWinnerToggle.checked) {
+                    temporarilyExcludedIndex = winnerIndex;
+                    drawMainWheel();
+                } else {
+                    temporarilyExcludedIndex = null;
+                }
+
+                const memeContainer = document.getElementById('meme-container');
+                if (numSlices === 1) {
+                    memeContainer.innerHTML = `<div class="meme-text">${i18n[currentLang].singleMeme}</div>`;
+                } else {
+                    memeContainer.innerHTML = '';
+                }
+
+                document.getElementById('modal').style.display = 'flex';
+            }, 4000);
+        });
+
+        document.getElementById('select-all').addEventListener('click', () => {
+            const max = i18n[currentLang][currentMode].length;
+            selectedIndices = Array.from(Array(max).keys());
+            selectedIndicesByMode[currentMode] = [...selectedIndices];
+            renderEntityList(searchInput.value);
+            drawMainWheel();
+            saveSessionState();
+        });
+
+        document.getElementById('deselect-all').addEventListener('click', () => {
+            selectedIndices = [];
+            selectedIndicesByMode[currentMode] = [];
+            renderEntityList(searchInput.value);
+            drawMainWheel();
+            saveSessionState();
+        });
+
+        document.getElementById('export-wheel-preset').addEventListener('click', exportWheelPreset);
+        document.getElementById('import-wheel-preset').addEventListener('click', () => document.getElementById('wheel-preset-file').click());
+        document.getElementById('wheel-preset-file').addEventListener('change', event => {
+            if (event.target.files[0]) importWheelPreset(event.target.files[0]);
+            event.target.value = '';
+        });
+        removeWinnerToggle.addEventListener('change', () => {
+            if (!removeWinnerToggle.checked) {
+                temporarilyExcludedIndex = null;
+                drawMainWheel();
+            }
+            saveSessionState();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            renderEntityList(e.target.value);
+        });
+
+        document.querySelectorAll('.escape-mode-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                currentEscapeMode = button.dataset.escapeMode;
+                renderEscapeTracker();
+            });
+        });
+
+        document.querySelectorAll('[data-scope][data-result]').forEach(button => {
+            button.addEventListener('click', () => {
+                const { scope, result } = button.dataset;
+                if (result === 'reset') {
+                    resetEscapeTracker(scope, currentEscapeMode);
+                    return;
+                }
+                if (result === 'download') {
+                    downloadStatsPayload(scope, currentEscapeMode);
+                    return;
+                }
+                if (scope === 'self' || scope === 'team') {
+                    const field = result === 'escaped' ? 'escaped' : result === 'failed' ? 'failed' : 'caught';
+                    escapeTracker[currentEscapeMode][scope][field] += 1;
+                    renderEscapeTracker();
+                }
+                if (scope === 'mana') {
+                    renderEscapeTracker();
+                }
+            });
+        });
+
+        document.getElementById('download-escape-stats').addEventListener('click', () => downloadStatsPayload('all', currentEscapeMode));
+
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('modal').style.display = 'none';
+        });
+
+        document.getElementById('lang-ru').addEventListener('click', () => setLanguage('ru'));
+        document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+        initMode(currentMode, !sessionStateWasRecovered);
+        renderEscapeTracker();
+        renderLuckyKillers(document.getElementById('lucky-killer-search')?.value || '');
+        drawLuckyWheel('currency');
+        drawLuckyWheel('modifier');
+        drawLuckyKillerWheel();
+        renderLuckyState();
+        setLanguage(currentLang || 'ru');
+        applySavedTabState();
+    </script>
+</body>
+</html>
