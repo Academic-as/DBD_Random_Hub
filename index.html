@@ -1143,6 +1143,7 @@
         }
 
         .custom-killer-card {
+            position: relative;
             min-height: 190px;
             padding: 10px 8px 8px;
             justify-content: flex-start;
@@ -1159,6 +1160,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .custom-killer-card:focus-within {
+            z-index: 20;
+            border-color: rgba(255, 92, 92, .72);
         }
 
         .custom-tier-row-head {
@@ -1185,7 +1191,7 @@
             background: rgba(255,255,255,.045);
         }
 
-        .custom-killer-tier-control span {
+        .custom-killer-tier-control .custom-tier-label {
             min-width: auto;
             margin: 0;
             color: #8d93a2;
@@ -1206,6 +1212,8 @@
         }
 
         .custom-killer-tier-control select {
+            position: relative;
+            z-index: 2;
             flex: 1;
             min-width: 34px;
             padding: 4px 3px;
@@ -1214,10 +1222,84 @@
             font-weight: 800;
             color: #fff;
             cursor: pointer;
+            color-scheme: dark;
+        }
+
+        .custom-tier-picker {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .custom-tier-picker-trigger {
+            width: 100%;
+            padding: 4px 14px 4px 3px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: .68rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .custom-tier-picker-trigger::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 2px;
+            width: 5px;
+            height: 5px;
+            border-right: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            transform: translateY(-65%) rotate(45deg);
+        }
+
+        .custom-tier-picker-menu {
+            position: static;
+            width: 100%;
+            margin-top: 4px;
+            display: none;
+            padding: 4px;
+            border: 1px solid rgba(255,255,255,.14);
+            border-radius: 7px;
+            background: #171922;
+            box-shadow: 0 12px 24px rgba(0,0,0,.42);
+        }
+
+        .custom-tier-picker.open .custom-tier-picker-menu {
+            display: grid;
+            gap: 2px;
+        }
+
+        .custom-tier-picker.open {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .custom-tier-picker-option {
+            border: 0;
+            border-radius: 4px;
+            padding: 5px;
+            background: transparent;
+            color: #dfe2ea;
+            font-size: .68rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .custom-tier-picker-option:hover,
+        .custom-tier-picker-option.active {
+            background: #db2938;
+            color: #fff;
+        }
+
+        .custom-killer-tier-control select option {
+            background: #151722;
+            color: #fff;
         }
 
         @media (min-width: 601px) {
-            .custom-killer-tier-control span {
+            .custom-killer-tier-control .custom-tier-label {
                 display: none;
             }
 
@@ -2115,8 +2197,13 @@
                         <span>${name}</span>
                         <div class="custom-killer-actions">
                             <label class="custom-killer-tier-control">
-                                <span>Ранг</span>
-                                <select class="custom-tier-move-select" data-name="${item.name}" aria-label="Перенести ${name} в ранг" title="Перенести в другой ранг">${moveOptions}</select>
+                                <span class="custom-tier-label">Ранг</span>
+                                <span class="custom-tier-picker" data-name="${item.name}">
+                                    <button type="button" class="custom-tier-picker-trigger" aria-label="Перенести ${name} в ранг">${tierName}</button>
+                                    <span class="custom-tier-picker-menu">
+                                        ${['S', 'A', 'B', 'C', 'D'].map((tier) => `<button type="button" class="custom-tier-picker-option${tier === tierName ? ' active' : ''}" data-tier="${tier}">${tier}</button>`).join('')}
+                                    </span>
+                                </span>
                             </label>
                             <button class="custom-killer-remove" data-name="${item.name}" aria-label="${removeText} ${name}" title="${removeText}"><span aria-hidden="true">&times;</span></button>
                         </div>
@@ -2391,10 +2478,23 @@
                 };
             }
 
-            document.querySelectorAll('.custom-tier-move-select').forEach((select) => {
-                select.addEventListener('change', (event) => {
-                    const targetTier = event.target.value;
-                    const name = event.target.dataset.name;
+            document.querySelectorAll('.custom-tier-picker-trigger').forEach((trigger) => {
+                trigger.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const picker = trigger.closest('.custom-tier-picker');
+                    document.querySelectorAll('.custom-tier-picker.open').forEach((item) => {
+                        if (item !== picker) item.classList.remove('open');
+                    });
+                    picker.classList.toggle('open');
+                });
+            });
+
+            document.querySelectorAll('.custom-tier-picker-option').forEach((option) => {
+                option.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const picker = option.closest('.custom-tier-picker');
+                    const targetTier = option.dataset.tier;
+                    const name = picker.dataset.name;
                     const currentTier = ['S', 'A', 'B', 'C', 'D'].find((tier) => tierlistData.custom[tier].some((item) => item.name === name));
                     if (!currentTier) return;
                     tierlistData.custom[currentTier] = tierlistData.custom[currentTier].filter((item) => item.name !== name);
@@ -2406,6 +2506,10 @@
                     renderTierListPanels();
                 });
             });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.custom-tier-picker.open').forEach((picker) => picker.classList.remove('open'));
+            }, { once: true });
 
             document.querySelectorAll('.custom-killer-remove').forEach((button) => {
                 button.addEventListener('click', () => {
