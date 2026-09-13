@@ -890,51 +890,70 @@
             width: 100%;
             height: 100%;
             overflow-y: auto;
-            background: linear-gradient(180deg, rgba(11, 12, 18, 0.96), rgba(7, 8, 12, 0.98));
+            background:
+                radial-gradient(circle at 12% 0%, rgba(255, 54, 54, 0.1), transparent 32%),
+                linear-gradient(145deg, #0e0f16 0%, #151621 48%, #0b0c11 100%);
         }
         .tierlist-shell {
-            max-width: 1500px;
+            max-width: 1720px;
             margin: 0 auto;
-            padding: 22px 18px 32px;
+            padding: 30px clamp(14px, 3vw, 44px) 42px;
         }
         .tierlist-topbar {
-            margin-bottom: 18px;
-            padding: 8px 0;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            padding: 8px 4px;
         }
         .tierlist-topbar h1 {
             margin: 0;
             color: #f3f3f3;
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            max-width: 760px;
+            font-size: clamp(1.5rem, 2.8vw, 2.65rem);
             line-height: 1.2;
-            letter-spacing: 2px;
+            letter-spacing: .04em;
             text-transform: uppercase;
-            text-align: center;
-            text-shadow: 0 0 14px rgba(255, 42, 42, 0.18);
+            text-align: left;
+            text-shadow: 0 0 24px rgba(255, 42, 42, 0.2);
+        }
+        .tierlist-topbar::after {
+            content: 'DBD / KILLER ARCHIVE';
+            color: #747784;
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            white-space: nowrap;
         }
         .tierlist-subtabs {
             display: flex;
-            gap: 12px;
-            margin-bottom: 18px;
+            gap: 6px;
+            width: fit-content;
+            margin-bottom: 20px;
+            padding: 5px;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 12px;
+            background: rgba(8, 9, 14, .7);
         }
         .tierlist-subtab-btn {
-            flex: 1;
-            background: rgba(18, 18, 24, 0.9);
-            border: 1px solid var(--border-color);
+            min-width: 180px;
+            background: transparent;
+            border: 1px solid transparent;
             color: var(--text-muted);
             cursor: pointer;
-            padding: 12px 18px;
-            font-size: 0.9rem;
+            padding: 11px 18px;
+            font-size: 0.78rem;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: .12em;
             text-transform: uppercase;
             border-radius: 8px;
             transition: all 0.2s ease;
         }
         .tierlist-subtab-btn.active {
-            background: linear-gradient(135deg, rgba(255, 42, 42, 0.14), rgba(255, 130, 58, 0.09));
+            background: linear-gradient(135deg, #f22929, #b91323);
             border-color: rgba(255, 80, 80, 0.6);
             color: #fff;
-            box-shadow: 0 0 18px rgba(255, 42, 42, 0.12);
+            box-shadow: 0 8px 22px rgba(211, 22, 39, .22);
         }
         .tier-panel {
             display: none;
@@ -943,14 +962,16 @@
             display: block;
         }
         .tierlist-box {
-            border: 1px solid #262a30;
-            background: rgba(11, 15, 21, 0.9);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 16px;
+            background: rgba(7, 8, 12, .72);
+            box-shadow: 0 22px 60px rgba(0,0,0,.25);
             overflow: hidden;
         }
         .tier-row {
             display: grid;
-            grid-template-columns: 72px minmax(0, 1fr);
-            min-height: 116px;
+            grid-template-columns: 104px minmax(0, 1fr);
+            min-height: 164px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .tier-row:last-child {
@@ -960,47 +981,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-size: clamp(2.5rem, 4vw, 4rem);
             font-weight: 900;
             color: #fff;
             line-height: 1;
             text-shadow: 0 0 18px rgba(255,255,255,0.12);
         }
-        .tier-s .tier-letter { background: linear-gradient(180deg, #ea1c1c, #b30000); }
-        .tier-a .tier-letter { background: linear-gradient(180deg, #f5432b, #db2e18); }
-        .tier-b .tier-letter { background: linear-gradient(180deg, #ff6a00, #ef4b00); }
-        .tier-c .tier-letter { background: linear-gradient(180deg, #ffb000, #f39200); }
-        .tier-d .tier-letter { background: linear-gradient(180deg, #ffc926, #e89a00); }
+        .tier-s .tier-letter { background: linear-gradient(180deg, #ff3038, #c80d23); }
+        .tier-a .tier-letter { background: linear-gradient(180deg, #ff5838, #e2341f); }
+        .tier-b .tier-letter { background: linear-gradient(180deg, #ff8610, #ef5700); }
+        .tier-c .tier-letter { background: linear-gradient(180deg, #ffc21b, #ed9d00); }
+        .tier-d .tier-letter { background: linear-gradient(180deg, #ffd34c, #e8ad2e); }
         .tier-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.08);
+            grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.16);
         }
         .killer-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 110px;
-            padding: 8px 6px;
-            background: rgba(0, 0, 0, 0.12);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 5px;
+            min-height: 140px;
+            padding: 10px 7px;
+            background: linear-gradient(180deg, rgba(31,32,40,.76), rgba(13,14,19,.9));
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 9px;
+            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+        }
+        .killer-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 92, 92, .65);
+            box-shadow: 0 12px 24px rgba(0,0,0,.28);
         }
         .killer-card img {
-            width: 74px;
-            height: 74px;
+            width: 92px;
+            height: 92px;
             object-fit: cover;
             border-radius: 4px;
             background: #090c10;
             border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.3);
         }
         .killer-card span {
-            margin-top: 7px;
-            font-size: 0.72rem;
+            margin-top: 9px;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #ececf1;
             text-align: center;
@@ -1022,14 +1049,27 @@
         }
 
         .custom-tier-toolbar {
+            position: relative;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 14px;
-            padding: 10px;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            background: rgba(18, 20, 26, 0.8);
+            gap: 12px;
+            margin-bottom: 18px;
+            padding: 28px 14px 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            background: linear-gradient(145deg, rgba(27, 29, 39, .94), rgba(12, 13, 19, .94));
+            box-shadow: 0 16px 34px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.04);
+        }
+
+        .custom-tier-toolbar::before {
+            content: 'CUSTOM TIER BUILDER';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: #8f94a4;
+            font-size: .62rem;
+            font-weight: 800;
+            letter-spacing: .18em;
         }
 
         .custom-tier-summary {
@@ -1037,15 +1077,10 @@
         }
 
         .custom-tier-controls {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 8px;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 8px;
-            background: rgba(10, 12, 16, 0.76);
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            gap: 10px;
+            padding: 0;
         }
 
         .custom-tier-add,
@@ -1057,19 +1092,73 @@
             width: 100%;
         }
 
+        .custom-tier-add {
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 9px;
+            background: rgba(5, 6, 10, .48);
+        }
+
+        .custom-tier-actions {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-content: stretch;
+        }
+
         .custom-tier-controls select {
             flex: 1 1 180px;
             min-width: 120px;
-            padding: 8px 9px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: #0f1218;
+            min-height: 38px;
+            padding: 8px 11px;
+            border-radius: 7px;
+            border: 1px solid rgba(255,255,255,.12);
+            background: #10121a;
             color: #fff;
         }
 
+        .custom-tier-add .btn-action {
+            min-height: 38px;
+            flex: 0 0 116px;
+            border-color: rgba(255, 72, 72, .42);
+            background: linear-gradient(135deg, #e72a34, #9c1525);
+            box-shadow: 0 8px 18px rgba(185, 22, 39, .18);
+        }
+
+        .custom-tier-add .btn-action:hover {
+            border-color: #ff7a7a;
+        }
+
+        .custom-tier-actions .btn-action {
+            min-height: 54px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(255,255,255,.045);
+            font-size: .72rem;
+        }
+
+        .custom-tier-actions .btn-action:last-child {
+            border-color: rgba(255, 98, 98, .52);
+            color: #ffd9d9;
+            background: linear-gradient(135deg, rgba(220, 38, 54, .26), rgba(104, 17, 30, .3));
+        }
+
         .custom-killer-card {
-            min-height: 118px;
-            padding: 8px 6px;
+            min-height: 190px;
+            padding: 10px 8px 8px;
+            justify-content: flex-start;
+        }
+
+        .custom-killer-card img {
+            width: 82px;
+            height: 82px;
+        }
+
+        .custom-killer-card > span {
+            width: 100%;
+            margin-top: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .custom-tier-row-head {
@@ -1079,9 +1168,30 @@
         .custom-killer-actions {
             width: 100%;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-columns: minmax(0, 1fr) 62px;
             gap: 6px;
-            margin-top: 6px;
+            margin-top: auto;
+            padding-top: 8px;
+        }
+
+        .custom-killer-tier-control {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 0;
+            padding: 3px 5px;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 6px;
+            background: rgba(0,0,0,.24);
+        }
+
+        .custom-killer-tier-control span {
+            min-width: auto;
+            margin: 0;
+            color: #9da2b0;
+            font-size: .55rem;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .custom-killer-actions select,
@@ -1095,8 +1205,20 @@
             font-size: 0.66rem;
         }
 
+        .custom-killer-tier-control select {
+            flex: 1;
+            min-width: 34px;
+            padding: 4px 3px;
+            border: 0;
+            background: transparent;
+            font-weight: 800;
+            color: #fff;
+        }
+
         .custom-killer-remove {
-            min-width: 78px;
+            min-width: 0;
+            padding-left: 4px;
+            padding-right: 4px;
             background: linear-gradient(180deg, rgba(255, 55, 55, 0.18), rgba(180, 20, 20, 0.22));
             border-color: rgba(255, 90, 90, 0.4);
             font-weight: 700;
@@ -1112,7 +1234,7 @@
         }
 
         @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } }
+        @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } .tierlist-topbar { align-items: flex-start; flex-direction: column; gap: 8px; } .tierlist-topbar::after { font-size: .6rem; } .tierlist-subtabs { width: 100%; } .tierlist-subtab-btn { min-width: 0; } .tier-row { grid-template-columns: 58px minmax(0, 1fr); } .tier-content { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; padding: 10px; } .killer-card img { width: 68px; height: 68px; } .custom-tier-controls { grid-template-columns: 1fr; } .custom-tier-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); } .custom-tier-actions .btn-action { min-height: 48px; padding: 7px 5px; font-size: .64rem; } }
 
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
@@ -1969,7 +2091,10 @@
                         ${imagePath ? `<img src="${imagePath}" alt="${name}" loading="lazy">` : `<div class="tier-empty">${currentLang === 'en' ? 'No image' : 'Нет изображения'}</div>`}
                         <span>${name}</span>
                         <div class="custom-killer-actions">
-                            <select class="custom-tier-move-select" data-name="${item.name}">${moveOptions}</select>
+                            <label class="custom-killer-tier-control">
+                                <span>Перенести в</span>
+                                <select class="custom-tier-move-select" data-name="${item.name}" aria-label="Перенести ${name} в ранг">${moveOptions}</select>
+                            </label>
                             <button class="custom-killer-remove" data-name="${item.name}">${removeText}</button>
                         </div>
                     </div>
@@ -2021,22 +2146,35 @@
             const rowHeight = 198;
             const totalHeight = top + rows.length * rowHeight + 22;
             const tierColors = { S: '#e11818', A: '#f64b30', B: '#ff7b00', C: '#f7b100', D: '#f6ca45' };
-            const imageEntries = await Promise.all(rows.flatMap((tier) =>
-                tierlistData.custom[tier].map(async (item) => ({
-                    item,
-                    dataUrl: await loadAssetDataUrl(item.file)
-                }))
-            ));
-            const imageByItem = new Map(imageEntries.map((entry) => [entry.item, entry.dataUrl]));
-            const svgParts = [
-                `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth * 2}" height="${totalHeight * 2}" viewBox="0 0 ${totalWidth} ${totalHeight}">`,
-                '<rect width="100%" height="100%" fill="#171722" />'
-            ];
+            const imageEntries = await Promise.all(rows.flatMap((tier) => tierlistData.custom[tier].map(async (item) => ({
+                item,
+                image: await new Promise((resolve, reject) => {
+                    loadAssetDataUrl(item.file).then((dataUrl) => {
+                        const image = new Image();
+                        image.onload = () => resolve(image);
+                        image.onerror = () => reject(new Error('Image decoding failed'));
+                        image.src = dataUrl;
+                    }).catch(reject);
+                })
+            }))));
+            const imageByItem = new Map(imageEntries.map((entry) => [entry.item, entry.image]));
+            const canvas = document.createElement('canvas');
+            canvas.width = totalWidth * 2;
+            canvas.height = totalHeight * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(2, 2);
+            ctx.fillStyle = '#171722';
+            ctx.fillRect(0, 0, totalWidth, totalHeight);
             for (const [rowIndex, tier] of rows.entries()) {
                 const tierEntries = tierlistData.custom[tier];
                 const rowY = top + rowIndex * rowHeight;
-                svgParts.push(`<rect x="0" y="${rowY}" width="${leftLabel}" height="${rowHeight - 3}" fill="${tierColors[tier]}" />`);
-                svgParts.push(`<text x="${leftLabel / 2}" y="${rowY + rowHeight / 2 + 14}" fill="#fff" font-family="Segoe UI, sans-serif" font-size="42" font-weight="700" text-anchor="middle">${tier}</text>`);
+                ctx.fillStyle = tierColors[tier];
+                ctx.fillRect(0, rowY, leftLabel, rowHeight - 3);
+                ctx.fillStyle = '#fff';
+                ctx.font = '700 42px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(tier, leftLabel / 2, rowY + rowHeight / 2);
 
                 const contentWidth = tierEntries.length * (cardWidth + gap) - gap;
                 const startX = leftLabel + 20 + (maxInRow * (cardWidth + gap) - contentWidth) / 2;
@@ -2044,29 +2182,33 @@
                 for (const [index, item] of tierEntries.entries()) {
                     const x = startX + index * (cardWidth + gap);
                     const y = rowY + 18;
-                    svgParts.push(`<rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" fill="#111116" stroke="#252530" />`);
-                    const dataUrl = imageByItem.get(item);
-                    if (dataUrl) {
-                        svgParts.push(`<image href="${dataUrl}" x="${x + 1}" y="${y + 1}" width="${cardWidth - 2}" height="140" preserveAspectRatio="xMidYMid slice" />`);
+                    ctx.fillStyle = '#111116';
+                    ctx.fillRect(x, y, cardWidth, cardHeight);
+                    ctx.strokeStyle = '#252530';
+                    ctx.strokeRect(x, y, cardWidth, cardHeight);
+                    const image = imageByItem.get(item);
+                    if (image) {
+                        const imageHeight = 140;
+                        const scale = Math.max((cardWidth - 2) / image.width, imageHeight / image.height);
+                        const imageWidth = image.width * scale;
+                        const drawnHeight = image.height * scale;
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.rect(x + 1, y + 1, cardWidth - 2, imageHeight);
+                        ctx.clip();
+                        ctx.drawImage(image, x + (cardWidth - imageWidth) / 2, y + 1 + (imageHeight - drawnHeight) / 2, imageWidth, drawnHeight);
+                        ctx.restore();
                     }
                     const label = getLocalizedKillerName(item.name || '').length > 14
                         ? `${getLocalizedKillerName(item.name || '').slice(0, 14)}…`
                         : getLocalizedKillerName(item.name || '');
-                    svgParts.push(`<text x="${x + cardWidth / 2}" y="${y + cardHeight - 17}" fill="#ededf0" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">${escapeSvgText(label)}</text>`);
+                    ctx.fillStyle = '#ededf0';
+                    ctx.font = '600 13px Segoe UI';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(label, x + cardWidth / 2, y + cardHeight - 17);
                 }
             }
-
-            svgParts.push('</svg>');
-            const image = new Image();
-            image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgParts.join(''))}`;
-            await new Promise((resolve, reject) => {
-                image.onload = resolve;
-                image.onerror = () => reject(new Error('Tier-list SVG rendering failed'));
-            });
-            const canvas = document.createElement('canvas');
-            canvas.width = totalWidth * 2;
-            canvas.height = totalHeight * 2;
-            canvas.getContext('2d').drawImage(image, 0, 0);
             return canvas;
         }
 
@@ -2080,6 +2222,73 @@
             requestAnimationFrame(() => {
                 link.remove();
             });
+        }
+
+        function getTierlistExportPayload() {
+            return {
+                app: 'DBD-TIERLIST',
+                version: 1,
+                savedAt: new Date().toISOString(),
+                tiers: Object.fromEntries(['S', 'A', 'B', 'C', 'D'].map((tier) => [
+                    tier,
+                    tierlistData.custom[tier].map(({ name, file }) => ({ name, file }))
+                ]))
+            };
+        }
+
+        async function embedTierlistMetadata(webpBlob, payload) {
+            const source = new Uint8Array(await webpBlob.arrayBuffer());
+            if (source.length < 12 || new TextDecoder().decode(source.slice(0, 4)) !== 'RIFF' || new TextDecoder().decode(source.slice(8, 12)) !== 'WEBP') {
+                return webpBlob;
+            }
+
+            const metadata = new TextEncoder().encode(JSON.stringify(payload));
+            const paddedSize = metadata.length + (metadata.length % 2);
+            const chunk = new Uint8Array(8 + paddedSize);
+            chunk.set(new TextEncoder().encode('DBDT'), 0);
+            new DataView(chunk.buffer).setUint32(4, metadata.length, true);
+            chunk.set(metadata, 8);
+
+            const result = new Uint8Array(source.length + chunk.length);
+            result.set(source, 0);
+            result.set(chunk, source.length);
+            new DataView(result.buffer).setUint32(4, result.length - 8, true);
+            return new Blob([result], { type: 'image/webp' });
+        }
+
+        async function readTierlistMetadata(file) {
+            const source = new Uint8Array(await file.arrayBuffer());
+            if (source.length < 12 || new TextDecoder().decode(source.slice(0, 4)) !== 'RIFF' || new TextDecoder().decode(source.slice(8, 12)) !== 'WEBP') {
+                throw new Error('Not a WebP file');
+            }
+
+            const decoder = new TextDecoder();
+            for (let offset = 12; offset + 8 <= source.length;) {
+                const chunkName = decoder.decode(source.slice(offset, offset + 4));
+                const chunkSize = new DataView(source.buffer, source.byteOffset + offset + 4, 4).getUint32(0, true);
+                if (chunkName === 'DBDT') {
+                    const data = source.slice(offset + 8, offset + 8 + chunkSize);
+                    return JSON.parse(decoder.decode(data));
+                }
+                offset += 8 + chunkSize + (chunkSize % 2);
+            }
+            throw new Error('Tier-list metadata not found');
+        }
+
+        function applyImportedTierlist(imported) {
+            if (imported.app !== 'DBD-TIERLIST' || !imported.tiers) {
+                throw new Error('Invalid tier-list file');
+            }
+            const available = new Map(getTierlistEntries().map((item) => [item.name, item]));
+            ['S', 'A', 'B', 'C', 'D'].forEach((tier) => {
+                const entries = Array.isArray(imported.tiers[tier]) ? imported.tiers[tier] : [];
+                tierlistData.custom[tier] = entries
+                    .map((entry) => available.get(entry.name))
+                    .filter(Boolean)
+                    .map((entry) => ({ name: entry.name, file: entry.file }));
+            });
+            saveSessionState();
+            renderTierListPanels();
         }
 
         function bindCustomTierControls() {
@@ -2126,6 +2335,27 @@
                     });
                     saveSessionState();
                     renderTierListPanels();
+                });
+            }
+
+            const importJsonBtn = document.getElementById('custom-tier-import-json');
+            const importJsonFile = document.getElementById('custom-tier-import-file');
+            if (importJsonBtn && importJsonFile) {
+                importJsonBtn.addEventListener('click', () => importJsonFile.click());
+                importJsonFile.addEventListener('change', () => {
+                    const file = importJsonFile.files?.[0];
+                    if (!file) return;
+                    const isWebp = file.type === 'image/webp' || file.name.toLowerCase().endsWith('.webp');
+                    const importPromise = isWebp
+                        ? readTierlistMetadata(file)
+                        : file.text().then((text) => JSON.parse(text));
+                    importPromise.then((imported) => {
+                        applyImportedTierlist(imported);
+                    }).catch(() => {
+                        window.alert(currentLang === 'en' ? 'This tier-list file is invalid or has no embedded data.' : 'Файл тир-листа неверный или не содержит встроенных данных.');
+                    }).finally(() => {
+                        importJsonFile.value = '';
+                    });
                 });
             }
 
@@ -2192,7 +2422,12 @@
                         triggerDownload(pngUrl, 'custom-tierlist.png');
                         return;
                     }
-                    const url = URL.createObjectURL(blob);
+                    let downloadableWebp = blob;
+                    try {
+                        downloadableWebp = await embedTierlistMetadata(blob, getTierlistExportPayload());
+                    } catch (metadataError) {
+                    }
+                    const url = URL.createObjectURL(downloadableWebp);
                     triggerDownload(url, 'custom-tierlist.webp');
                     setTimeout(() => URL.revokeObjectURL(url), 1000);
                     return;
@@ -2255,7 +2490,9 @@
                         <div class="custom-tier-actions">
                             <button class="btn-action" id="custom-tier-load-current">${loadCurrentText}</button>
                             <button class="btn-action" id="custom-tier-reset">${resetText}</button>
+                            <button class="btn-action" id="custom-tier-import-json">Импорт WebP</button>
                             <button class="btn-action" id="custom-tier-export-html">${exportWebpText}</button>
+                            <input type="file" id="custom-tier-import-file" accept="application/json,image/webp,.webp" hidden>
                         </div>
                     </div>
                 </div>
