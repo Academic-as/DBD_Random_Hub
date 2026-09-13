@@ -1168,8 +1168,8 @@
         .custom-killer-actions {
             width: 100%;
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 62px;
-            gap: 6px;
+            grid-template-columns: minmax(0, 1fr) 34px;
+            gap: 5px;
             margin-top: auto;
             padding-top: 8px;
         }
@@ -1177,19 +1177,19 @@
         .custom-killer-tier-control {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             min-width: 0;
-            padding: 3px 5px;
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 6px;
-            background: rgba(0,0,0,.24);
+            padding: 2px 5px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 7px;
+            background: rgba(255,255,255,.045);
         }
 
         .custom-killer-tier-control span {
             min-width: auto;
             margin: 0;
-            color: #9da2b0;
-            font-size: .55rem;
+            color: #8d93a2;
+            font-size: .54rem;
             font-weight: 700;
             white-space: nowrap;
         }
@@ -1213,15 +1213,37 @@
             background: transparent;
             font-weight: 800;
             color: #fff;
+            cursor: pointer;
+        }
+
+        @media (min-width: 601px) {
+            .custom-killer-tier-control span {
+                display: none;
+            }
+
+            .custom-killer-tier-control {
+                justify-content: center;
+                padding: 2px;
+            }
+
+            .custom-killer-tier-control select {
+                min-width: 0;
+                text-align: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
         }
 
         .custom-killer-remove {
             min-width: 0;
-            padding-left: 4px;
-            padding-right: 4px;
-            background: linear-gradient(180deg, rgba(255, 55, 55, 0.18), rgba(180, 20, 20, 0.22));
-            border-color: rgba(255, 90, 90, 0.4);
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border-color: rgba(255, 90, 90, 0.48);
+            background: rgba(220, 38, 54, .18);
             font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1;
         }
 
         .custom-killer-remove {
@@ -1230,7 +1252,8 @@
         }
 
         .custom-killer-remove:hover {
-            border-color: rgba(255, 80, 80, 0.8);
+            border-color: #ff8585;
+            background: rgba(220, 38, 54, .42);
         }
 
         @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } }
@@ -2092,10 +2115,10 @@
                         <span>${name}</span>
                         <div class="custom-killer-actions">
                             <label class="custom-killer-tier-control">
-                                <span>Перенести в</span>
-                                <select class="custom-tier-move-select" data-name="${item.name}" aria-label="Перенести ${name} в ранг">${moveOptions}</select>
+                                <span>Ранг</span>
+                                <select class="custom-tier-move-select" data-name="${item.name}" aria-label="Перенести ${name} в ранг" title="Перенести в другой ранг">${moveOptions}</select>
                             </label>
-                            <button class="custom-killer-remove" data-name="${item.name}">${removeText}</button>
+                            <button class="custom-killer-remove" data-name="${item.name}" aria-label="${removeText} ${name}" title="${removeText}"><span aria-hidden="true">&times;</span></button>
                         </div>
                     </div>
                 `;
