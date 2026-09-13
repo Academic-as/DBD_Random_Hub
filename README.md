@@ -42,7 +42,7 @@
 
 ## 🚀 Быстрый запуск
 
-👉 **[Открыть](https://academic-as.github.io/SCP-SL-KEYCARD-GENERATOR/)**
+👉 **[Открыть](https://academic-as.github.io/DBD_Random_Hub/)**
 
 ---
 
