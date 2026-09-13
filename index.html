@@ -886,6 +886,231 @@
         .development-panel { width: 100%; overflow-y: auto; padding: 60px 20px; text-align: center; }
         .development-panel h1 { color: #b58cff; margin-bottom: 12px; letter-spacing: 2px; }
         .development-panel p { color: var(--text-muted); }
+        .tierlist-page {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background: linear-gradient(180deg, rgba(11, 12, 18, 0.96), rgba(7, 8, 12, 0.98));
+        }
+        .tierlist-shell {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 22px 18px 32px;
+        }
+        .tierlist-topbar {
+            margin-bottom: 18px;
+            padding: 8px 0;
+        }
+        .tierlist-topbar h1 {
+            margin: 0;
+            color: #f3f3f3;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            line-height: 1.2;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 14px rgba(255, 42, 42, 0.18);
+        }
+        .tierlist-subtabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .tierlist-subtab-btn {
+            flex: 1;
+            background: rgba(18, 18, 24, 0.9);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 12px 18px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .tierlist-subtab-btn.active {
+            background: linear-gradient(135deg, rgba(255, 42, 42, 0.14), rgba(255, 130, 58, 0.09));
+            border-color: rgba(255, 80, 80, 0.6);
+            color: #fff;
+            box-shadow: 0 0 18px rgba(255, 42, 42, 0.12);
+        }
+        .tier-panel {
+            display: none;
+        }
+        .tier-panel.active {
+            display: block;
+        }
+        .tierlist-box {
+            border: 1px solid #262a30;
+            background: rgba(11, 15, 21, 0.9);
+            overflow: hidden;
+        }
+        .tier-row {
+            display: grid;
+            grid-template-columns: 72px minmax(0, 1fr);
+            min-height: 116px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .tier-row:last-child {
+            border-bottom: none;
+        }
+        .tier-letter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            text-shadow: 0 0 18px rgba(255,255,255,0.12);
+        }
+        .tier-s .tier-letter { background: linear-gradient(180deg, #ea1c1c, #b30000); }
+        .tier-a .tier-letter { background: linear-gradient(180deg, #f5432b, #db2e18); }
+        .tier-b .tier-letter { background: linear-gradient(180deg, #ff6a00, #ef4b00); }
+        .tier-c .tier-letter { background: linear-gradient(180deg, #ffb000, #f39200); }
+        .tier-d .tier-letter { background: linear-gradient(180deg, #ffc926, #e89a00); }
+        .tier-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.08);
+        }
+        .killer-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 110px;
+            padding: 8px 6px;
+            background: rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 5px;
+        }
+        .killer-card img {
+            width: 74px;
+            height: 74px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #090c10;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+        }
+        .killer-card span {
+            margin-top: 7px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #ececf1;
+            text-align: center;
+            line-height: 1.15;
+            min-height: 2.4em;
+        }
+        .tier-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 88px;
+            color: #b5b8c0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px dashed rgba(255,255,255,0.14);
+            border-radius: 6px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .custom-tier-toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            background: rgba(18, 20, 26, 0.8);
+        }
+
+        .custom-tier-summary {
+            display: none;
+        }
+
+        .custom-tier-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            background: rgba(10, 12, 16, 0.76);
+        }
+
+        .custom-tier-add,
+        .custom-tier-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .custom-tier-controls select {
+            flex: 1 1 180px;
+            min-width: 120px;
+            padding: 8px 9px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: #0f1218;
+            color: #fff;
+        }
+
+        .custom-killer-card {
+            min-height: 118px;
+            padding: 8px 6px;
+        }
+
+        .custom-tier-row-head {
+            display: none;
+        }
+
+        .custom-killer-actions {
+            width: 100%;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .custom-killer-actions select,
+        .custom-killer-remove {
+            width: 100%;
+            padding: 6px 7px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0, 0, 0, 0.18);
+            color: #fff;
+            font-size: 0.66rem;
+        }
+
+        .custom-killer-remove {
+            min-width: 78px;
+            background: linear-gradient(180deg, rgba(255, 55, 55, 0.18), rgba(180, 20, 20, 0.22));
+            border-color: rgba(255, 90, 90, 0.4);
+            font-weight: 700;
+        }
+
+        .custom-killer-remove {
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .custom-killer-remove:hover {
+            border-color: rgba(255, 80, 80, 0.8);
+        }
+
         @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } }
 
@@ -902,6 +1127,7 @@
             <button class="tab-btn active" data-tab="home" id="tab-home-btn">Главная</button>
             <button class="tab-btn" data-tab="wheel" id="tab-wheel-btn">Колесо</button>
             <button class="tab-btn" data-tab="escapes" id="tab-escapes-btn">Побег</button>
+            <button class="tab-btn" data-tab="tierlist" id="tab-tierlist-btn">Тир-лист</button>
             <button class="tab-btn" data-tab="challenges" id="tab-challenges-btn">Челленджи</button>
         </div>
         <div class="lang-switcher">
@@ -1064,6 +1290,24 @@
             </div>
         </div>
 
+        <div class="tab-content" id="tierlist-tab">
+            <div class="tierlist-page">
+                <div class="tierlist-shell">
+                    <div class="tierlist-topbar">
+                        <h1 id="tierlist-title">Текущий визуальный тир-лист маньяков</h1>
+                    </div>
+
+                    <div class="tierlist-subtabs">
+                        <button class="tierlist-subtab-btn active" data-tier-subtab="current">Текущий тир-лист</button>
+                        <button class="tierlist-subtab-btn" data-tier-subtab="custom">Свой</button>
+                    </div>
+
+                    <div class="tier-panel active" id="tier-current-panel"></div>
+                    <div class="tier-panel" id="tier-custom-panel"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="tab-content" id="challenges-tab">
             <div class="challenge-content">
                 <nav class="challenge-tabs" aria-label="Вкладки челленджей">
@@ -1134,6 +1378,133 @@
     </div>
 
     <script>
+        const tierlistData = {
+            current: {
+                S: [
+                    { name: 'Кукловод', file: 'Кукловод.png' },
+                    { name: 'Тень', file: 'Тень.png' },
+                    { name: 'Медсестра', file: 'Медсестра.png' }
+                ],
+                A: [
+                    { name: 'Слэшер', file: 'Слэшер.png' },
+                    { name: 'Мор', file: 'Мор.png' },
+                    { name: 'Темный Лорд', file: 'Темный лорд.png' },
+                    { name: 'Лич', file: 'Лич.png' },
+                    { name: 'Немезис', file: 'Немезис.png' },
+                    { name: 'Охотница', file: 'Охотница.png' },
+                    { name: 'Каннибал', file: 'Канибал.png' },
+                    { name: 'Палач', file: 'Палач.png' },
+                    { name: 'Один', file: 'Один.webp' },
+                    { name: 'Деревенщина', file: 'Деревенщина.png' }
+                ],
+                B: [
+                    { name: 'Они', file: 'Они.png' },
+                    { name: 'Дух', file: 'Дух.png' },
+                    { name: 'Ксеноморф', file: 'Ксеноморф.png' },
+                    { name: 'Правосудие', file: 'Правосудие.webp' },
+                    { name: 'Аниматроник', file: 'Аниматроник.png' },
+                    { name: 'Гоуст Фейс', file: 'Гоуст Фейс.png' },
+                    { name: 'Сингулярность', file: 'Сингулярность.png' },
+                    { name: 'Легион', file: 'Легион.png' },
+                    { name: 'Гуль', file: 'Гуль.png' },
+                    { name: 'Хороший парень', file: 'Хороший парень.png' },
+                    { name: 'Чума', file: 'Чума.png' },
+                    { name: 'Стрелок', file: 'Стрелок.png' }
+                ],
+                C: [
+                    { name: 'Демогоргон', file: 'Демогоргон.png' },
+                    { name: 'Рыцарь', file: 'Рыцарь.png' },
+                    { name: 'Грязь', file: 'Грязь.png' },
+                    { name: 'Призрак', file: 'Призрак.png' },
+                    { name: 'Неведомое', file: 'Неведомаое.png' },
+                    { name: 'Художница', file: 'Художница.png' },
+                    { name: 'Кошмар', file: 'Кошмар.png' },
+                    { name: 'Онрё', file: 'Онрё.png' },
+                    { name: 'Свинья', file: 'Свинья.png' },
+                    { name: 'Клоун', file: 'Клоун.png' }
+                ],
+                D: [
+                    { name: 'Доктор', file: 'Доктор.png' },
+                    { name: 'Сенобит', file: 'Сенобит.png' },
+                    { name: 'Трюкач', file: 'Трюкач.png' },
+                    { name: 'Красу', file: 'Красу.png' },
+                    { name: 'Близнецы', file: 'Близнецы.png' },
+                    { name: 'Егерь', file: 'Егерь.png' },
+                    { name: 'Траппер', file: 'Траппер.png' },
+                    { name: 'Торговка черепами', file: 'Торговка черепами.png' },
+                    { name: 'Ведьма', file: 'Ведьма.png' }
+                ]
+            },
+            custom: {
+                S: [],
+                A: [],
+                B: [],
+                C: [],
+                D: []
+            }
+        };
+
+        const killerNameTranslations = {
+            'Кукловод': 'The Clown',
+            'Тень': 'The Wraith',
+            'Медсестра': 'The Nurse',
+            'Слэшер': 'The Slasher',
+            'Мор': 'The Blight',
+            'Темный Лорд': 'The Dark Lord',
+            'Лич': 'The Lich',
+            'Немезис': 'The Nemesis',
+            'Охотница': 'The Huntress',
+            'Каннибал': 'The Cannibal',
+            'Палач': 'The Executioner',
+            'Один': 'The Oni',
+            'Деревенщина': 'The Hillbilly',
+            'Они': 'The Oni',
+            'Дух': 'The Spirit',
+            'Ксеноморф': 'The Xenomorph',
+            'Правосудие': 'The Executioner',
+            'Аниматроник': 'The Animatronic',
+            'Гоуст Фейс': 'The Ghost Face',
+            'Сингулярность': 'The Singularity',
+            'Легион': 'The Legion',
+            'Гуль': 'The Ghoul',
+            'Хороший парень': 'The Good Guy',
+            'Чума': 'The Plague',
+            'Стрелок': 'The Deathslinger',
+            'Демогоргон': 'The Demogorgon',
+            'Рыцарь': 'The Knight',
+            'Грязь': 'The Dredge',
+            'Призрак': 'The Wraith',
+            'Неведомое': 'The Unknown',
+            'Художница': 'The Artist',
+            'Кошмар': 'The Nightmare',
+            'Онрё': 'The Onryo',
+            'Свинья': 'The Pig',
+            'Клоун': 'The Clown',
+            'Доктор': 'The Doctor',
+            'Сенобит': 'The Cenobite',
+            'Трюкач': 'The Trickster',
+            'Красу': 'The Krasue',
+            'Близнецы': 'The Twins',
+            'Егерь': 'The Deathslinger',
+            'Траппер': 'The Trapper',
+            'Торговка черепами': 'The Skull Merchant',
+            'Ведьма': 'The Hag',
+            'Дредж': 'The Dredge',
+            'Слэшер': 'The Slasher',
+            'Мор': 'The Blight',
+            'Тень': 'The Wraith',
+            'Они': 'The Oni',
+            'Кукловод': 'The Clown'
+        };
+
+        function getLocalizedKillerName(name) {
+            if (!name) return name;
+            if (currentLang === 'en') {
+                return killerNameTranslations[name] || name;
+            }
+            return name;
+        }
+
         const aliases = {
             killers: {
                 "Ксеноморф (Xenomorph)": ["кошка", "кот", "котик", "мяу", "ксеноформ", "чужой", "xenomorph", "xeno", "cat"],
@@ -1196,7 +1567,11 @@
                 tabHome: "Главная",
                 tabWheel: "Колесо",
                 tabEscapes: "Побег",
+                tabTierlist: "Тир-лист",
                 tabChallenges: "Челленджи",
+                tierlistTitle: "Текущий визуальный тир-лист маньяков",
+                tierlistCurrent: "Текущий тир-лист",
+                tierlistCustom: "Свой",
                 homeHeroTitle: "DBD Randomizer & Hub",
                 homeHeroDesc: "Панель для Dead by Daylight: колесо выбора, учет побегов и LUCKY - все в одном месте, с сохранением в рамках текущей сессии и без потери прогресса при переходе между вкладками.",
                 feature1Title: "🎡 Колесо Судьбы",
@@ -1283,7 +1658,11 @@
                 tabHome: "Home",
                 tabWheel: "Wheel",
                 tabEscapes: "Escapes",
+                tabTierlist: "Tier list",
                 tabChallenges: "Challenges",
+                tierlistTitle: "Current visual killer tier list",
+                tierlistCurrent: "Current tier list",
+                tierlistCustom: "Custom",
                 homeHeroTitle: "DBD Randomizer & Hub",
                 homeHeroDesc: "A Dead by Daylight companion for wheel picks, escape tracking, and LUCKY runs - all saved within the current session while you move across tabs.",
                 feature1Title: "🎡 Wheel of Fate",
@@ -1451,6 +1830,440 @@
                 }
             };
             reader.readAsText(file);
+        }
+
+        function buildTierRow(tierName, entries) {
+            const safeEntries = Array.isArray(entries) ? entries : [];
+            const cells = safeEntries.length ? safeEntries.map((item) => {
+                const fileName = String(item.file || '').trim();
+                const imagePath = getImageSource(fileName);
+                const name = getLocalizedKillerName(item.name || 'Unknown');
+                return `
+                    <div class="killer-card">
+                        ${imagePath ? `<img src="${imagePath}" alt="${name}" loading="lazy">` : '<div class="tier-empty">No image</div>'}
+                        <span>${name}</span>
+                    </div>
+                `;
+            }).join('') : '<div class="tier-empty">Пусто</div>';
+
+            return `
+                <div class="tier-row tier-${tierName.toLowerCase()}">
+                    <div class="tier-letter">${tierName}</div>
+                    <div class="tier-content">${cells}</div>
+                </div>
+            `;
+        }
+
+        function getTierOptionsMarkup(selectedTier = 'S') {
+            return ['S', 'A', 'B', 'C', 'D']
+                .map((tier) => `<option value="${tier}" ${selectedTier === tier ? 'selected' : ''}>${tier}</option>`)
+                .join('');
+        }
+
+        function getTierlistEntries() {
+            return Object.values(tierlistData.current).flat();
+        }
+
+        const tierlistImageCache = new Map();
+        let cachedCustomTierExportCanvas = null;
+
+        function getImageSource(fileName) {
+            const safeFileName = String(fileName || '').trim();
+            if (!safeFileName) return '';
+            const normalized = safeFileName.split('/').pop();
+            return `tir-list/${encodeURIComponent(normalized)}`;
+        }
+
+        function loadAssetImage(fileName) {
+            const src = getImageSource(fileName);
+            if (!src) {
+                return Promise.resolve(null);
+            }
+
+            if (tierlistImageCache.has(fileName)) {
+                const cached = tierlistImageCache.get(fileName);
+                return cached instanceof Promise ? cached : Promise.resolve(cached || null);
+            }
+
+            const promise = fetch(new URL(src, document.baseURI).href, { cache: 'no-store' })
+                .then((response) => {
+                    if (!response.ok) throw new Error(`Image request failed: ${response.status}`);
+                    return response.blob();
+                })
+                .then((blob) => new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = () => reject(new Error('Image decoding failed'));
+                        img.src = reader.result;
+                    };
+                    reader.onerror = () => reject(new Error('Image reading failed'));
+                    reader.readAsDataURL(blob);
+                }))
+                .then((image) => {
+                    tierlistImageCache.set(fileName, image);
+                    return image;
+                })
+                .catch(() => {
+                    tierlistImageCache.set(fileName, null);
+                    return null;
+                });
+
+            tierlistImageCache.set(fileName, promise);
+            return promise;
+        }
+
+        function getCachedImage(fileName) {
+            const cached = tierlistImageCache.get(fileName);
+            return cached && !(cached instanceof Promise) ? cached : null;
+        }
+
+        function preloadTierlistAssets() {
+            const assets = [...new Set(getTierlistEntries().map((item) => item.file).filter(Boolean))];
+            assets.forEach((fileName) => {
+                if (!tierlistImageCache.has(fileName)) {
+                    loadAssetImage(fileName);
+                }
+            });
+        }
+
+        function getAvailableCustomKillers() {
+            const usedNames = new Set(
+                ['S', 'A', 'B', 'C', 'D']
+                    .flatMap((tier) => tierlistData.custom[tier].map((item) => item.name))
+            );
+            return getTierlistEntries().filter((item) => !usedNames.has(item.name));
+        }
+
+        function resetCustomTierList() {
+            ['S', 'A', 'B', 'C', 'D'].forEach((tier) => {
+                tierlistData.custom[tier] = [];
+            });
+        }
+
+        function getCustomTierSummary() {
+            const tiers = ['S', 'A', 'B', 'C', 'D'];
+            const total = Object.values(tierlistData.current).flat().length;
+            const used = tiers.reduce((sum, tier) => sum + tierlistData.custom[tier].length, 0);
+            return {
+                used,
+                total,
+                left: total - used,
+                byTier: Object.fromEntries(tiers.map((tier) => [tier, tierlistData.custom[tier].length]))
+            };
+        }
+
+        function buildCustomTierRow(tierName, entries) {
+            const safeEntries = Array.isArray(entries) ? entries : [];
+            const emptyText = currentLang === 'en' ? 'Empty' : 'Пусто';
+            const removeText = currentLang === 'en' ? 'Remove' : 'Удалить';
+            const rankLabel = currentLang === 'en' ? 'Rank' : 'Ранг';
+            const cells = safeEntries.length ? safeEntries.map((item) => {
+                const fileName = String(item.file || '').trim();
+                const imagePath = getImageSource(fileName);
+                const name = getLocalizedKillerName(item.name || 'Unknown');
+                const moveOptions = getTierOptionsMarkup(tierName);
+                return `
+                    <div class="killer-card custom-killer-card">
+                        ${imagePath ? `<img src="${imagePath}" alt="${name}" loading="lazy">` : `<div class="tier-empty">${currentLang === 'en' ? 'No image' : 'Нет изображения'}</div>`}
+                        <span>${name}</span>
+                        <div class="custom-killer-actions">
+                            <select class="custom-tier-move-select" data-name="${item.name}">${moveOptions}</select>
+                            <button class="custom-killer-remove" data-name="${item.name}">${removeText}</button>
+                        </div>
+                    </div>
+                `;
+            }).join('') : `<div class="tier-empty">${emptyText}</div>`;
+
+            return `
+                <div class="tier-row tier-${tierName.toLowerCase()}">
+                    <div class="tier-letter">${tierName}</div>
+                    <div class="tier-content">
+                        ${cells}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadAssetDataUrl(fileName) {
+            const src = getImageSource(fileName);
+            return fetch(new URL(src, document.baseURI).href, { cache: 'no-store' })
+                .then((response) => {
+                    if (!response.ok) throw new Error(`Image request failed: ${response.status}`);
+                    return response.blob();
+                })
+                .then((blob) => new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error('Image reading failed'));
+                    reader.readAsDataURL(blob);
+                }));
+        }
+
+        function escapeSvgText(value) {
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;');
+        }
+
+        async function renderCustomTierExportCanvas() {
+            const rows = ['S', 'A', 'B', 'C', 'D'];
+            const cardWidth = 122;
+            const cardHeight = 176;
+            const gap = 10;
+            const leftLabel = 110;
+            const top = 22;
+            const maxInRow = Math.max(...rows.map((tier) => tierlistData.custom[tier].length), 1);
+            const totalWidth = leftLabel + maxInRow * (cardWidth + gap) + 24;
+            const rowHeight = 198;
+            const totalHeight = top + rows.length * rowHeight + 22;
+            const tierColors = { S: '#e11818', A: '#f64b30', B: '#ff7b00', C: '#f7b100', D: '#f6ca45' };
+            const imageEntries = await Promise.all(rows.flatMap((tier) =>
+                tierlistData.custom[tier].map(async (item) => ({
+                    item,
+                    dataUrl: await loadAssetDataUrl(item.file)
+                }))
+            ));
+            const imageByItem = new Map(imageEntries.map((entry) => [entry.item, entry.dataUrl]));
+            const svgParts = [
+                `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth * 2}" height="${totalHeight * 2}" viewBox="0 0 ${totalWidth} ${totalHeight}">`,
+                '<rect width="100%" height="100%" fill="#171722" />'
+            ];
+            for (const [rowIndex, tier] of rows.entries()) {
+                const tierEntries = tierlistData.custom[tier];
+                const rowY = top + rowIndex * rowHeight;
+                svgParts.push(`<rect x="0" y="${rowY}" width="${leftLabel}" height="${rowHeight - 3}" fill="${tierColors[tier]}" />`);
+                svgParts.push(`<text x="${leftLabel / 2}" y="${rowY + rowHeight / 2 + 14}" fill="#fff" font-family="Segoe UI, sans-serif" font-size="42" font-weight="700" text-anchor="middle">${tier}</text>`);
+
+                const contentWidth = tierEntries.length * (cardWidth + gap) - gap;
+                const startX = leftLabel + 20 + (maxInRow * (cardWidth + gap) - contentWidth) / 2;
+
+                for (const [index, item] of tierEntries.entries()) {
+                    const x = startX + index * (cardWidth + gap);
+                    const y = rowY + 18;
+                    svgParts.push(`<rect x="${x}" y="${y}" width="${cardWidth}" height="${cardHeight}" fill="#111116" stroke="#252530" />`);
+                    const dataUrl = imageByItem.get(item);
+                    if (dataUrl) {
+                        svgParts.push(`<image href="${dataUrl}" x="${x + 1}" y="${y + 1}" width="${cardWidth - 2}" height="140" preserveAspectRatio="xMidYMid slice" />`);
+                    }
+                    const label = getLocalizedKillerName(item.name || '').length > 14
+                        ? `${getLocalizedKillerName(item.name || '').slice(0, 14)}…`
+                        : getLocalizedKillerName(item.name || '');
+                    svgParts.push(`<text x="${x + cardWidth / 2}" y="${y + cardHeight - 17}" fill="#ededf0" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">${escapeSvgText(label)}</text>`);
+                }
+            }
+
+            svgParts.push('</svg>');
+            const image = new Image();
+            image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgParts.join(''))}`;
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = () => reject(new Error('Tier-list SVG rendering failed'));
+            });
+            const canvas = document.createElement('canvas');
+            canvas.width = totalWidth * 2;
+            canvas.height = totalHeight * 2;
+            canvas.getContext('2d').drawImage(image, 0, 0);
+            return canvas;
+        }
+
+        function triggerDownload(href, filename) {
+            const link = document.createElement('a');
+            link.href = href;
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            requestAnimationFrame(() => {
+                link.remove();
+            });
+        }
+
+        function bindCustomTierControls() {
+            document.removeEventListener('click', handleTierExportClick);
+
+            const addBtn = document.getElementById('custom-tier-add-btn');
+            if (addBtn) {
+                addBtn.addEventListener('click', () => {
+                    const select = document.getElementById('custom-tier-killer-select');
+                    const tierSelect = document.getElementById('custom-tier-target');
+                    const killerName = select?.value;
+                    const targetTier = tierSelect?.value;
+                    if (!killerName || !targetTier) return;
+
+                    const alreadyExists = ['S', 'A', 'B', 'C', 'D'].some((tier) =>
+                        tierlistData.custom[tier].some((item) => item.name === killerName)
+                    );
+                    if (alreadyExists) return;
+
+                    const sourceEntry = getTierlistEntries().find((item) => item.name === killerName);
+                    if (!sourceEntry) return;
+
+                    const targetKey = targetTier;
+                    tierlistData.custom[targetKey].push({ name: sourceEntry.name, file: sourceEntry.file });
+                    saveSessionState();
+                    renderTierListPanels();
+                });
+            }
+
+            const resetBtn = document.getElementById('custom-tier-reset');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    ['S', 'A', 'B', 'C', 'D'].forEach((tier) => tierlistData.custom[tier] = []);
+                    saveSessionState();
+                    renderTierListPanels();
+                });
+            }
+
+            const loadCurrentBtn = document.getElementById('custom-tier-load-current');
+            if (loadCurrentBtn) {
+                loadCurrentBtn.addEventListener('click', () => {
+                    ['S', 'A', 'B', 'C', 'D'].forEach((tier) => {
+                        tierlistData.custom[tier] = [...tierlistData.current[tier]];
+                    });
+                    saveSessionState();
+                    renderTierListPanels();
+                });
+            }
+
+            const exportHtmlBtn = document.getElementById('custom-tier-export-html');
+            if (exportHtmlBtn) {
+                exportHtmlBtn.onclick = (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    exportCustomTierImage('webp');
+                };
+            }
+
+            document.querySelectorAll('.custom-tier-move-select').forEach((select) => {
+                select.addEventListener('change', (event) => {
+                    const targetTier = event.target.value;
+                    const name = event.target.dataset.name;
+                    const currentTier = ['S', 'A', 'B', 'C', 'D'].find((tier) => tierlistData.custom[tier].some((item) => item.name === name));
+                    if (!currentTier) return;
+                    tierlistData.custom[currentTier] = tierlistData.custom[currentTier].filter((item) => item.name !== name);
+                    const entry = getTierlistEntries().find((item) => item.name === name);
+                    if (entry) {
+                        tierlistData.custom[targetTier].push({ name: entry.name, file: entry.file });
+                    }
+                    saveSessionState();
+                    renderTierListPanels();
+                });
+            });
+
+            document.querySelectorAll('.custom-killer-remove').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const name = button.dataset.name;
+                    const targetTier = ['S', 'A', 'B', 'C', 'D'].find((tier) => tierlistData.custom[tier].some((item) => item.name === name));
+                    if (!targetTier) return;
+                    tierlistData.custom[targetTier] = tierlistData.custom[targetTier].filter((item) => item.name !== name);
+                    saveSessionState();
+                    renderTierListPanels();
+                });
+            });
+        }
+
+        function refreshCustomTierExportCache() {
+            cachedCustomTierExportCanvas = null;
+            const hasEntries = ['S', 'A', 'B', 'C', 'D'].some((tier) => tierlistData.custom[tier].length > 0);
+            if (!hasEntries) {
+                return;
+            }
+
+            renderCustomTierExportCanvas().then((canvas) => {
+                cachedCustomTierExportCanvas = canvas;
+            }).catch(() => {
+                cachedCustomTierExportCanvas = null;
+            });
+        }
+
+        async function exportCustomTierImage(type) {
+            try {
+                const canvas = await renderCustomTierExportCanvas();
+                cachedCustomTierExportCanvas = canvas;
+
+                if (type === 'webp') {
+                    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.92));
+                    if (!blob) {
+                        const pngUrl = canvas.toDataURL('image/png');
+                        triggerDownload(pngUrl, 'custom-tierlist.png');
+                        return;
+                    }
+                    const url = URL.createObjectURL(blob);
+                    triggerDownload(url, 'custom-tierlist.webp');
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    return;
+                }
+
+                const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) {
+                    triggerDownload(canvas.toDataURL('image/png'), 'custom-tierlist.png');
+                    return;
+                }
+                const url = URL.createObjectURL(blob);
+                triggerDownload(url, 'custom-tierlist.png');
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            } catch (error) {
+                window.alert(currentLang === 'en'
+                    ? `The tier list could not be downloaded: ${error.message || error}`
+                    : `Не удалось скачать тир-лист: ${error.message || error}`);
+            }
+        }
+
+        async function handleTierExportClick(event) {
+            if (!event || !event.target || !event.target.closest) return;
+            const webpTarget = event.target.closest('#custom-tier-export-html');
+            if (webpTarget) {
+                event.preventDefault();
+                event.stopPropagation();
+                await exportCustomTierImage('webp');
+                return;
+            }
+
+        }
+
+        function renderTierListPanels() {
+            const currentPanel = document.getElementById('tier-current-panel');
+            const customPanel = document.getElementById('tier-custom-panel');
+
+            currentPanel.innerHTML = '<div class="tierlist-box">' + ['S', 'A', 'B', 'C', 'D'].map((tier) => buildTierRow(tier, tierlistData.current[tier])).join('') + '</div>';
+
+            const available = getAvailableCustomKillers();
+            const allAddedText = currentLang === 'en' ? 'All killers added' : 'Все маньяки добавлены';
+            const addText = currentLang === 'en' ? 'Add' : 'Добавить';
+            const loadCurrentText = currentLang === 'en' ? 'Load current' : 'Загрузить текущий';
+            const resetText = currentLang === 'en' ? 'Reset' : 'Сбросить';
+            const exportWebpText = currentLang === 'en' ? 'Download WebP' : 'Скачать webp';
+            const exportPngText = currentLang === 'en' ? 'Download PNG' : 'Скачать PNG';
+            const options = available.length
+                ? available.map((item) => `<option value="${item.name}">${getLocalizedKillerName(item.name)}</option>`).join('')
+                : `<option value="">${allAddedText}</option>`;
+
+            customPanel.innerHTML = `
+                <div class="custom-tier-toolbar">
+                    <div class="custom-tier-controls">
+                        <div class="custom-tier-add">
+                            <select id="custom-tier-killer-select" ${available.length ? '' : 'disabled'}>
+                                ${options}
+                            </select>
+                            <select id="custom-tier-target">${getTierOptionsMarkup('S')}</select>
+                            <button class="btn-action" id="custom-tier-add-btn" ${available.length ? '' : 'disabled'}>${addText}</button>
+                        </div>
+                        <div class="custom-tier-actions">
+                            <button class="btn-action" id="custom-tier-load-current">${loadCurrentText}</button>
+                            <button class="btn-action" id="custom-tier-reset">${resetText}</button>
+                            <button class="btn-action" id="custom-tier-export-html">${exportWebpText}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tierlist-box">${['S', 'A', 'B', 'C', 'D'].map((tier) => buildCustomTierRow(tier, tierlistData.custom[tier])).join('')}</div>
+            `;
+
+            bindCustomTierControls();
+            refreshCustomTierExportCache();
         }
 
         function renderLuckyKillers(filter = '') {
@@ -2140,6 +2953,15 @@
                     killers: [...selectedIndicesByMode.killers],
                     survivors: [...selectedIndicesByMode.survivors]
                 },
+                tierlistData: {
+                    custom: {
+                        S: [...tierlistData.custom.S],
+                        A: [...tierlistData.custom.A],
+                        B: [...tierlistData.custom.B],
+                        C: [...tierlistData.custom.C],
+                        D: [...tierlistData.custom.D]
+                    }
+                },
                 temporarilyExcludedIndex,
                 removeWinnerToggle: removeWinnerToggle.checked,
                 luckySelectedKillers,
@@ -2187,6 +3009,11 @@
                 }
                 selectedIndices = getSavedSelection(currentMode);
                 if (state.temporarilyExcludedIndex !== undefined) temporarilyExcludedIndex = state.temporarilyExcludedIndex;
+                if (state.tierlistData && state.tierlistData.custom) {
+                    ['S', 'A', 'B', 'C', 'D'].forEach((tier) => {
+                        tierlistData.custom[tier] = Array.isArray(state.tierlistData.custom[tier]) ? [...state.tierlistData.custom[tier]] : [];
+                    });
+                }
                 if (state.removeWinnerToggle !== undefined) removeWinnerToggle.checked = Boolean(state.removeWinnerToggle);
                 if (Array.isArray(state.luckySelectedKillers)) luckySelectedKillers = state.luckySelectedKillers;
                 if (state.escapeTracker) {
@@ -2225,7 +3052,11 @@
             document.getElementById('tab-home-btn').textContent = i18n[lang].tabHome;
             document.getElementById('tab-wheel-btn').textContent = i18n[lang].tabWheel;
             document.getElementById('tab-escapes-btn').textContent = i18n[lang].tabEscapes;
+            document.getElementById('tab-tierlist-btn').textContent = i18n[lang].tabTierlist;
             document.getElementById('tab-challenges-btn').textContent = i18n[lang].tabChallenges;
+            document.getElementById('tierlist-title').textContent = i18n[lang].tierlistTitle;
+            document.querySelectorAll('.tierlist-subtab-btn')[0].textContent = i18n[lang].tierlistCurrent;
+            document.querySelectorAll('.tierlist-subtab-btn')[1].textContent = i18n[lang].tierlistCustom;
             document.querySelector('[data-challenge-tab="development"]').textContent = lang === 'en' ? 'In development' : 'В разработке';
             document.getElementById('download-escape-stats').textContent = lang === 'en' ? 'Download all stats' : 'Скачать все показатели';
             document.querySelectorAll('.download-btn').forEach(button => {
@@ -2275,6 +3106,7 @@
 
             renderEntityList(searchInput.value);
             renderLuckyKillers(document.getElementById('lucky-killer-search').value);
+            renderTierListPanels();
             drawMainWheel();
         }
 
@@ -2361,6 +3193,16 @@
                 document.querySelectorAll('.challenge-tab-panel').forEach(panel => panel.classList.remove('active'));
                 btn.classList.add('active');
                 document.getElementById(`${challengeTab}-challenge-panel`).classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.tierlist-subtab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tierSubtab;
+                document.querySelectorAll('.tierlist-subtab-btn').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tier-panel').forEach(panel => panel.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(target === 'current' ? 'tier-current-panel' : 'tier-custom-panel').classList.add('active');
             });
         });
 
@@ -2594,6 +3436,7 @@
 
         initMode(currentMode, !sessionStateWasRecovered);
         renderEscapeTracker();
+        renderTierListPanels();
         renderLuckyKillers(document.getElementById('lucky-killer-search')?.value || '');
         drawLuckyWheel('currency');
         drawLuckyWheel('modifier');
