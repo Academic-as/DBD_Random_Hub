@@ -1028,6 +1028,32 @@
         .tier-panel.active {
             display: block;
         }
+        .tierlist-guide {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .tierlist-guide-item {
+            min-height: 86px;
+            padding: 12px 13px;
+            border: 1px solid rgba(255,255,255,.09);
+            border-left: 4px solid var(--tier-guide-color);
+            border-radius: 8px;
+            background: rgba(7, 8, 12, .58);
+        }
+        .tierlist-guide-item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--tier-guide-color);
+            font-size: 1rem;
+        }
+        .tierlist-guide-item span {
+            display: block;
+            color: #c4c6ce;
+            font-size: .78rem;
+            line-height: 1.35;
+        }
         .tierlist-box {
             border: 1px solid rgba(255,255,255,.1);
             border-radius: 16px;
@@ -1148,6 +1174,22 @@
             flex-direction: column;
             gap: 10px;
             padding: 0;
+        }
+
+        .custom-tier-title-input {
+            width: 100%;
+            padding: 11px 12px;
+            background: #111218;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 7px;
+            color: #fff;
+            font-size: .95rem;
+            outline: none;
+        }
+
+        .custom-tier-title-input:focus {
+            border-color: rgba(255, 92, 92, .7);
+            box-shadow: 0 0 0 2px rgba(255, 42, 42, .12);
         }
 
         .custom-tier-add,
@@ -1533,8 +1575,8 @@
             background: rgba(220, 38, 54, .42);
         }
 
-        @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } .tierlist-topbar { align-items: flex-start; flex-direction: column; gap: 8px; } .tierlist-topbar::after { font-size: .6rem; } .tierlist-subtabs { width: 100%; } .tierlist-subtab-btn { min-width: 0; } .tier-row { grid-template-columns: 58px minmax(0, 1fr); } .tier-content { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; padding: 10px; } .killer-card img { width: 68px; height: 68px; } .custom-tier-controls { grid-template-columns: 1fr; } .custom-tier-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); } .custom-tier-actions .btn-action { min-height: 48px; padding: 7px 5px; font-size: .64rem; } }
+        @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } .tierlist-guide { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } .tierlist-topbar { align-items: flex-start; flex-direction: column; gap: 8px; } .tierlist-topbar::after { font-size: .6rem; } .tierlist-subtabs { width: 100%; } .tierlist-subtab-btn { min-width: 0; } .tierlist-guide { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tierlist-guide-item { min-height: 0; padding: 10px; } .tierlist-guide-item span { font-size: .72rem; } .tier-row { grid-template-columns: 58px minmax(0, 1fr); } .tier-content { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; padding: 10px; } .killer-card img { width: 68px; height: 68px; } .custom-tier-controls { grid-template-columns: 1fr; } .custom-tier-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); } .custom-tier-actions .btn-action { min-height: 48px; padding: 7px 5px; font-size: .64rem; } }
 
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
@@ -1814,33 +1856,33 @@
             current: {
                 S: [
                     { name: 'Кукловод', file: 'Кукловод.png' },
-                    { name: 'Тень', file: 'Тень.png' },
-                    { name: 'Медсестра', file: 'Медсестра.png' }
+                    { name: 'Медсестра', file: 'Медсестра.png' },
+                    { name: 'Слэшер', file: 'Слэшер.png' }
                 ],
                 A: [
-                    { name: 'Слэшер', file: 'Слэшер.png' },
+                    { name: 'Тень', file: 'Тень.png' },
                     { name: 'Мор', file: 'Мор.png' },
                     { name: 'Темный Лорд', file: 'Темный лорд.png' },
-                    { name: 'Лич', file: 'Лич.png' },
                     { name: 'Немезис', file: 'Немезис.png' },
-                    { name: 'Охотница', file: 'Охотница.png' },
+                    { name: 'Лич', file: 'Лич.png' },
                     { name: 'Каннибал', file: 'Канибал.png' },
-                    { name: 'Палач', file: 'Палач.png' },
+                    { name: 'Они', file: 'Они.png' },
+                    { name: 'Охотница', file: 'Охотница.png' },
+                    { name: 'Деревенщина', file: 'Деревенщина.png' },
                     { name: 'Один', file: 'Один.webp' },
-                    { name: 'Деревенщина', file: 'Деревенщина.png' }
                 ],
                 B: [
-                    { name: 'Они', file: 'Они.png' },
-                    { name: 'Дух', file: 'Дух.png' },
+                    { name: 'Палач', file: 'Палач.png' },
                     { name: 'Ксеноморф', file: 'Ксеноморф.png' },
                     { name: 'Правосудие', file: 'Правосудие.webp' },
+                    { name: 'Дух', file: 'Дух.png' },
                     { name: 'Аниматроник', file: 'Аниматроник.png' },
                     { name: 'Гоуст Фейс', file: 'Гоуст Фейс.png' },
                     { name: 'Сингулярность', file: 'Сингулярность.png' },
                     { name: 'Легион', file: 'Легион.png' },
                     { name: 'Гуль', file: 'Гуль.png' },
-                    { name: 'Хороший парень', file: 'Хороший парень.png' },
                     { name: 'Чума', file: 'Чума.png' },
+                    { name: 'Хороший парень', file: 'Хороший парень.png' },
                     { name: 'Стрелок', file: 'Стрелок.png' }
                 ],
                 C: [
@@ -1856,9 +1898,9 @@
                     { name: 'Клоун', file: 'Клоун.png' }
                 ],
                 D: [
-                    { name: 'Доктор', file: 'Доктор.png' },
-                    { name: 'Сенобит', file: 'Сенобит.png' },
                     { name: 'Трюкач', file: 'Трюкач.png' },
+                    { name: 'Сенобит', file: 'Сенобит.png' },
+                    { name: 'Доктор', file: 'Доктор.png' },
                     { name: 'Красу', file: 'Красу.png' },
                     { name: 'Близнецы', file: 'Близнецы.png' },
                     { name: 'Егерь', file: 'Егерь.png' },
@@ -2004,6 +2046,13 @@
                 tierlistTitle: "Текущий визуальный тир-лист маньяков",
                 tierlistCurrent: "Текущий тир-лист",
                 tierlistSource: "Текущий тир-лист взят с сайта",
+                tierlistGuide: [
+                    ["S", "Элита тир-листа: сильнейшее давление и высокий винрейт."],
+                    ["A", "Очень сильные и стабильные убийцы почти на любой карте."],
+                    ["B", "Надёжные персонажи без явной имбы, но с хорошим потенциалом."],
+                    ["C", "Ситуативные маньяки, которым важны карта и ошибки выживших."],
+                    ["D", "Слабые или заметно устаревшие по текущему балансу персонажи."]
+                ],
                 tierlistCustom: "Свой",
                 homeHeroTitle: "DBD Randomizer & Hub",
                 homeHeroDesc: "Панель для Dead by Daylight: колесо выбора, учет побегов и LUCKY - все в одном месте, с сохранением в рамках текущей сессии и без потери прогресса при переходе между вкладками.",
@@ -2099,6 +2148,13 @@
                 tierlistTitle: "Current visual killer tier list",
                 tierlistCurrent: "Current tier list",
                 tierlistSource: "Current tier list sourced from",
+                tierlistGuide: [
+                    ["S", "The elite tier: exceptional pressure and a high win rate."],
+                    ["A", "Very strong and consistent killers on most maps."],
+                    ["B", "Reliable characters without overpowered tools, but with solid potential."],
+                    ["C", "Situational killers who depend on the map and survivor mistakes."],
+                    ["D", "Weak or noticeably outdated characters in the current balance."]
+                ],
                 tierlistCustom: "Custom",
                 homeHeroTitle: "DBD Randomizer & Hub",
                 homeHeroDesc: "A Dead by Daylight companion for wheel picks, escape tracking, and LUCKY runs - all saved within the current session while you move across tabs.",
@@ -2472,12 +2528,13 @@
             const cardHeight = 176;
             const gap = 10;
             const leftLabel = 110;
-            const top = 22;
+            const top = 64;
             const maxInRow = Math.max(...rows.map((tier) => tierlistData.custom[tier].length), 1);
             const totalWidth = leftLabel + maxInRow * (cardWidth + gap) + 24;
             const rowHeight = 198;
             const totalHeight = top + rows.length * rowHeight + 22;
             const tierColors = { S: '#e11818', A: '#f64b30', B: '#ff7b00', C: '#f7b100', D: '#f6ca45' };
+            const customTitle = String(tierlistData.customTitle || '').trim() || (currentLang === 'en' ? 'My Killer Tier List' : 'Мой тир-лист маньяков');
             const imageEntries = await Promise.all(rows.flatMap((tier) => tierlistData.custom[tier].map(async (item) => ({
                 item,
                 image: await new Promise((resolve, reject) => {
@@ -2497,6 +2554,11 @@
             ctx.scale(2, 2);
             ctx.fillStyle = '#171722';
             ctx.fillRect(0, 0, totalWidth, totalHeight);
+            ctx.fillStyle = '#f3f3f3';
+            ctx.font = '700 27px Segoe UI';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(customTitle, 18, 31, totalWidth - 36);
             for (const [rowIndex, tier] of rows.entries()) {
                 const tierEntries = tierlistData.custom[tier];
                 const rowY = top + rowIndex * rowHeight;
@@ -2561,6 +2623,7 @@
                 app: 'DBD-TIERLIST',
                 version: 1,
                 savedAt: new Date().toISOString(),
+                title: String(tierlistData.customTitle || '').trim(),
                 tiers: Object.fromEntries(['S', 'A', 'B', 'C', 'D'].map((tier) => [
                     tier,
                     tierlistData.custom[tier].map(({ name, file }) => ({ name, file }))
@@ -2619,6 +2682,7 @@
                     .filter(Boolean)
                     .map((entry) => ({ name: entry.name, file: entry.file }));
             });
+                    tierlistData.customTitle = typeof imported.title === 'string' ? imported.title.trim() : '';
             saveSessionState();
             renderTierListPanels();
         }
@@ -2630,6 +2694,15 @@
             let activePointerCard = null;
             let activePointerId = null;
             let activePointerPreview = null;
+
+            const titleInput = document.getElementById('custom-tier-title');
+            if (titleInput) {
+                titleInput.value = tierlistData.customTitle || '';
+                titleInput.addEventListener('input', () => {
+                    tierlistData.customTitle = titleInput.value;
+                    saveSessionState();
+                });
+            }
 
             const moveSelectedEntryToTier = (targetTier) => {
                 if (!selectedCustomTierName) return false;
@@ -2870,16 +2943,25 @@
             const currentPanel = document.getElementById('tier-current-panel');
             const customPanel = document.getElementById('tier-custom-panel');
 
-            currentPanel.innerHTML = '<div class="tierlist-box">' + ['S', 'A', 'B', 'C', 'D'].map((tier) => buildTierRow(tier, tierlistData.current[tier])).join('') + '</div>';
+            const tierGuideColors = { S: '#ff3038', A: '#ff5838', B: '#ff8610', C: '#ffc21b', D: '#ffd34c' };
+            const tierGuide = i18n[currentLang].tierlistGuide.map(([tier, description]) => `
+                <div class="tierlist-guide-item" style="--tier-guide-color:${tierGuideColors[tier]}">
+                    <strong>${tier}</strong>
+                    <span>${description}</span>
+                </div>
+            `).join('');
+            currentPanel.innerHTML = `<div class="tierlist-guide">${tierGuide}</div><div class="tierlist-box">${['S', 'A', 'B', 'C', 'D'].map((tier) => buildTierRow(tier, tierlistData.current[tier])).join('')}</div>`;
 
             const available = getAvailableCustomKillers();
             const loadCurrentText = currentLang === 'en' ? 'Load current' : 'Загрузить текущий';
             const resetText = currentLang === 'en' ? 'Reset' : 'Сбросить';
             const exportWebpText = currentLang === 'en' ? 'Download WebP' : 'Скачать webp';
             const exportPngText = currentLang === 'en' ? 'Download PNG' : 'Скачать PNG';
+            const titlePlaceholder = currentLang === 'en' ? 'Enter tier-list name...' : 'Введите название тир-листа...';
             customPanel.innerHTML = `
                 <div class="custom-tier-toolbar">
                     <div class="custom-tier-controls">
+                        <input class="custom-tier-title-input" id="custom-tier-title" type="text" maxlength="80" placeholder="${titlePlaceholder}">
                         ${buildCustomTierPool(available)}
                         <div class="custom-tier-actions">
                             <button class="btn-action" id="custom-tier-load-current">${loadCurrentText}</button>
@@ -3639,6 +3721,7 @@
                     survivors: [...selectedIndicesByMode.survivors]
                 },
                 tierlistData: {
+                    customTitle: tierlistData.customTitle,
                     custom: {
                         S: [...tierlistData.custom.S],
                         A: [...tierlistData.custom.A],
@@ -3695,6 +3778,9 @@
                 selectedIndices = getSavedSelection(currentMode);
                 if (state.temporarilyExcludedIndex !== undefined) temporarilyExcludedIndex = state.temporarilyExcludedIndex;
                 if (state.tierlistData && state.tierlistData.custom) {
+                    if (typeof state.tierlistData.customTitle === 'string') {
+                        tierlistData.customTitle = state.tierlistData.customTitle;
+                    }
                     ['S', 'A', 'B', 'C', 'D'].forEach((tier) => {
                         tierlistData.custom[tier] = Array.isArray(state.tierlistData.custom[tier]) ? [...state.tierlistData.custom[tier]] : [];
                     });
