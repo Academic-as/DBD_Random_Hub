@@ -17,6 +17,28 @@
             --card-bg: #18181c;
         }
 
+        :root[data-theme="christmas"] {
+            --bg-dark: #07131a;
+            --panel-bg: rgba(12, 35, 42, 0.95);
+            --accent-red: #e64949;
+            --accent-red-glow: rgba(230, 73, 73, 0.4);
+            --text-main: #f4fbf5;
+            --text-muted: #9bb5ad;
+            --border-color: #28514d;
+            --card-bg: #10282d;
+        }
+
+        :root[data-theme="halloween"] {
+            --bg-dark: #120b16;
+            --panel-bg: rgba(32, 18, 35, 0.95);
+            --accent-red: #ff7a18;
+            --accent-red-glow: rgba(255, 122, 24, 0.4);
+            --text-main: #fff3df;
+            --text-muted: #b99e88;
+            --border-color: #513047;
+            --card-bg: #241429;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -33,6 +55,14 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
+        }
+
+        :root[data-theme="christmas"] body {
+            background-image: radial-gradient(circle at 80% 20%, rgba(32, 170, 110, 0.16) 0%, transparent 40%), radial-gradient(circle at 20% 80%, rgba(220, 60, 60, 0.14) 0%, transparent 50%);
+        }
+
+        :root[data-theme="halloween"] body {
+            background-image: radial-gradient(circle at 80% 20%, rgba(255, 122, 24, 0.16) 0%, transparent 40%), radial-gradient(circle at 20% 80%, rgba(127, 58, 179, 0.2) 0%, transparent 50%);
         }
 
         .header-nav {
@@ -129,6 +159,10 @@
             border-color: #b58cff;
             color: #fff;
             box-shadow: 0 0 12px rgba(181, 140, 255, .25);
+        }
+
+        .escape-mode-btn[hidden] {
+            display: none;
         }
 
         .escape-countdown {
@@ -1575,6 +1609,104 @@
             background: rgba(220, 38, 54, .42);
         }
 
+        :root[data-theme="christmas"] .tierlist-page {
+            background: radial-gradient(circle at 12% 0%, rgba(32, 170, 110, .18), transparent 32%), linear-gradient(145deg, #071c22 0%, #0e3031 48%, #08151a 100%);
+        }
+
+        :root[data-theme="christmas"] .tierlist-topbar h1,
+        :root[data-theme="christmas"] .tierlist-box,
+        :root[data-theme="christmas"] .tierlist-source,
+        :root[data-theme="christmas"] .custom-tier-toolbar {
+            border-color: rgba(89, 190, 137, .35);
+        }
+
+        :root[data-theme="christmas"] .tierlist-topbar h1 {
+            color: #effff4;
+            text-shadow: 0 0 24px rgba(61, 190, 116, .25);
+        }
+
+        :root[data-theme="christmas"] .tierlist-subtabs,
+        :root[data-theme="christmas"] .tierlist-box,
+        :root[data-theme="christmas"] .custom-tier-toolbar {
+            background: rgba(5, 27, 31, .82);
+        }
+
+        :root[data-theme="christmas"] .tierlist-subtab-btn.active {
+            background: linear-gradient(135deg, #d63d48, #9e2639);
+            border-color: rgba(255, 116, 116, .65);
+        }
+
+        :root[data-theme="christmas"] .tierlist-source a,
+        :root[data-theme="christmas"] .tierlist-source {
+            color: #bdebd0;
+        }
+
+        :root[data-theme="christmas"] .tierlist-guide-item,
+        :root[data-theme="christmas"] .tier-content {
+            background: rgba(4, 24, 27, .62);
+            border-color: rgba(104, 196, 145, .2);
+        }
+
+        :root[data-theme="christmas"] .killer-card {
+            background: linear-gradient(180deg, rgba(24, 60, 55, .8), rgba(8, 27, 29, .92));
+            border-color: rgba(115, 201, 151, .2);
+        }
+
+        :root[data-theme="christmas"] .tierlist-guide-item:nth-child(1) { --tier-guide-color: #d9434f !important; }
+        :root[data-theme="christmas"] .tierlist-guide-item:nth-child(2) { --tier-guide-color: #ef7652 !important; }
+        :root[data-theme="christmas"] .tierlist-guide-item:nth-child(3) { --tier-guide-color: #6fc27d !important; }
+        :root[data-theme="christmas"] .tierlist-guide-item:nth-child(4) { --tier-guide-color: #5ba9a0 !important; }
+        :root[data-theme="christmas"] .tierlist-guide-item:nth-child(5) { --tier-guide-color: #d7b84c !important; }
+
+        :root[data-theme="halloween"] .tierlist-page {
+            background: radial-gradient(circle at 12% 0%, rgba(255, 122, 24, .2), transparent 32%), linear-gradient(145deg, #1a0b18 0%, #321329 48%, #100812 100%);
+        }
+
+        :root[data-theme="halloween"] .tierlist-topbar h1,
+        :root[data-theme="halloween"] .tierlist-box,
+        :root[data-theme="halloween"] .tierlist-source,
+        :root[data-theme="halloween"] .custom-tier-toolbar {
+            border-color: rgba(255, 122, 24, .38);
+        }
+
+        :root[data-theme="halloween"] .tierlist-topbar h1 {
+            color: #fff1df;
+            text-shadow: 0 0 24px rgba(255, 122, 24, .3);
+        }
+
+        :root[data-theme="halloween"] .tierlist-subtabs,
+        :root[data-theme="halloween"] .tierlist-box,
+        :root[data-theme="halloween"] .custom-tier-toolbar {
+            background: rgba(27, 10, 27, .86);
+        }
+
+        :root[data-theme="halloween"] .tierlist-subtab-btn.active {
+            background: linear-gradient(135deg, #ff7a18, #b63719);
+            border-color: rgba(255, 178, 86, .7);
+        }
+
+        :root[data-theme="halloween"] .tierlist-source a,
+        :root[data-theme="halloween"] .tierlist-source {
+            color: #ffd0a3;
+        }
+
+        :root[data-theme="halloween"] .tierlist-guide-item,
+        :root[data-theme="halloween"] .tier-content {
+            background: rgba(25, 9, 27, .7);
+            border-color: rgba(255, 122, 24, .22);
+        }
+
+        :root[data-theme="halloween"] .killer-card {
+            background: linear-gradient(180deg, rgba(61, 27, 52, .84), rgba(20, 8, 21, .94));
+            border-color: rgba(255, 122, 24, .22);
+        }
+
+        :root[data-theme="halloween"] .tierlist-guide-item:nth-child(1) { --tier-guide-color: #ff4d2e !important; }
+        :root[data-theme="halloween"] .tierlist-guide-item:nth-child(2) { --tier-guide-color: #ff7a18 !important; }
+        :root[data-theme="halloween"] .tierlist-guide-item:nth-child(3) { --tier-guide-color: #c65cff !important; }
+        :root[data-theme="halloween"] .tierlist-guide-item:nth-child(4) { --tier-guide-color: #9d70d6 !important; }
+        :root[data-theme="halloween"] .tierlist-guide-item:nth-child(5) { --tier-guide-color: #e2a52f !important; }
+
         @media (max-width: 900px) { .lucky-shop { grid-column: auto; } .lucky-wheels { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shop-category-items { grid-template-columns: repeat(2, 1fr); } .tierlist-guide { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         @media (max-width: 600px) { .lucky-hero { display: block; } .lucky-balance { top: 10px; min-width: 175px; width: min(100%, 240px); margin: 0 0 18px auto; padding: 10px 14px; } .lucky-balance strong { font-size: 1.25rem; } .lucky-wheels { grid-template-columns: 1fr; } .lucky-killer-list { grid-template-columns: 1fr; } .shop-category-items { grid-template-columns: 1fr; } .tabs { gap: 0; overflow-x: auto; } .tab-btn { padding: 10px 12px; font-size: .75rem; } .tierlist-topbar { align-items: flex-start; flex-direction: column; gap: 8px; } .tierlist-topbar::after { font-size: .6rem; } .tierlist-subtabs { width: 100%; } .tierlist-subtab-btn { min-width: 0; } .tierlist-guide { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tierlist-guide-item { min-height: 0; padding: 10px; } .tierlist-guide-item span { font-size: .72rem; } .tier-row { grid-template-columns: 58px minmax(0, 1fr); } .tier-content { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; padding: 10px; } .killer-card img { width: 68px; height: 68px; } .custom-tier-controls { grid-template-columns: 1fr; } .custom-tier-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); } .custom-tier-actions .btn-action { min-height: 48px; padding: 7px 5px; font-size: .64rem; } }
 
@@ -1610,7 +1742,7 @@
 
                     <div class="home-stats">
                         <div class="home-stat">
-                            <strong>3</strong>
+                            <strong>4</strong>
                             <span id="home-stat-tools">инструмента</span>
                         </div>
                         <div class="home-stat">
@@ -1636,6 +1768,10 @@
                     <div class="feature-card">
                         <h3 id="feature-3-title">🌐 Челленджи</h3>
                         <p id="feature-3-desc">Проверяйте лимиты, банк, ротацию колес и сложные условия LUCKY, чтобы сделать каждую катку более живой и нестандартной.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 id="feature-4-title">📊 Тир-лист</h3>
+                        <p id="feature-4-desc">Сравнивайте убийц по категориям S–D: от самых сильных и стабильных до ситуативных и слабых. Открывайте текущий список или создавайте свой.</p>
                     </div>
                 </div>
 
@@ -2055,14 +2191,16 @@
                 ],
                 tierlistCustom: "Свой",
                 homeHeroTitle: "DBD Randomizer & Hub",
-                homeHeroDesc: "Панель для Dead by Daylight: колесо выбора, учет побегов и LUCKY - все в одном месте, с сохранением в рамках текущей сессии и без потери прогресса при переходе между вкладками.",
+                homeHeroDesc: "Панель для Dead by Daylight: выбирайте персонажей, ведите статистику матчей, изучайте тир-лист и запускайте игровые челленджи в одном месте.",
                 feature1Title: "🎡 Колесо Судьбы",
-                feature1Desc: "Генерация случайного убийцы или выжившего по кастомному списку, фильтрам и быстрым настройкам под любую катку.",
+                feature1Desc: "Выбирайте случайного убийцу или выжившего, настраивайте список персонажей и фильтруйте варианты под текущую катку.",
                 feature2Title: "🏆 Побеги",
-                feature2Desc: "Ведите учет своих и командных побегов, переключайтесь между режимами 1vs4 и 2vs8 и следите за процентом успеха без сброса при переходах между вкладками.",
+                feature2Desc: "Записывайте личные и командные результаты в режимах 1vs4 и 2vs8, а затем быстро оценивайте процент успеха.",
                 feature3Title: "🌐 Челленджи",
-                feature3Desc: "Набор DBD-челленджей для разнообразия игры: пока доступен LUCKY, но в будущем здесь появятся новые режимы, условия и вариации для каждой катки.",
-                homeFooter: "Все сохраняется только в рамках текущего сеанса: можно переключаться между вкладками и возвращаться к прогрессу, но при полном выходе со страницы всё сбрасывается.",
+                feature3Desc: "Испытайте удачу в LUCKY: вращайте колеса, тратьте игровую валюту и собирайте необычные условия для следующей катки.",
+                feature4Title: "📊 Тир-лист",
+                feature4Desc: "Сравнивайте убийц по категориям S–D: от самых сильных и стабильных до ситуативных и слабых. Открывайте текущий список или создавайте свой.",
+                homeFooter: "Ваш прогресс доступен в течение текущего сеанса: переключайтесь между разделами и возвращайтесь к настройкам без потери данных.",
                 homeStatTools: "инструмента",
                 homeStatLanguage: "язык",
                 homeStatVariations: "вариаций",
@@ -2157,14 +2295,16 @@
                 ],
                 tierlistCustom: "Custom",
                 homeHeroTitle: "DBD Randomizer & Hub",
-                homeHeroDesc: "A Dead by Daylight companion for wheel picks, escape tracking, and LUCKY runs - all saved within the current session while you move across tabs.",
+                homeHeroDesc: "Your Dead by Daylight dashboard: choose characters, track match results, check the tier list, and launch game challenges from one place.",
                 feature1Title: "🎡 Wheel of Fate",
-                feature1Desc: "Randomly choose a killer or survivor from custom lists with filters and quick setup.",
+                feature1Desc: "Choose a random killer or survivor, customize the character pool, and filter options for the current match.",
                 feature2Title: "🏆 Escapes",
-                feature2Desc: "Track personal and team escape results, switch between 1vs4 and 2vs8, and monitor percentages without losing progress when you move between tabs.",
+                feature2Desc: "Record personal and team results in 1vs4 and 2vs8, then review your success percentage at a glance.",
                 feature3Title: "🌐 Challenges",
-                feature3Desc: "A DBD challenge hub to keep matches varied: LUCKY is live for now, and more challenge modes, rules, and twists are planned for the future.",
-                homeFooter: "Everything is saved only for the current session: you can switch tabs and return to your progress, but a full page exit resets everything.",
+                feature3Desc: "Try your luck in LUCKY: spin the wheels, spend in-game currency, and build unusual conditions for your next match.",
+                feature4Title: "📊 Tier list",
+                feature4Desc: "Compare killers by S–D tiers, from the strongest and most consistent to situational and weaker picks. Open the current list or create your own.",
+                homeFooter: "Your progress is available during the current session: move between sections and return to your settings without losing data.",
                 homeStatTools: "tools",
                 homeStatLanguage: "language",
                 homeStatVariations: "variations",
@@ -2256,6 +2396,9 @@
                 team: { escaped: 0, failed: 0, caught: 0 }
             }
         };
+
+        const SITE_THEME = 'normal'; //normal, christmas, halloween
+        document.documentElement.dataset.theme = SITE_THEME;
 
         let currentLang = 'ru';
         let currentMode = 'killers';
@@ -3611,8 +3754,29 @@
             }).formatToParts(new Date()).find(part => part.type === 'timeZoneName')?.value || timeZone;
         }
 
+        function updateEscapeModeAvailability() {
+            const modeButton = document.querySelector('[data-escape-mode="2vs8"]');
+            const isAvailable = getEscapeCountdownTarget().date.getTime() > Date.now();
+
+            modeButton.hidden = !isAvailable;
+            modeButton.disabled = !isAvailable;
+            modeButton.setAttribute('aria-hidden', String(!isAvailable));
+
+            if (!isAvailable && currentEscapeMode === '2vs8') {
+                currentEscapeMode = '1vs4';
+                return true;
+            }
+
+            return false;
+        }
+
         function renderEscapeCountdown() {
             const countdown = document.getElementById('escape-countdown');
+            const modeChanged = updateEscapeModeAvailability();
+            if (modeChanged) {
+                renderEscapeTracker();
+                return;
+            }
             if (currentEscapeMode !== '2vs8') {
                 countdown.classList.remove('visible');
                 return;
@@ -3843,6 +4007,8 @@
             document.getElementById('feature-2-desc').textContent = i18n[lang].feature2Desc;
             document.getElementById('feature-3-title').textContent = i18n[lang].feature3Title;
             document.getElementById('feature-3-desc').textContent = i18n[lang].feature3Desc;
+            document.getElementById('feature-4-title').textContent = i18n[lang].feature4Title;
+            document.getElementById('feature-4-desc').textContent = i18n[lang].feature4Desc;
             document.getElementById('home-stat-tools').textContent = i18n[lang].homeStatTools;
             document.getElementById('home-stat-language').textContent = i18n[lang].homeStatLanguage;
             document.getElementById('home-stat-variations').textContent = i18n[lang].homeStatVariations;
@@ -4171,6 +4337,8 @@
 
         document.querySelectorAll('.escape-mode-btn').forEach(button => {
             button.addEventListener('click', () => {
+                updateEscapeModeAvailability();
+                if (button.disabled) return;
                 currentEscapeMode = button.dataset.escapeMode;
                 renderEscapeTracker();
             });
