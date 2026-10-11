@@ -17,6 +17,18 @@
             --card-bg: #18181c;
         }
 
+        :root[data-theme="normal"] {
+            --theme-header-bg: rgba(10, 10, 12, 0.96);
+            --theme-surface: rgba(18, 18, 22, 0.96);
+            --theme-surface-raised: #202026;
+            --theme-accent-soft: rgba(255, 42, 42, 0.1);
+            --theme-accent-border: rgba(255, 75, 75, 0.35);
+            --theme-highlight: #ff4545;
+            --theme-secondary: #8b2635;
+            --theme-action: #8f1818;
+            --theme-action-hover: #c52222;
+        }
+
         :root[data-theme="christmas"] {
             --bg-dark: #07131a;
             --panel-bg: rgba(12, 35, 42, 0.95);
@@ -2625,6 +2637,10 @@
             color: var(--text-main);
         }
 
+        :root[data-theme] .bloodweb-field .bloodweb-multiplier-input input[type="number"] {
+            background: transparent;
+        }
+
         :root[data-theme] input:not([type="checkbox"]):not([type="radio"]):focus,
         :root[data-theme] select:focus,
         :root[data-theme] textarea:focus,
@@ -2723,6 +2739,10 @@
             background: linear-gradient(145deg, var(--theme-surface-raised), var(--theme-surface));
         }
 
+        :root[data-theme] .shop-item {
+            border-left-color: var(--item-color, var(--theme-highlight));
+        }
+
         :root[data-theme] .escape-summary-box,
         :root[data-theme] .tier-content,
         :root[data-theme] .tierlist-guide-item,
@@ -2730,6 +2750,10 @@
         :root[data-theme] .custom-tier-picker-menu {
             border-color: var(--border-color);
             background-color: var(--theme-surface);
+        }
+
+        :root[data-theme] .tierlist-guide-item {
+            border-left-color: var(--tier-guide-color, var(--theme-highlight));
         }
 
         :root[data-theme] .challenge-subtabs {
@@ -3112,6 +3136,809 @@
             opacity: .95;
             transform: rotate(12deg) scale(1.12);
         }
+
+        .bloodweb-page {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 34px 20px;
+            background:
+                radial-gradient(ellipse at 50% -10%, var(--theme-accent-soft, rgba(255, 42, 42, .12)), transparent 48%),
+                linear-gradient(180deg, rgba(8, 8, 12, .25), rgba(8, 8, 12, .72));
+        }
+
+        .bloodweb-shell {
+            width: min(920px, 100%);
+            margin: 0 auto;
+        }
+
+        .bloodweb-header {
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .bloodweb-eyebrow {
+            display: inline-block;
+            margin-bottom: 8px;
+            color: var(--theme-highlight, var(--accent-red));
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .bloodweb-header h1 {
+            margin-bottom: 7px;
+            color: var(--text-main);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            letter-spacing: 1px;
+        }
+
+        .bloodweb-header p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .bloodweb-card {
+            overflow: hidden;
+            padding: clamp(18px, 3vw, 28px);
+            background: linear-gradient(145deg, var(--panel-bg), var(--card-bg));
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 18px;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .035);
+        }
+
+        .bloodweb-fields {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .bloodweb-field {
+            display: grid;
+            align-content: start;
+            gap: 8px;
+            color: var(--text-main);
+            font-size: .84rem;
+            font-weight: 700;
+        }
+
+        .bloodweb-field input[type="number"],
+        .bloodweb-field select {
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 13px;
+            color: var(--text-main);
+            background: rgba(8, 8, 12, .72);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 9px;
+            font-size: 1rem;
+            transition: border-color .18s ease, box-shadow .18s ease;
+        }
+
+        .bloodweb-field input:focus,
+        .bloodweb-field select:focus {
+            outline: none;
+            border-color: var(--theme-highlight, var(--accent-red));
+            box-shadow: 0 0 0 3px var(--theme-accent-soft, rgba(255, 42, 42, .12));
+        }
+
+        .bloodweb-slider-field,
+        .bloodweb-style-field,
+        .bloodweb-bonus-field {
+            grid-column: 1 / -1;
+        }
+
+        .bloodweb-slider-field {
+            margin-top: 2px;
+            padding: 15px 16px 12px;
+            background: rgba(255, 255, 255, .025);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-radius: 11px;
+        }
+
+        .bloodweb-range-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .bloodweb-range-value {
+            color: var(--theme-highlight, var(--accent-red));
+            font-variant-numeric: tabular-nums;
+            font-weight: 800;
+        }
+
+        .bloodweb-field input[type="range"] {
+            width: 100%;
+            accent-color: var(--theme-highlight, var(--accent-red));
+            cursor: pointer;
+        }
+
+        .bloodweb-style-field {
+            grid-column: span 1;
+        }
+
+        .bloodweb-bonus-field {
+            grid-column: 1 / -1;
+        }
+
+        .bloodweb-bonus-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .bloodweb-bonus-multiplier {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            gap: 9px;
+            min-height: 42px;
+            padding: 0 13px;
+            color: var(--text-muted);
+            background: rgba(8, 8, 12, .72);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 999px;
+            font-size: .82rem;
+            font-weight: 700;
+            transition: border-color .18s ease, box-shadow .18s ease;
+        }
+
+        .bloodweb-multiplier-input {
+            display: flex;
+            align-items: center;
+            color: var(--theme-highlight, var(--accent-red));
+            font-weight: 800;
+        }
+
+        .bloodweb-multiplier-input span {
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .bloodweb-field .bloodweb-multiplier-input input[type="number"] {
+            width: 66px;
+            min-width: 0;
+            min-height: 30px;
+            height: 30px;
+            padding: 4px 0 4px 3px;
+            color: var(--text-main);
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            outline: 0;
+            font: inherit;
+            font-size: 1rem;
+            font-variant-numeric: tabular-nums;
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+
+        .bloodweb-multiplier-input input[type="number"]::-webkit-inner-spin-button,
+        .bloodweb-multiplier-input input[type="number"]::-webkit-outer-spin-button {
+            margin: 0;
+            -webkit-appearance: none;
+        }
+
+        .bloodweb-bonus-multiplier:focus-within {
+            border-color: var(--theme-highlight, var(--accent-red));
+            box-shadow: 0 0 0 3px var(--theme-accent-soft, rgba(255, 42, 42, .12));
+        }
+
+        .bloodweb-bonus-chips {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+        }
+
+        .bloodweb-chip {
+            min-height: 42px;
+            padding: 9px 15px;
+            color: var(--text-muted);
+            background: rgba(8, 8, 12, .72);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 700;
+            transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+        }
+
+        .bloodweb-chip:hover {
+            transform: translateY(-1px);
+        }
+
+        .bloodweb-chip[aria-pressed="true"] {
+            color: #fff;
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .12));
+            border-color: var(--theme-highlight, var(--accent-red));
+            box-shadow: 0 0 14px var(--theme-accent-soft, rgba(255, 42, 42, .12));
+        }
+
+        .bloodweb-result[hidden] {
+            display: none;
+        }
+
+        .bloodweb-result {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+            margin-top: 22px;
+            padding: 20px 22px;
+            background: linear-gradient(110deg, var(--theme-accent-soft, rgba(255, 42, 42, .12)), transparent);
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 13px;
+        }
+
+        .bloodweb-result-main {
+            display: grid;
+            gap: 5px;
+        }
+
+        .bloodweb-result-title {
+            color: var(--text-muted);
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .bloodweb-result-total {
+            color: var(--theme-highlight, var(--accent-red));
+            font-size: clamp(1.7rem, 5vw, 2.5rem);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+
+        .bloodweb-result-unit {
+            color: var(--text-muted);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .bloodweb-result ul {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(125px, 1fr));
+            gap: 10px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .bloodweb-result li {
+            display: grid;
+            gap: 4px;
+            min-width: 0;
+            padding: 11px 13px;
+            background: rgba(8, 8, 12, .48);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-radius: 9px;
+            color: var(--text-muted);
+            font-size: .76rem;
+        }
+
+        .bloodweb-result li strong {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 680px) {
+            .bloodweb-fields {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .bloodweb-result {
+                grid-template-columns: 1fr;
+            }
+
+            .bloodweb-result ul {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .bloodweb-result li:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .bloodweb-page {
+                padding: 28px 14px;
+            }
+
+            .bloodweb-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .bloodweb-slider-field,
+            .bloodweb-style-field,
+            .bloodweb-bonus-field {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .bloodweb-bonus-chips {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .bloodweb-chip {
+                width: 100%;
+                text-align: left;
+            }
+        }
+        .lucky-tab {
+            padding: clamp(18px, 3vw, 34px) clamp(16px, 4vw, 48px) 48px;
+            background:
+                radial-gradient(ellipse at 18% 0%, var(--theme-accent-soft), transparent 34%),
+                linear-gradient(180deg, color-mix(in srgb, var(--bg-dark) 88%, var(--theme-highlight)) 0%, var(--bg-dark) 360px);
+        }
+
+        .lucky-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(220px, 270px);
+            align-items: stretch;
+            gap: 18px;
+            max-width: 1360px;
+        }
+
+        .lucky-hero {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            align-items: center;
+            min-height: 210px;
+            margin: 0;
+            padding: clamp(24px, 4vw, 42px);
+            overflow: hidden;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 18px;
+            background:
+                linear-gradient(115deg, var(--theme-surface-raised) 0%, var(--theme-surface) 68%, color-mix(in srgb, var(--theme-highlight) 12%, var(--theme-surface)) 100%);
+            box-shadow: 0 18px 44px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .04);
+        }
+
+        .lucky-hero::after {
+            position: absolute;
+            z-index: -1;
+            top: -105px;
+            right: -45px;
+            width: 310px;
+            height: 310px;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 50%;
+            box-shadow: 0 0 0 28px color-mix(in srgb, var(--theme-accent-soft) 55%, transparent), 0 0 0 58px color-mix(in srgb, var(--theme-accent-soft) 35%, transparent);
+            content: "";
+            pointer-events: none;
+        }
+
+        .lucky-hero > div {
+            max-width: 760px;
+        }
+
+        .lucky-kicker {
+            color: var(--theme-highlight);
+            font-size: .7rem;
+            letter-spacing: .22em;
+        }
+
+        .lucky-title-row {
+            gap: 12px;
+        }
+
+        .lucky-hero h1 {
+            margin-top: 5px;
+            color: var(--text-main);
+            font-size: clamp(2.6rem, 6vw, 4.7rem);
+            line-height: .98;
+            letter-spacing: .12em;
+            text-shadow: 0 0 28px var(--theme-accent-soft);
+        }
+
+        .lucky-hero p {
+            max-width: 600px;
+            margin-top: 12px;
+            color: var(--text-muted);
+        }
+
+        .lucky-author {
+            margin-top: 14px;
+            border-color: var(--theme-accent-border);
+            background: var(--theme-accent-soft);
+            color: var(--theme-highlight) !important;
+        }
+
+        .lucky-author a {
+            color: var(--text-main);
+        }
+
+        .lucky-author::before {
+            color: var(--theme-highlight);
+        }
+
+        .lucky-balance {
+            position: relative;
+            top: auto;
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: auto;
+            min-width: 0;
+            margin: 0;
+            padding: 24px;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 18px;
+            background:
+                radial-gradient(circle at 100% 0%, var(--theme-accent-soft), transparent 58%),
+                linear-gradient(145deg, var(--theme-surface-raised), var(--theme-surface));
+        }
+
+        .lucky-balance small {
+            color: var(--text-muted);
+            font-size: .68rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+        }
+
+        .lucky-balance strong {
+            margin-top: 8px;
+            color: var(--theme-highlight);
+            font-size: clamp(1.4rem, 2.4vw, 2rem);
+            line-height: 1.1;
+            overflow-wrap: anywhere;
+        }
+
+        .lucky-grid {
+            grid-column: 1 / -1;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .lucky-grid > aside {
+            grid-column: span 4;
+            order: 0;
+        }
+
+        .lucky-grid > section:not(.lucky-killers):not(.lucky-shop) {
+            grid-column: span 8;
+        }
+
+        .lucky-panel {
+            min-width: 0;
+            padding: clamp(17px, 2.2vw, 24px);
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 16px;
+            background: linear-gradient(145deg, var(--theme-surface-raised), var(--theme-surface));
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .16), inset 0 1px rgba(255, 255, 255, .025);
+        }
+
+        .lucky-panel h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: var(--text-main);
+            font-size: .9rem;
+            letter-spacing: .1em;
+        }
+
+        .lucky-panel h2 span:first-child {
+            display: inline-grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 9px;
+            background: var(--theme-accent-soft);
+            color: var(--theme-highlight);
+            font-size: .72rem;
+            letter-spacing: 0;
+        }
+
+        .lucky-wheels {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .lucky-wheels.survivor-lucky-wheels {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .lucky-wheel-card,
+        .lucky-wheel-card:has(#killer-wheel) {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 13px;
+            background: color-mix(in srgb, var(--theme-surface) 84%, transparent);
+        }
+
+        .lucky-wheel-card h3 {
+            min-height: 2.5em;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: .82rem;
+        }
+
+        .lucky-wheel-stage {
+            width: min(100%, 290px);
+            margin: 8px auto 2px;
+        }
+
+        .lucky-wheel-canvas {
+            border-color: var(--theme-surface-raised);
+            box-shadow: 0 0 0 3px var(--bg-dark), 0 0 25px var(--theme-accent-soft);
+        }
+
+        .lucky-pointer {
+            border-top-color: var(--theme-highlight);
+            filter: drop-shadow(0 0 6px var(--theme-accent-border));
+        }
+
+        .lucky-result,
+        .lucky-wheel-card:has(#killer-wheel) .lucky-result {
+            color: var(--theme-highlight);
+        }
+
+        .lucky-spin {
+            min-height: 42px;
+            border: 1px solid var(--theme-accent-border);
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--theme-action-hover), var(--theme-action));
+            box-shadow: 0 6px 16px var(--theme-accent-soft);
+        }
+
+        .lucky-spin:hover {
+            background: linear-gradient(135deg, var(--theme-highlight), var(--theme-action-hover));
+        }
+
+        .lucky-spin:disabled {
+            border-color: var(--border-color);
+            background: var(--theme-surface-raised);
+            box-shadow: none;
+        }
+
+        .lucky-list label {
+            align-items: center;
+            padding: 12px 0;
+            border-bottom-color: var(--theme-accent-border);
+            color: var(--text-muted);
+        }
+
+        .lucky-list strong {
+            color: var(--theme-highlight);
+            font-size: 1.05rem;
+        }
+
+        .lucky-notice {
+            border-color: var(--theme-accent-border);
+            border-radius: 10px;
+            background: var(--theme-accent-soft);
+            color: var(--text-main);
+        }
+
+        .lucky-tools {
+            gap: 9px;
+        }
+
+        .lucky-tools .btn-action {
+            min-height: 42px;
+            border-radius: 9px;
+        }
+
+        .lucky-killers,
+        .lucky-shop {
+            grid-column: 1 / -1;
+        }
+
+        .lucky-killer-controls {
+            flex-wrap: wrap;
+        }
+
+        .lucky-killer-search {
+            min-height: 42px;
+            border-radius: 9px;
+        }
+
+        .lucky-killer-search:focus {
+            border-color: var(--theme-highlight);
+        }
+
+        .lucky-killer-list {
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 8px;
+            max-height: 300px;
+        }
+
+        .lucky-killer-item {
+            min-height: 42px;
+            border-color: var(--theme-accent-border);
+            border-radius: 9px;
+            background: color-mix(in srgb, var(--theme-surface) 82%, transparent);
+            color: var(--text-main);
+        }
+
+        .lucky-killer-item:hover {
+            border-color: var(--theme-highlight);
+            background: var(--theme-accent-soft);
+        }
+
+        .lucky-killer-item input {
+            accent-color: var(--theme-highlight);
+        }
+
+        .lucky-killer-count {
+            color: var(--text-muted);
+            font-size: .72rem;
+            letter-spacing: 0;
+        }
+
+        .shop-category-title {
+            padding-bottom: 10px;
+            border-bottom-color: var(--theme-accent-border);
+            color: var(--theme-highlight);
+        }
+
+        .shop-item {
+            border-color: var(--theme-accent-border);
+            border-left-color: var(--item-color, var(--theme-highlight));
+            border-radius: 11px;
+            background: color-mix(in srgb, var(--theme-surface) 82%, transparent);
+        }
+
+        .shop-item h3 {
+            color: var(--text-main);
+        }
+
+        .shop-buy {
+            min-height: 38px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .lucky-shell {
+                grid-template-columns: minmax(0, 1fr) 220px;
+            }
+
+            .lucky-grid > aside {
+                grid-column: span 4;
+            }
+
+            .lucky-grid > section:not(.lucky-killers):not(.lucky-shop) {
+                grid-column: span 8;
+            }
+
+            .lucky-wheels,
+            .lucky-wheels.survivor-lucky-wheels {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .lucky-shell {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 14px;
+            }
+
+            .lucky-hero {
+                min-height: 0;
+                padding: 25px 22px;
+            }
+
+            .lucky-balance {
+                min-height: 105px;
+                padding: 16px 20px;
+            }
+
+            .lucky-grid {
+                gap: 13px;
+            }
+
+            .lucky-grid > aside,
+            .lucky-grid > section:not(.lucky-killers):not(.lucky-shop) {
+                grid-column: 1 / -1;
+            }
+
+            .lucky-wheels,
+            .lucky-wheels.survivor-lucky-wheels {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lucky-tab {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            .lucky-hero {
+                border-radius: 14px;
+            }
+
+            .lucky-panel {
+                padding: 15px;
+            }
+
+            .lucky-wheels,
+            .lucky-wheels.survivor-lucky-wheels {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .lucky-wheel-stage {
+                width: min(100%, 250px);
+            }
+
+            .lucky-tools .btn-action {
+                flex: 1 1 calc(50% - 9px);
+            }
+        }
+
+        .challenge-tabs,
+        .challenge-subtabs {
+            position: relative;
+            z-index: 20;
+            flex: 0 0 auto;
+            height: auto;
+            max-height: 8px;
+            min-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            overflow: hidden;
+            transition:
+                max-height .68s cubic-bezier(.22, 1, .36, 1),
+                padding .58s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .challenge-tabs > button,
+        .challenge-subtabs > button {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px) scale(.985);
+            transition:
+                opacity .28s ease .1s,
+                transform .42s cubic-bezier(.22, 1, .36, 1) .06s;
+        }
+
+        @media (hover: none), (max-width: 700px) {
+            .challenge-tabs,
+            .challenge-subtabs {
+                flex-basis: auto;
+                height: auto;
+                max-height: none;
+                min-height: initial;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .challenge-subtabs {
+                min-height: 52px;
+                padding-top: 7px;
+                padding-bottom: 7px;
+            }
+
+            .challenge-tabs > button,
+            .challenge-subtabs > button {
+                opacity: 1;
+                pointer-events: auto;
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .challenge-tabs,
+            .challenge-subtabs,
+            .challenge-tabs > button,
+            .challenge-subtabs > button {
+                transition: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3130,6 +3957,7 @@
             <button class="tab-btn" data-tab="escapes" id="tab-escapes-btn">Побег</button>
             <button class="tab-btn" data-tab="tierlist" id="tab-tierlist-btn">Тир-лист</button>
             <button class="tab-btn" data-tab="challenges" id="tab-challenges-btn">Челленджи</button>
+            <button class="tab-btn" data-tab="bloodweb" id="bw-tab-bloodweb">Калькулятор Престижей</button>
         </div>
         <div class="lang-switcher">
             <button class="lang-btn active" id="lang-ru">RU</button>
@@ -3473,8 +4301,88 @@
                         </section>
                     </div>
                 </div>
+
+                    </div>
+                </div>
+                <section class="tab-content bloodweb-page" id="page-bloodweb" aria-labelledby="bw-title">
+                    <div class="bloodweb-shell">
+                        <header class="bloodweb-header">
+                            <span class="bloodweb-eyebrow">DBD HUB · BLOODWEB TOOL</span>
+                            <h1 id="bw-title">Калькулятор Престижей</h1>
+                            <p id="bw-description">Оцените, сколько очков крови и матчей потребуется для следующего престижа.</p>
+                        </header>
+
+                        <div class="bloodweb-card">
+                            <form id="bw-form">
+                                <div class="bloodweb-fields">
+                                    <label class="bloodweb-field" for="bw-currentPrestige">
+                                        <span id="bw-currentPrestige-label">Текущий престиж</span>
+                                        <input id="bw-currentPrestige" type="number" min="0" max="100" step="1" value="3" required>
+                                    </label>
+
+                                    <label class="bloodweb-field" for="bw-targetPrestige">
+                                        <span id="bw-targetPrestige-label">Целевой престиж</span>
+                                        <input id="bw-targetPrestige" type="number" min="1" max="100" step="1" value="100" required>
+                                    </label>
+
+                                    <label class="bloodweb-field" for="bw-currentBloodpoints">
+                                        <span id="bw-currentBloodpoints-label">Имеющиеся очки крови</span>
+                                        <input id="bw-currentBloodpoints" type="number" min="0" step="1" value="0">
+                                    </label>
+
+                                    <label class="bloodweb-field bloodweb-slider-field" for="bw-bloodwebLevel">
+                                        <span class="bloodweb-range-heading">
+                                            <span id="bw-bloodwebLevel-label">Уровень Кровавой паутины</span>
+                                            <output class="bloodweb-range-value" id="bw-bloodwebLevel-value" for="bw-bloodwebLevel">10 / 50</output>
+                                        </span>
+                                        <input id="bw-bloodwebLevel" type="range" min="1" max="50" value="10">
+                                    </label>
+
+                                    <label class="bloodweb-field bloodweb-style-field" for="bw-playStyle">
+                                        <span id="bw-playStyle-label">Стиль игры</span>
+                                        <select id="bw-playStyle">
+                                            <option value="15000">Медленный (~15,000 BP)</option>
+                                            <option value="25000" selected>Нормальный (~25,000 BP)</option>
+                                            <option value="32000">Хороший (~32,000 BP)</option>
+                                            <option value="40000">Максимальный (~40,000 BP)</option>
+                                        </select>
+                                    </label>
+
+                                    <div class="bloodweb-field bloodweb-bonus-field">
+                                        <span id="bw-bonuses-label">Бонусы к BP</span>
+                                        <div class="bloodweb-bonus-settings">
+                                            <label class="bloodweb-bonus-multiplier" for="bw-bonus-multiplier">
+                                                <span id="bw-bonus-multiplier-label">Множитель</span>
+                                                <span class="bloodweb-multiplier-input">
+                                                    <span aria-hidden="true">×</span>
+                                                    <input id="bw-bonus-multiplier" type="number" min="0.01" step="0.01" value="1" inputmode="decimal">
+                                                </span>
+                                            </label>
+                                            <div class="bloodweb-bonus-chips" role="group" aria-labelledby="bw-bonuses-label">
+                                                <button class="bloodweb-chip" type="button" data-bw-bonus="50" aria-pressed="false" id="bw-bonus-offerings-50">+50% Подношения</button>
+                                                <button class="bloodweb-chip" type="button" data-bw-bonus="75" aria-pressed="false" id="bw-bonus-offerings-75">+75% Подношения</button>
+                                                <button class="bloodweb-chip" type="button" data-bw-bonus="100" aria-pressed="false" id="bw-bonus-offerings-100">+100% Подношения</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <section class="bloodweb-result" id="bw-result" aria-live="polite" hidden>
+                                <div class="bloodweb-result-main">
+                                    <span class="bloodweb-result-title" id="bw-result-title">ОСТАЛОСЬ НАБРАТЬ ПРИМЕРНО</span>
+                                    <strong class="bloodweb-result-total"><span aria-hidden="true">~</span><span id="bw-result-bp"></span></strong>
+                                    <span class="bloodweb-result-unit">BLOODPOINTS</span>
+                                </div>
+                                <ul>
+                                    <li><span id="bw-result-matches-label">Примерно матчей</span> <strong><span aria-hidden="true">~</span><span id="bw-result-matches"></span></strong></li>
+                                    <li><span id="bw-result-time-label">Примерное время</span> <strong><span aria-hidden="true">~</span><span id="bw-result-time"></span></strong></li>
+                                </ul>
+                            </section>
+                        </div>
             </div>
-        </div>
+                </section>
     </div>
 
     <div class="modal" id="modal">
@@ -5483,12 +6391,17 @@
             survivorLuckyState.spins[type] = true;
             survivorLuckyRotations[type] = destination;
             wheel.style.transform = `rotate(${destination}deg)`;
+            renderSurvivorLuckyState();
             setTimeout(() => {
                 survivorLuckyState.results[type] = result;
                 applySurvivorLuckyPrize(result, type);
                 survivorLuckyStatusKey = 'resultLocked';
                 renderSurvivorLuckyState();
             }, 1750);
+        }
+
+        function areSurvivorLuckyRoundWheelsComplete() {
+            return ['currency', 'modifier'].every(type => survivorLuckyState.spins[type] && survivorLuckyState.results[type]);
         }
 
         function renderSurvivorLuckyState() {
@@ -5500,7 +6413,9 @@
             document.getElementById('survivor-modifier-result').textContent = survivorLuckyDisplayResult('modifier', survivorLuckyState.results.modifier);
             document.getElementById('survivor-currency-spin').disabled = survivorLuckyState.spins.currency;
             document.getElementById('survivor-modifier-spin').disabled = survivorLuckyState.spins.modifier;
-            document.getElementById('survivor-confirm-win').disabled = !(survivorLuckyState.spins.currency || survivorLuckyState.spins.modifier);
+            const roundWheelsComplete = areSurvivorLuckyRoundWheelsComplete();
+            document.getElementById('survivor-confirm-win').disabled = !roundWheelsComplete;
+            document.getElementById('survivor-lose-match').disabled = !roundWheelsComplete;
             renderSurvivorLuckyStatus();
             renderSurvivorLuckyShop();
             document.querySelectorAll('#survivor-lucky-shop-grid .shop-buy').forEach(button => {
@@ -5519,6 +6434,7 @@
         }
 
         function resolveSurvivorLuckyWin() {
+            if (!areSurvivorLuckyRoundWheelsComplete()) return;
             const escaped = Number(document.getElementById('lucky-escaped-input').dataset.value || 0);
             survivorLuckyState.matches += 1;
             survivorLuckyState.escaped += 1;
@@ -5530,6 +6446,7 @@
         }
 
         function loseSurvivorLuckyMatch() {
+            if (!areSurvivorLuckyRoundWheelsComplete()) return;
             survivorLuckyState.matches += 1;
             survivorLuckyState.escaped = 0;
             survivorLuckyState.balance = 0;
@@ -5599,6 +6516,7 @@
 
         function renderLuckyState() {
             const text = luckyText();
+            const roundWheelsComplete = areLuckyRoundWheelsComplete();
             document.getElementById('lucky-balance').textContent = luckyMoney(luckyState.balance);
             document.getElementById('matches-count').textContent = luckyState.matches;
             document.getElementById('escaped-count').textContent = luckyState.escaped;
@@ -5608,7 +6526,8 @@
             document.getElementById('currency-spin').disabled = luckyState.spins.currency;
             document.getElementById('modifier-spin').disabled = luckyState.spins.modifier;
             document.getElementById('killer-spin').disabled = luckyState.spins.killer || luckySelectedKillers.length === 0;
-            document.getElementById('confirm-win').disabled = !(luckyState.spins.currency || luckyState.spins.modifier || luckyState.spins.killer);
+            document.getElementById('confirm-win').disabled = !roundWheelsComplete;
+            document.getElementById('lose-match').disabled = !roundWheelsComplete;
             renderLuckyShop();
             document.querySelectorAll('#lucky-shop-grid .shop-buy').forEach(button => {
                 const item = luckyShopItems.find(shopItem => shopItem.key === button.dataset.shopKey);
@@ -5616,6 +6535,10 @@
                 button.disabled = luckyState.buyBlocked || (item.category === 'upgrades' && luckyState.upgradeBlocked) || (item.key === 'perk' && luckyState.perkBlocked);
             });
             saveSessionState();
+        }
+
+        function areLuckyRoundWheelsComplete() {
+            return ['currency', 'modifier'].every(type => luckyState.spins[type] && luckyState.results[type]);
         }
 
         function applyLuckyPrize(prize, type) {
@@ -5657,6 +6580,7 @@
             luckyState.spins[type] = true;
             luckyRotations[type] = destination;
             wheel.style.transform = `rotate(${destination}deg)`;
+            renderLuckyState();
             setTimeout(() => {
                 luckyState.results[type] = typeof result === 'number' ? luckyMoney(result) : result;
                 applyLuckyPrize(result, type);
@@ -5825,6 +6749,7 @@
         }
 
         function completeLuckyRound() {
+            if (!areLuckyRoundWheelsComplete()) return;
             luckyState.matches++;
             luckyState.escaped++;
             const escaped = getEscapedCount();
@@ -5840,6 +6765,7 @@
         }
 
         function loseLuckyMatch(escaped = 0) {
+            if (!areLuckyRoundWheelsComplete()) return;
             luckyState.matches++;
             luckyState.escaped = 0;
             resetLuckyBank();
@@ -5896,6 +6822,7 @@
         }
 
         function openLuckyWinDialog() {
+            if (!areLuckyRoundWheelsComplete()) return;
             currentLuckyWinContext = 'killer';
             applyLuckyWinModalText('killer');
             setEscapedCount(0);
@@ -5904,6 +6831,7 @@
         }
 
         function openSurvivorLuckyWinDialog() {
+            if (!areSurvivorLuckyRoundWheelsComplete()) return;
             currentLuckyWinContext = 'survivor';
             applyLuckyWinModalText('survivor');
             setEscapedCount(0);
@@ -6267,6 +7195,16 @@
                         team: { ...escapeTracker['2vs8'].team }
                     }
                 },
+                bloodwebCalculator: {
+                    currentPrestige: document.getElementById('bw-currentPrestige').value,
+                    targetPrestige: document.getElementById('bw-targetPrestige').value,
+                    currentBloodpoints: document.getElementById('bw-currentBloodpoints').value,
+                    bloodwebLevel: document.getElementById('bw-bloodwebLevel').value,
+                    playStyle: document.getElementById('bw-playStyle').value,
+                    bonusMultiplier: document.getElementById('bw-bonus-multiplier').value,
+                    activeBonuses: Array.from(document.querySelectorAll('[data-bw-bonus][aria-pressed="true"]'))
+                        .map(button => button.dataset.bwBonus)
+                },
                 luckyState: {
                     ...structuredClone(defaultLuckyState),
                     ...luckyState,
@@ -6349,6 +7287,33 @@
                         };
                     }
                 }
+                if (state.bloodwebCalculator) {
+                    const calculator = state.bloodwebCalculator;
+                    const calculatorFields = {
+                        currentPrestige: 'bw-currentPrestige',
+                        targetPrestige: 'bw-targetPrestige',
+                        currentBloodpoints: 'bw-currentBloodpoints',
+                        bloodwebLevel: 'bw-bloodwebLevel',
+                        playStyle: 'bw-playStyle',
+                        bonusMultiplier: 'bw-bonus-multiplier'
+                    };
+
+                    Object.entries(calculatorFields).forEach(([key, elementId]) => {
+                        const value = calculator[key];
+                        if (typeof value === 'string' || typeof value === 'number') {
+                            document.getElementById(elementId).value = String(value);
+                        }
+                    });
+                    if (Array.isArray(calculator.activeBonuses)) {
+                        document.querySelectorAll('[data-bw-bonus]').forEach(button => {
+                            const selected = calculator.activeBonuses.includes(button.dataset.bwBonus);
+                            button.setAttribute('aria-pressed', String(selected));
+                            button.classList.toggle('active', selected);
+                        });
+                    }
+                    const bloodwebLevel = document.getElementById('bw-bloodwebLevel');
+                    document.getElementById('bw-bloodwebLevel-value').textContent = `${bloodwebLevel.value} / 50`;
+                }
                 if (state.luckyState) {
                     luckyState = {
                         ...structuredClone(defaultLuckyState),
@@ -6382,6 +7347,30 @@
             document.getElementById('tab-escapes-btn').textContent = i18n[lang].tabEscapes;
             document.getElementById('tab-tierlist-btn').textContent = i18n[lang].tabTierlist;
             document.getElementById('tab-challenges-btn').textContent = i18n[lang].tabChallenges;
+            document.getElementById('bw-tab-bloodweb').textContent = lang === 'en' ? 'Prestige Calculator' : 'Калькулятор Престижей';
+            document.getElementById('bw-title').textContent = lang === 'en' ? 'Prestige Calculator' : 'Калькулятор Престижей';
+            document.getElementById('bw-description').textContent = lang === 'en'
+                ? 'Estimate how many Bloodpoints and matches you need for your target prestige.'
+                : 'Оцените, сколько очков крови и матчей потребуется для следующего престижа.';
+            document.getElementById('bw-currentPrestige-label').textContent = lang === 'en' ? 'Current prestige' : 'Текущий престиж';
+            document.getElementById('bw-targetPrestige-label').textContent = lang === 'en' ? 'Target prestige' : 'Целевой престиж';
+            document.getElementById('bw-currentBloodpoints-label').textContent = lang === 'en' ? 'Bloodpoints you have' : 'Имеющиеся очки крови';
+            document.getElementById('bw-bloodwebLevel-label').textContent = lang === 'en' ? 'Bloodweb level' : 'Уровень Кровавой паутины';
+            document.getElementById('bw-playStyle-label').textContent = lang === 'en' ? 'Play style' : 'Стиль игры';
+            document.getElementById('bw-bonuses-label').textContent = lang === 'en' ? 'BP bonuses' : 'Бонусы к BP';
+            document.getElementById('bw-bonus-multiplier-label').textContent = lang === 'en' ? 'Multiplier' : 'Множитель';
+            document.getElementById('bw-bonus-offerings-50').textContent = lang === 'en' ? '+50% Offerings' : '+50% Подношения';
+            document.getElementById('bw-bonus-offerings-75').textContent = lang === 'en' ? '+75% Offerings' : '+75% Подношения';
+            document.getElementById('bw-bonus-offerings-100').textContent = lang === 'en' ? '+100% Offerings' : '+100% Подношения';
+            document.getElementById('bw-result-title').textContent = lang === 'en' ? 'APPROX. BP LEFT TO EARN' : 'ОСТАЛОСЬ НАБРАТЬ ПРИМЕРНО';
+            document.getElementById('bw-result-matches-label').textContent = lang === 'en' ? 'Approx. matches' : 'Примерно матчей';
+            const bloodwebStyles = document.getElementById('bw-playStyle').options;
+            const bloodwebStyleLabels = lang === 'en'
+                ? ['Slow (~15,000 BP)', 'Normal (~25,000 BP)', 'Good (~32,000 BP)', 'Maximum (~40,000 BP)']
+                : ['Медленный (~15,000 BP)', 'Нормальный (~25,000 BP)', 'Хороший (~32,000 BP)', 'Максимальный (~40,000 BP)'];
+            bloodwebStyleLabels.forEach((label, index) => {
+                bloodwebStyles[index].textContent = label;
+            });
             const mainChallengeButtons = document.querySelectorAll('.challenge-tab-btn');
             if (mainChallengeButtons.length >= 2) {
                 mainChallengeButtons[0].textContent = i18n[lang].challengeKillersTab;
@@ -6556,13 +7545,16 @@
         }
 
         function switchTab(tabName) {
+            const targetTab = document.getElementById(tabName === 'bloodweb' ? 'page-bloodweb' : `${tabName}-tab`);
+            if (!targetTab) return;
+
             activeTab = tabName;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
             const tabButton = document.querySelector(`[data-tab="${tabName}"]`);
             if (tabButton) tabButton.classList.add('active');
-            document.getElementById(`${tabName}-tab`).classList.add('active');
+            targetTab.classList.add('active');
             if (tabName === 'home') chooseHomeArtwork();
             saveSessionState();
 
@@ -6571,12 +7563,96 @@
             }
         }
 
+        function openBloodwebPage() {
+            switchTab('bloodweb');
+        }
+
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const tabName = e.target.getAttribute('data-tab');
-                switchTab(tabName);
+                if (tabName === 'bloodweb') {
+                    openBloodwebPage();
+                } else {
+                    switchTab(tabName);
+                }
             });
         });
+
+        document.getElementById('bw-bloodwebLevel').addEventListener('input', event => {
+            document.getElementById('bw-bloodwebLevel-value').textContent = `${event.target.value} / 50`;
+            calculateBloodweb();
+        });
+
+        document.querySelectorAll('[data-bw-bonus]').forEach(button => {
+            button.addEventListener('click', () => {
+                const isActive = button.getAttribute('aria-pressed') === 'true';
+                button.setAttribute('aria-pressed', String(!isActive));
+                calculateBloodweb();
+            });
+        });
+
+        document.getElementById('bw-bonus-multiplier').addEventListener('input', calculateBloodweb);
+
+        function calculateBloodweb() {
+            const currentPrestige = Number(document.getElementById('bw-currentPrestige').value);
+            const targetPrestige = Number(document.getElementById('bw-targetPrestige').value);
+            const currentBloodpointsInput = document.getElementById('bw-currentBloodpoints');
+            const currentBloodpoints = Number(currentBloodpointsInput.value);
+            const bonusMultiplierInput = document.getElementById('bw-bonus-multiplier');
+            const customBonusMultiplier = Number(bonusMultiplierInput.value);
+            const bloodwebLevel = Number(document.getElementById('bw-bloodwebLevel').value);
+
+            saveSessionState();
+
+            if (document.getElementById('bw-currentPrestige').value === ''
+                || document.getElementById('bw-targetPrestige').value === ''
+                || currentBloodpointsInput.value === ''
+                || bonusMultiplierInput.value === ''
+                || !Number.isInteger(currentPrestige) || !Number.isInteger(targetPrestige)
+                || currentPrestige < 0 || currentPrestige > 100
+                || targetPrestige < 0 || targetPrestige > 100
+                || !Number.isFinite(currentBloodpoints) || currentBloodpoints < 0
+                || !Number.isFinite(customBonusMultiplier) || customBonusMultiplier <= 0
+                || targetPrestige <= currentPrestige
+                || bloodwebLevel < 1 || bloodwebLevel > 50) {
+                document.getElementById('bw-result').hidden = true;
+                return;
+            }
+
+            // Count the current Bloodweb level as unfinished; estimate about 26,000 BP per level.
+            const levelsRemaining = ((targetPrestige - currentPrestige) * 50) - bloodwebLevel + 1;
+            const baseBloodpoints = levelsRemaining * 26000;
+            const bonusPercent = Array.from(document.querySelectorAll('[data-bw-bonus][aria-pressed="true"]'))
+                .reduce((total, button) => total + Number(button.dataset.bwBonus), 0);
+            const bonusMultiplier = customBonusMultiplier * (1 + (bonusPercent / 100));
+            const requiredBloodpoints = baseBloodpoints;
+            const remainingBloodpoints = Math.max(0, requiredBloodpoints - currentBloodpoints);
+            const bloodpointsPerMatch = Number(document.getElementById('bw-playStyle').value);
+            const matches = Math.ceil(remainingBloodpoints / (bloodpointsPerMatch * bonusMultiplier));
+            const hours = (matches * 10) / 60;
+            const numberLocale = currentLang === 'en' ? 'en-US' : 'ru-RU';
+            const showDays = hours >= 24;
+
+            document.getElementById('bw-result-bp').textContent = Math.ceil(remainingBloodpoints).toLocaleString(numberLocale);
+            document.getElementById('bw-result-matches').textContent = matches.toLocaleString(numberLocale);
+            const days = Math.floor(hours / 24);
+            const remainingHours = Math.floor(hours % 24);
+            const timeParts = [];
+            if (days > 0) {
+                timeParts.push(`${days} ${currentLang === 'en' ? (days === 1 ? 'day' : 'days') : 'дн.'}`);
+            }
+            if (remainingHours > 0 || days === 0) {
+                timeParts.push(`${remainingHours} ${currentLang === 'en' ? (remainingHours === 1 ? 'hour' : 'hours') : 'ч.'}`);
+            }
+            document.getElementById('bw-result-time-label').textContent = currentLang === 'en' ? 'Approx. time' : 'Примерное время';
+            document.getElementById('bw-result-time').textContent = timeParts.join(' ');
+            document.getElementById('bw-result').hidden = false;
+        }
+
+        document.getElementById('bw-form').addEventListener('input', calculateBloodweb);
+        document.getElementById('bw-form').addEventListener('change', calculateBloodweb);
+        document.getElementById('bw-form').addEventListener('submit', event => event.preventDefault());
+        calculateBloodweb();
 
         document.getElementById('home-hero-cta').addEventListener('click', () => switchTab('catalog'));
         document.querySelectorAll('[data-home-tab]').forEach(link => {
@@ -6590,14 +7666,94 @@
             switchTab('home');
         });
 
-        function applyLuckyBankStickyState() {
-            document.querySelectorAll('.lucky-balance').forEach(el => {
-                el.style.position = 'sticky';
-                el.style.top = '16px';
-                el.style.zIndex = '15';
-                el.style.alignSelf = 'flex-start';
+        const challengeNavTimers = new WeakMap();
+        const challengeNavs = [...document.querySelectorAll('.challenge-tabs, .challenge-subtabs')];
+        const challengeNavTouchLayout = window.matchMedia('(hover: none), (max-width: 700px)');
+        const challengeNavMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        function setChallengeNavExpanded(nav, expanded) {
+            const buttons = nav.querySelectorAll(':scope > button');
+            if (challengeNavTouchLayout.matches) {
+                nav.style.removeProperty('max-height');
+                nav.style.removeProperty('padding-top');
+                nav.style.removeProperty('padding-bottom');
+                nav.style.removeProperty('transition');
+                buttons.forEach(button => {
+                    button.style.removeProperty('opacity');
+                    button.style.removeProperty('pointer-events');
+                    button.style.removeProperty('transform');
+                    button.style.removeProperty('transition');
+                });
+                return;
+            }
+
+            const isMainNav = nav.classList.contains('challenge-tabs');
+            const expandedHeight = isMainNav ? '82px' : '54px';
+            const expandedPadding = isMainNav ? '12px' : '8px';
+
+            nav.style.maxHeight = expanded ? expandedHeight : '8px';
+            nav.style.paddingTop = expanded ? expandedPadding : '0px';
+            nav.style.paddingBottom = expanded ? expandedPadding : '0px';
+
+            buttons.forEach(button => {
+                button.style.opacity = expanded ? '1' : '0';
+                button.style.pointerEvents = expanded ? 'auto' : 'none';
+                button.style.transform = expanded ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(.985)';
+            });
+
+            if (challengeNavMotion.matches) {
+                nav.style.transition = 'none';
+                buttons.forEach(button => { button.style.transition = 'none'; });
+                return;
+            }
+
+            nav.style.transition = 'max-height .68s cubic-bezier(.22, 1, .36, 1), padding .58s cubic-bezier(.22, 1, .36, 1)';
+            buttons.forEach(button => {
+                button.style.transition = expanded
+                    ? 'opacity .38s ease .08s, transform .5s cubic-bezier(.22, 1, .36, 1) .02s'
+                    : 'opacity .3s ease .04s, transform .4s cubic-bezier(.22, 1, .36, 1)';
             });
         }
+
+        challengeNavTouchLayout.addEventListener('change', () => {
+            challengeNavs.forEach(nav => setChallengeNavExpanded(nav, false));
+        });
+
+        challengeNavs.forEach(nav => {
+            const cancelPendingClose = () => {
+                const timer = challengeNavTimers.get(nav);
+                if (timer) window.clearTimeout(timer);
+                challengeNavTimers.delete(nav);
+            };
+
+            const scheduleClose = () => {
+                cancelPendingClose();
+                const timer = window.setTimeout(() => {
+                    if (!nav.matches(':hover') && !nav.querySelector(':focus-visible')) {
+                        setChallengeNavExpanded(nav, false);
+                    }
+                    challengeNavTimers.delete(nav);
+                }, 180);
+                challengeNavTimers.set(nav, timer);
+            };
+
+            nav.addEventListener('pointerenter', () => {
+                cancelPendingClose();
+                setChallengeNavExpanded(nav, true);
+            });
+            nav.addEventListener('pointerleave', scheduleClose);
+            nav.addEventListener('focusin', event => {
+                if (event.target.matches(':focus-visible')) {
+                    cancelPendingClose();
+                    setChallengeNavExpanded(nav, true);
+                }
+            });
+            nav.addEventListener('focusout', () => {
+                window.requestAnimationFrame(() => {
+                    if (!nav.matches(':hover') && !nav.querySelector(':focus-visible')) scheduleClose();
+                });
+            });
+        });
 
         document.querySelectorAll('.challenge-tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -6607,11 +7763,8 @@
                 btn.classList.add('active');
                 const targetPanel = document.getElementById(`${challengeTab}-challenge-panel`);
                 if (targetPanel) targetPanel.classList.add('active');
-                applyLuckyBankStickyState();
             });
         });
-
-        applyLuckyBankStickyState();
 
         document.querySelectorAll('.challenge-subtab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
