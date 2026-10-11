@@ -314,6 +314,13 @@
 
         .escape-download-wrap {
             margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .escape-download-wrap .btn-action {
+            flex: 1 1 220px;
         }
 
         .escape-action-btn {
@@ -3318,6 +3325,8 @@
                                 <button id="self-failed-btn" class="escape-action-btn failure" data-scope="self" data-result="failed">+ Не смог</button>
                                 <button id="self-reset-btn" class="escape-action-btn reset-btn" data-scope="self" data-result="reset">Сбросить</button>
                                 <button id="self-download-btn" class="escape-action-btn download-btn" data-scope="self" data-result="download">Скачать показатель</button>
+                                <button id="self-import-btn" class="escape-action-btn import-btn" type="button">Импортировать показатель</button>
+                                <input type="file" id="self-import-file" accept="application/json,.json" hidden>
                             </div>
                         </div>
 
@@ -3342,6 +3351,8 @@
                                 <button id="team-failed-btn" class="escape-action-btn failure" data-scope="team" data-result="failed">+ Не смогла</button>
                                 <button id="team-reset-btn" class="escape-action-btn reset-btn" data-scope="team" data-result="reset">Сбросить</button>
                                 <button id="team-download-btn" class="escape-action-btn download-btn" data-scope="team" data-result="download">Скачать показатель</button>
+                                <button id="team-import-btn" class="escape-action-btn import-btn" type="button">Импортировать показатель</button>
+                                <input type="file" id="team-import-file" accept="application/json,.json" hidden>
                             </div>
                         </div>
 
@@ -3349,6 +3360,8 @@
 
                     <div class="escape-download-wrap">
                         <button class="btn-action" id="download-escape-stats">Скачать все показатели</button>
+                        <button class="btn-action" id="import-escape-stats" type="button">Импортировать все показатели</button>
+                        <input type="file" id="import-escape-stats-file" accept="application/json,.json" hidden>
                     </div>
                 </div>
             </div>
@@ -6150,6 +6163,65 @@
             URL.revokeObjectURL(url);
         }
 
+        function importStatsPayload(file, targetScope) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const payload = JSON.parse(reader.result);
+                    const validModes = ['1vs4', '2vs8'];
+                    if (!payload || typeof payload !== 'object' || !payload.stats) {
+                        throw new Error('Invalid stats file');
+                    }
+
+                    const importedStats = {};
+                    const validateStats = stats => {
+                        if (!stats || typeof stats !== 'object') throw new Error('Invalid stats data');
+                        const validated = {};
+                        ['escaped', 'failed', 'caught'].forEach(result => {
+                            const value = stats[result] ?? 0;
+                            if (!Number.isInteger(value) || value < 0) throw new Error('Invalid stats value');
+                            validated[result] = value;
+                        });
+                        return validated;
+                    };
+
+                    if (targetScope === 'all') {
+                        validModes.forEach(mode => {
+                            const modeStats = payload.stats[mode];
+                            if (!modeStats || typeof modeStats !== 'object') throw new Error('Missing game mode');
+                            importedStats[mode] = {
+                                self: validateStats(modeStats.self),
+                                team: validateStats(modeStats.team)
+                            };
+                        });
+                    } else {
+                        const mode = payload.mode;
+                        if (!validModes.includes(mode)) throw new Error('Invalid game mode');
+                        const modeStats = payload.scope === 'all'
+                            ? payload.stats[mode]?.[targetScope]
+                            : payload.stats[targetScope];
+                        importedStats[mode] = { [targetScope]: validateStats(modeStats) };
+                    }
+
+                    Object.entries(importedStats).forEach(([mode, scopes]) => {
+                        Object.entries(scopes).forEach(([scope, stats]) => {
+                            escapeTracker[mode][scope] = stats;
+                        });
+                    });
+                    if (targetScope !== 'all') currentEscapeMode = payload.mode;
+                    renderEscapeTracker();
+                } catch (error) {
+                    window.alert(currentLang === 'ru'
+                        ? 'Не удалось импортировать показатель. Проверьте, что выбран JSON-файл, скачанный с этого сайта.'
+                        : 'Could not import stats. Make sure you selected a JSON file downloaded from this site.');
+                }
+            };
+            reader.onerror = () => {
+                window.alert(currentLang === 'ru' ? 'Не удалось прочитать файл показателя.' : 'Could not read the stats file.');
+            };
+            reader.readAsText(file);
+        }
+
         function saveSessionState() {
             selectedIndicesByMode = {
                 killers: Array.isArray(selectedIndicesByMode?.killers) ? [...selectedIndicesByMode.killers] : getSavedSelection('killers'),
@@ -6330,6 +6402,9 @@
             document.querySelectorAll('.tierlist-subtab-btn')[1].textContent = i18n[lang].tierlistCustom;
             document.getElementById('tierlist-source-text').textContent = i18n[lang].tierlistSource;
             document.getElementById('download-escape-stats').textContent = lang === 'en' ? 'Download all stats' : 'Скачать все показатели';
+            document.getElementById('import-escape-stats').textContent = lang === 'en' ? 'Import all stats' : 'Импортировать все показатели';
+            document.getElementById('self-import-btn').textContent = lang === 'en' ? 'Import stats' : 'Импортировать показатель';
+            document.getElementById('team-import-btn').textContent = lang === 'en' ? 'Import stats' : 'Импортировать показатель';
             document.querySelectorAll('.download-btn').forEach(button => {
                 button.textContent = lang === 'en' ? 'Download stats' : 'Скачать показатель';
             });
@@ -6782,6 +6857,18 @@
         });
 
         document.getElementById('download-escape-stats').addEventListener('click', () => downloadStatsPayload('all', currentEscapeMode));
+        [
+            ['self-import-btn', 'self-import-file', 'self'],
+            ['team-import-btn', 'team-import-file', 'team'],
+            ['import-escape-stats', 'import-escape-stats-file', 'all']
+        ].forEach(([buttonId, inputId, scope]) => {
+            const fileInput = document.getElementById(inputId);
+            document.getElementById(buttonId).addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', event => {
+                if (event.target.files[0]) importStatsPayload(event.target.files[0], scope);
+                event.target.value = '';
+            });
+        });
 
         document.getElementById('close-modal').addEventListener('click', () => {
             document.getElementById('modal').style.display = 'none';
