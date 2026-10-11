@@ -3180,7 +3180,7 @@
         }
 
         .bloodweb-card {
-            overflow: hidden;
+            overflow: visible;
             padding: clamp(18px, 3vw, 28px);
             background: linear-gradient(145deg, var(--panel-bg), var(--card-bg));
             border: 1px solid var(--theme-accent-border, var(--border-color));
@@ -3252,8 +3252,18 @@
 
         .bloodweb-field input[type="range"] {
             width: 100%;
+            direction: ltr;
             accent-color: var(--theme-highlight, var(--accent-red));
             cursor: pointer;
+        }
+
+        .bloodweb-range-scale {
+            display: flex;
+            justify-content: space-between;
+            direction: ltr;
+            color: var(--text-muted);
+            font-size: .75rem;
+            font-variant-numeric: tabular-nums;
         }
 
         .bloodweb-style-field {
@@ -3328,15 +3338,26 @@
             box-shadow: 0 0 0 3px var(--theme-accent-soft, rgba(255, 42, 42, .12));
         }
 
+        .bloodweb-offering-picker {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            min-height: 42px;
+        }
+
         .bloodweb-bonus-chips {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
-            min-height: 44px;
         }
 
         .bloodweb-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
             min-height: 42px;
             padding: 9px 15px;
             color: var(--text-muted);
@@ -3349,15 +3370,108 @@
             transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
         }
 
-        .bloodweb-chip:hover {
+        .bloodweb-chip:hover,
+        .bloodweb-offering-add:hover,
+        .bloodweb-offering-option:hover {
             transform: translateY(-1px);
         }
 
-        .bloodweb-chip[aria-pressed="true"] {
+        .bloodweb-chip {
             color: #fff;
             background: var(--theme-accent-soft, rgba(255, 42, 42, .12));
             border-color: var(--theme-highlight, var(--accent-red));
             box-shadow: 0 0 14px var(--theme-accent-soft, rgba(255, 42, 42, .12));
+        }
+
+        .bloodweb-chip-remove {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .bloodweb-offering-add {
+            display: inline-grid;
+            position: relative;
+            width: 42px;
+            height: 42px;
+            flex: 0 0 auto;
+            place-items: center;
+            padding: 0;
+            color: var(--theme-highlight, var(--accent-red));
+            background: rgba(8, 8, 12, .72);
+            border: 1px dashed var(--theme-highlight, var(--accent-red));
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0;
+            transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+        }
+
+        .bloodweb-offering-add::before,
+        .bloodweb-offering-add::after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            content: "";
+            transform: translate(-50%, -50%);
+        }
+
+        .bloodweb-offering-add::after {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .bloodweb-offering-add:disabled {
+            cursor: not-allowed;
+            opacity: .45;
+            transform: none;
+        }
+
+        .bloodweb-offering-count {
+            color: var(--text-muted);
+            font-size: .78rem;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .bloodweb-offering-menu {
+            position: absolute;
+            z-index: 30;
+            top: calc(100% + 8px);
+            left: 0;
+            display: grid;
+            min-width: 200px;
+            gap: 4px;
+            padding: 7px;
+            background: var(--bg-card, #17171d);
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 12px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .4);
+        }
+
+        .bloodweb-offering-menu[hidden] {
+            display: none;
+        }
+
+        .bloodweb-offering-option {
+            min-height: 40px;
+            padding: 8px 12px;
+            color: var(--text-main);
+            background: transparent;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+            font-size: .84rem;
+            text-align: left;
+            transition: background .18s ease, color .18s ease, transform .18s ease;
+        }
+
+        .bloodweb-offering-option:hover {
+            color: var(--theme-highlight, var(--accent-red));
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .12));
         }
 
         .bloodweb-result[hidden] {
@@ -3462,14 +3576,8 @@
         }
 
         @media (max-width: 420px) {
-            .bloodweb-bonus-chips {
-                align-items: stretch;
-                flex-direction: column;
-            }
-
             .bloodweb-chip {
-                width: 100%;
-                text-align: left;
+                width: auto;
             }
         }
         .lucky-tab {
@@ -4335,7 +4443,8 @@
                                             <span id="bw-bloodwebLevel-label">Уровень Кровавой паутины</span>
                                             <output class="bloodweb-range-value" id="bw-bloodwebLevel-value" for="bw-bloodwebLevel">10 / 50</output>
                                         </span>
-                                        <input id="bw-bloodwebLevel" type="range" min="1" max="50" value="10">
+                                        <input id="bw-bloodwebLevel" type="range" min="1" max="50" value="10" dir="ltr">
+                                        <span class="bloodweb-range-scale" aria-hidden="true"><span>1</span><span>50</span></span>
                                     </label>
 
                                     <label class="bloodweb-field bloodweb-style-field" for="bw-playStyle">
@@ -4358,10 +4467,20 @@
                                                     <input id="bw-bonus-multiplier" type="number" min="0.01" step="0.01" value="1" inputmode="decimal">
                                                 </span>
                                             </label>
-                                            <div class="bloodweb-bonus-chips" role="group" aria-labelledby="bw-bonuses-label">
-                                                <button class="bloodweb-chip" type="button" data-bw-bonus="50" aria-pressed="false" id="bw-bonus-offerings-50">+50% Подношения</button>
-                                                <button class="bloodweb-chip" type="button" data-bw-bonus="75" aria-pressed="false" id="bw-bonus-offerings-75">+75% Подношения</button>
-                                                <button class="bloodweb-chip" type="button" data-bw-bonus="100" aria-pressed="false" id="bw-bonus-offerings-100">+100% Подношения</button>
+                                            <div class="bloodweb-offering-picker">
+                                                <div class="bloodweb-bonus-chips" id="bw-selected-offerings" aria-live="polite"></div>
+                                                <button class="bloodweb-offering-add" type="button" id="bw-add-offering" aria-label="Добавить подношение" aria-expanded="false" aria-controls="bw-offering-menu"></button>
+                                                <span class="bloodweb-offering-count" id="bw-offering-count">0 / 4</span>
+                                                <div class="bloodweb-offering-menu" id="bw-offering-menu" hidden>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="25">+25% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="50">+50% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="75">+75% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="105">+105% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="106">+106% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="107">+107% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="109">+109% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="110">+110% Подношения</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -7202,8 +7321,8 @@
                     bloodwebLevel: document.getElementById('bw-bloodwebLevel').value,
                     playStyle: document.getElementById('bw-playStyle').value,
                     bonusMultiplier: document.getElementById('bw-bonus-multiplier').value,
-                    activeBonuses: Array.from(document.querySelectorAll('[data-bw-bonus][aria-pressed="true"]'))
-                        .map(button => button.dataset.bwBonus)
+                    offerings: Array.from(document.querySelectorAll('[data-bw-selected-offering]'))
+                        .map(button => Number(button.dataset.bwSelectedOffering))
                 },
                 luckyState: {
                     ...structuredClone(defaultLuckyState),
@@ -7304,13 +7423,13 @@
                             document.getElementById(elementId).value = String(value);
                         }
                     });
-                    if (Array.isArray(calculator.activeBonuses)) {
-                        document.querySelectorAll('[data-bw-bonus]').forEach(button => {
-                            const selected = calculator.activeBonuses.includes(button.dataset.bwBonus);
-                            button.setAttribute('aria-pressed', String(selected));
-                            button.classList.toggle('active', selected);
-                        });
-                    }
+                    const legacyOfferings = Array.isArray(calculator.activeBonuses)
+                        ? calculator.activeBonuses.map(Number)
+                        : [];
+                    const restoredOfferings = Array.isArray(calculator.offerings)
+                        ? calculator.offerings
+                        : legacyOfferings;
+                    renderBloodwebOfferings(restoredOfferings);
                     const bloodwebLevel = document.getElementById('bw-bloodwebLevel');
                     document.getElementById('bw-bloodwebLevel-value').textContent = `${bloodwebLevel.value} / 50`;
                 }
@@ -7359,9 +7478,11 @@
             document.getElementById('bw-playStyle-label').textContent = lang === 'en' ? 'Play style' : 'Стиль игры';
             document.getElementById('bw-bonuses-label').textContent = lang === 'en' ? 'BP bonuses' : 'Бонусы к BP';
             document.getElementById('bw-bonus-multiplier-label').textContent = lang === 'en' ? 'Multiplier' : 'Множитель';
-            document.getElementById('bw-bonus-offerings-50').textContent = lang === 'en' ? '+50% Offerings' : '+50% Подношения';
-            document.getElementById('bw-bonus-offerings-75').textContent = lang === 'en' ? '+75% Offerings' : '+75% Подношения';
-            document.getElementById('bw-bonus-offerings-100').textContent = lang === 'en' ? '+100% Offerings' : '+100% Подношения';
+            document.getElementById('bw-add-offering').setAttribute('aria-label', lang === 'en' ? 'Add offering' : 'Добавить подношение');
+            document.querySelectorAll('[data-bw-offering-option]').forEach(button => {
+                button.textContent = `+${button.dataset.bwOfferingOption}% ${lang === 'en' ? 'Offerings' : 'Подношения'}`;
+            });
+            renderBloodwebOfferings();
             document.getElementById('bw-result-title').textContent = lang === 'en' ? 'APPROX. BP LEFT TO EARN' : 'ОСТАЛОСЬ НАБРАТЬ ПРИМЕРНО';
             document.getElementById('bw-result-matches-label').textContent = lang === 'en' ? 'Approx. matches' : 'Примерно матчей';
             const bloodwebStyles = document.getElementById('bw-playStyle').options;
@@ -7583,12 +7704,90 @@
             calculateBloodweb();
         });
 
-        document.querySelectorAll('[data-bw-bonus]').forEach(button => {
-            button.addEventListener('click', () => {
-                const isActive = button.getAttribute('aria-pressed') === 'true';
-                button.setAttribute('aria-pressed', String(!isActive));
-                calculateBloodweb();
+        function getSelectedBloodwebOfferings() {
+            return Array.from(document.querySelectorAll('[data-bw-selected-offering]'))
+                .map(button => Number(button.dataset.bwSelectedOffering));
+        }
+
+        function renderBloodwebOfferings(values) {
+            const container = document.getElementById('bw-selected-offerings');
+            const availableOfferings = [25, 50, 75, 105, 106, 107, 109, 110];
+            const offerings = (Array.isArray(values) ? values : getSelectedBloodwebOfferings())
+                .map(Number)
+                .filter(value => availableOfferings.includes(value))
+                .slice(0, 4);
+
+            container.replaceChildren();
+            offerings.forEach((value, index) => {
+                const chip = document.createElement('button');
+                chip.type = 'button';
+                chip.className = 'bloodweb-chip';
+                chip.dataset.bwSelectedOffering = String(value);
+                chip.dataset.bwOfferingIndex = String(index);
+                chip.setAttribute('aria-label', currentLang === 'en'
+                    ? `Remove +${value}% offering`
+                    : `Убрать подношение +${value}%`);
+                const label = document.createElement('span');
+                label.textContent = `+${value}% ${currentLang === 'en' ? 'Offerings' : 'Подношения'}`;
+                const removeIcon = document.createElement('span');
+                removeIcon.className = 'bloodweb-chip-remove';
+                removeIcon.setAttribute('aria-hidden', 'true');
+                removeIcon.textContent = '×';
+                chip.append(label, removeIcon);
+                container.append(chip);
             });
+
+            document.getElementById('bw-offering-count').textContent = `${offerings.length} / 4`;
+            const addButton = document.getElementById('bw-add-offering');
+            addButton.disabled = offerings.length >= 4;
+            if (addButton.disabled) {
+                document.getElementById('bw-offering-menu').hidden = true;
+                addButton.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        const addBloodwebOfferingButton = document.getElementById('bw-add-offering');
+        const bloodwebOfferingMenu = document.getElementById('bw-offering-menu');
+        addBloodwebOfferingButton.addEventListener('click', () => {
+            const expanded = addBloodwebOfferingButton.getAttribute('aria-expanded') === 'true';
+            bloodwebOfferingMenu.hidden = expanded;
+            addBloodwebOfferingButton.setAttribute('aria-expanded', String(!expanded));
+        });
+
+        document.getElementById('bw-selected-offerings').addEventListener('click', event => {
+            const chip = event.target.closest('[data-bw-offering-index]');
+            if (!chip) return;
+            const offerings = getSelectedBloodwebOfferings();
+            offerings.splice(Number(chip.dataset.bwOfferingIndex), 1);
+            renderBloodwebOfferings(offerings);
+            calculateBloodweb();
+        });
+
+        bloodwebOfferingMenu.addEventListener('click', event => {
+            const option = event.target.closest('[data-bw-offering-option]');
+            if (!option) return;
+            const offerings = getSelectedBloodwebOfferings();
+            if (offerings.length >= 4) return;
+            offerings.push(Number(option.dataset.bwOfferingOption));
+            renderBloodwebOfferings(offerings);
+            bloodwebOfferingMenu.hidden = true;
+            addBloodwebOfferingButton.setAttribute('aria-expanded', 'false');
+            calculateBloodweb();
+        });
+
+        document.addEventListener('click', event => {
+            if (!event.target.closest('.bloodweb-offering-picker')) {
+                bloodwebOfferingMenu.hidden = true;
+                addBloodwebOfferingButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !bloodwebOfferingMenu.hidden) {
+                bloodwebOfferingMenu.hidden = true;
+                addBloodwebOfferingButton.setAttribute('aria-expanded', 'false');
+                addBloodwebOfferingButton.focus();
+            }
         });
 
         document.getElementById('bw-bonus-multiplier').addEventListener('input', calculateBloodweb);
@@ -7622,8 +7821,7 @@
             // Count the current Bloodweb level as unfinished; estimate about 26,000 BP per level.
             const levelsRemaining = ((targetPrestige - currentPrestige) * 50) - bloodwebLevel + 1;
             const baseBloodpoints = levelsRemaining * 26000;
-            const bonusPercent = Array.from(document.querySelectorAll('[data-bw-bonus][aria-pressed="true"]'))
-                .reduce((total, button) => total + Number(button.dataset.bwBonus), 0);
+            const bonusPercent = getSelectedBloodwebOfferings().reduce((total, value) => total + value, 0);
             const bonusMultiplier = customBonusMultiplier * (1 + (bonusPercent / 100));
             const requiredBloodpoints = baseBloodpoints;
             const remainingBloodpoints = Math.max(0, requiredBloodpoints - currentBloodpoints);
