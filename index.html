@@ -3993,33 +3993,57 @@
             position: relative;
             z-index: 20;
             flex: 0 0 auto;
-            height: auto;
-            max-height: 8px;
             min-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            overflow: hidden;
-            transition:
-                max-height .68s cubic-bezier(.22, 1, .36, 1),
-                padding .58s cubic-bezier(.22, 1, .36, 1);
+            overflow: visible;
         }
 
-        .challenge-tabs > button,
-        .challenge-subtabs > button {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-8px) scale(.985);
-            transition:
-                opacity .28s ease .1s,
-                transform .42s cubic-bezier(.22, 1, .36, 1) .06s;
+        .challenge-content.is-nav-collapsed .challenge-tab-btn,
+        .challenge-content.is-nav-collapsed .challenge-subtab-btn {
+            display: none;
+        }
+
+        .challenge-content.is-nav-collapsed .challenge-tabs {
+            min-height: 42px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        .challenge-content.is-nav-collapsed .challenge-subtabs {
+            display: none;
+        }
+
+        .challenge-nav-toggle {
+            position: absolute;
+            top: 50%;
+            right: clamp(14px, 4vw, 56px);
+            min-height: 30px;
+            padding: 6px 10px;
+            transform: translateY(-50%);
+            border: 1px solid var(--theme-accent-border, rgba(181, 140, 255, .22));
+            border-radius: 7px;
+            background: var(--theme-accent-soft, rgba(181, 140, 255, .08));
+            color: var(--text-muted);
+            cursor: pointer;
+            font: inherit;
+            font-size: .7rem;
+            font-weight: 700;
+            transition: none;
+        }
+
+        .challenge-nav-toggle:hover {
+            border-color: var(--theme-highlight, rgba(181, 140, 255, .45));
+            color: var(--text-main);
+        }
+
+        .challenge-nav-toggle:focus-visible {
+            outline: 2px solid var(--theme-highlight, #c4a4ff);
+            outline-offset: 2px;
         }
 
         @media (hover: none), (max-width: 700px) {
             .challenge-tabs,
             .challenge-subtabs {
                 flex-basis: auto;
-                height: auto;
-                max-height: none;
                 min-height: initial;
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -4031,21 +4055,16 @@
                 padding-bottom: 7px;
             }
 
-            .challenge-tabs > button,
-            .challenge-subtabs > button {
-                opacity: 1;
-                pointer-events: auto;
-                transform: none;
+            .challenge-content.is-nav-collapsed .challenge-tabs {
+                min-height: 42px;
+                padding-top: 6px;
+                padding-bottom: 6px;
             }
+
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .challenge-tabs,
-            .challenge-subtabs,
-            .challenge-tabs > button,
-            .challenge-subtabs > button {
-                transition: none;
-            }
+            .challenge-nav-toggle { transition: none; }
         }
     </style>
 </head>
@@ -4326,10 +4345,11 @@
         </div>
 
         <div class="tab-content" id="challenges-tab">
-            <div class="challenge-content">
+            <div class="challenge-content is-nav-collapsed">
                 <nav class="challenge-tabs" aria-label="Вкладки челленджей">
                     <button class="challenge-tab-btn active" data-challenge-tab="killers">Маньяки</button>
                     <button class="challenge-tab-btn" data-challenge-tab="survivors">Выжившие</button>
+                    <button class="challenge-nav-toggle" type="button" aria-expanded="false">Развернуть вкладки</button>
                 </nav>
                 <div class="challenge-tab-panel active" id="killers-challenge-panel">
                     <div class="challenge-subtabs" aria-label="Внутренние вкладки маньяков">
@@ -4340,7 +4360,7 @@
                         <main class="lucky-tab"><div class="lucky-shell">
                     <div class="lucky-hero"><div><div class="lucky-kicker">Dead by Daylight challenge</div><div class="lucky-title-row"><h1>LUCKY</h1></div><p>Банк, риск и случайность. Крутите колеса, собирайте билд и фиксируйте прогресс в файле.</p><p class="lucky-author">Идея: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a></p></div></div><div class="lucky-balance"><small>Nightfall Bank</small><strong id="lucky-balance">0 FC</strong></div>
                     <div class="lucky-grid">
-                        <aside class="lucky-panel"><h2><span>01</span> Информация</h2><div class="lucky-list"><label>Каток сыграно <strong id="matches-count">0</strong></label><label>Побед <strong id="escaped-count">0</strong></label></div><div class="lucky-notice">При поражении банк и все покупки обнуляются. Если поймано 3 или более выживших, нажмите «Я проиграл».</div></aside>
+                        <aside class="lucky-panel"><h2><span>01</span> Информация</h2><div class="lucky-list"><label>Каток сыграно <strong id="matches-count">0</strong></label><label>Побед <strong id="escaped-count">0</strong></label></div><div class="lucky-notice">При поражении банк и все покупки обнуляются. Если сбежало 3 или более выживших, нажмите «Я проиграл».</div></aside>
                         <section class="lucky-panel"><h2><span>02</span> Колеса испытания</h2><div class="lucky-wheels">
                             <article class="lucky-wheel-card"><h3>Колесо валюты</h3><div class="lucky-wheel-stage"><span class="lucky-pointer"></span><canvas class="lucky-wheel-canvas" id="currency-wheel" width="600" height="600"></canvas></div><div class="lucky-result" id="currency-result">Готово к вращению</div><button class="spin-btn lucky-spin" id="currency-spin">Крутить валюту</button></article>
                             <article class="lucky-wheel-card"><h3>Колесо модификатора</h3><div class="lucky-wheel-stage"><span class="lucky-pointer"></span><canvas class="lucky-wheel-canvas" id="modifier-wheel" width="600" height="600"></canvas></div><div class="lucky-result" id="modifier-result">Готово к вращению</div><button class="spin-btn lucky-spin" id="modifier-spin">Крутить модификатор</button></article>
@@ -5950,7 +5970,7 @@
                 buy: 'Shopping',
                 allowed: 'Allowed',
                 no: 'No',
-                lossNotice: 'After a loss, the bank and all purchases are reset. If 2 or more survivors escape, press "I lost".',
+                lossNotice: 'After a loss, the bank and all purchases are reset. If 3 or more survivors escape, press "I lost".',
                 survivorLossNotice: 'If you are killed by any means other than cheats or similar exploits, press "I lost".',
                 challengeWheels: 'CHALLENGE WHEELS',
                 currencyWheel: 'Currency wheel',
@@ -5983,7 +6003,7 @@
                 author: 'Идея взята: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a>',
                 description: 'Банк, риск и случайность. Крутите колеса, собирайте билд и фиксируйте прогресс.',
                 rules: 'ИНФОРМАЦИЯ', matches: 'Каток сыграно', escaped: 'Побед', perkBlocked: 'Перк-блокировка', buy: 'Закуп', allowed: 'Разрешен', no: 'Нет',
-                lossNotice: 'При поражении банк и все покупки обнуляются. Если поймано 3 или более выживших, нажмите «Я проиграл».', survivorLossNotice: 'Если вас убили любым способом, кроме читов и подобных случаев, нажмите «Я проиграл».',
+                lossNotice: 'При поражении банк и все покупки обнуляются. Если сбежало 3 или более выживших, нажмите «Я проиграл».', survivorLossNotice: 'Если вас убили любым способом, кроме читов и подобных случаев, нажмите «Я проиграл».',
                 challengeWheels: 'КОЛЕСА ИСПЫТАНИЯ', currencyWheel: 'Колесо валюты', modifierWheel: 'Колесо модификатора', killerWheel: 'Колесо маньяков', ready: 'Готово к вращению', spinCurrency: 'Крутить валюту', spinModifier: 'Крутить модификатор', spinKiller: 'Крутить маньяка',
                 wheelNotice: 'Оба колеса можно крутить один раз за катку. После результата выберите победу или поражение.', win: 'Я выиграл (+1 катка)', lose: 'Я проиграл', export: 'Скачать прогресс', import: 'Импортировать файл', killers: 'МАНЬЯКИ ДЛЯ ИСПЫТАНИЯ', selectAll: 'Выбрать всех', deselectAll: 'Убрать всех', search: 'Поиск маньяка...', shop: 'ЗАКУП В БАНКЕ', upgrades: 'Улучшения', perks: 'Перки', mementos: 'Мементо', escapedTitle: 'Сколько смогло сбежать с вами?', escapedHelp: '0 или 1 — без награды, 2 — +2.000, 3 — +3.000, 4 — +5.000. Победа засчитывается, а колеса снова доступны после подтверждения.', cancel: 'Отмена', confirm: 'Подтвердить', messages: ['Никто не сбежал? Вот это крутышка!', 'Один сбежал, зато остальные остались лежать!', 'Двое? Ничья, но для челленджа это тоже победа!', 'Ну... ты старался, но это поражение.', 'Ты вообще старался? Это уже лютый проигрыш!'], itemNames: { redUpgrade: 'Красное улучшение', purpleUpgrade: 'Фиолетовое улучшение', greenUpgrade: 'Зеленое улучшение', grayUpgrade: 'Серое улучшение', perk: 'Один перк', twoPerks: 'Два перка', threePerks: 'Три перка', fourPerks: 'Четыре перка', redMemento: 'Красное мементо' }
             };
@@ -7507,6 +7527,12 @@
                 survivorSubtabs[0].textContent = 'LUCKY';
                 survivorSubtabs[1].textContent = lang === 'en' ? 'In development' : 'В разработке';
             }
+            document.querySelectorAll('.challenge-nav-toggle').forEach(button => {
+                const collapsed = button.closest('.challenge-content').classList.contains('is-nav-collapsed');
+                button.textContent = collapsed
+                    ? (lang === 'en' ? 'Show tabs' : 'Развернуть вкладки')
+                    : (lang === 'en' ? 'Hide tabs' : 'Свернуть вкладки');
+            });
             document.getElementById('tierlist-title').textContent = i18n[lang].tierlistTitle;
             document.querySelectorAll('.tierlist-subtab-btn')[0].textContent = i18n[lang].tierlistCurrent;
             document.querySelectorAll('.tierlist-subtab-btn')[1].textContent = i18n[lang].tierlistCustom;
@@ -7864,92 +7890,15 @@
             switchTab('home');
         });
 
-        const challengeNavTimers = new WeakMap();
-        const challengeNavs = [...document.querySelectorAll('.challenge-tabs, .challenge-subtabs')];
-        const challengeNavTouchLayout = window.matchMedia('(hover: none), (max-width: 700px)');
-        const challengeNavMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-        function setChallengeNavExpanded(nav, expanded) {
-            const buttons = nav.querySelectorAll(':scope > button');
-            if (challengeNavTouchLayout.matches) {
-                nav.style.removeProperty('max-height');
-                nav.style.removeProperty('padding-top');
-                nav.style.removeProperty('padding-bottom');
-                nav.style.removeProperty('transition');
-                buttons.forEach(button => {
-                    button.style.removeProperty('opacity');
-                    button.style.removeProperty('pointer-events');
-                    button.style.removeProperty('transform');
-                    button.style.removeProperty('transition');
-                });
-                return;
-            }
-
-            const isMainNav = nav.classList.contains('challenge-tabs');
-            const expandedHeight = isMainNav ? '82px' : '54px';
-            const expandedPadding = isMainNav ? '12px' : '8px';
-
-            nav.style.maxHeight = expanded ? expandedHeight : '8px';
-            nav.style.paddingTop = expanded ? expandedPadding : '0px';
-            nav.style.paddingBottom = expanded ? expandedPadding : '0px';
-
-            buttons.forEach(button => {
-                button.style.opacity = expanded ? '1' : '0';
-                button.style.pointerEvents = expanded ? 'auto' : 'none';
-                button.style.transform = expanded ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(.985)';
-            });
-
-            if (challengeNavMotion.matches) {
-                nav.style.transition = 'none';
-                buttons.forEach(button => { button.style.transition = 'none'; });
-                return;
-            }
-
-            nav.style.transition = 'max-height .68s cubic-bezier(.22, 1, .36, 1), padding .58s cubic-bezier(.22, 1, .36, 1)';
-            buttons.forEach(button => {
-                button.style.transition = expanded
-                    ? 'opacity .38s ease .08s, transform .5s cubic-bezier(.22, 1, .36, 1) .02s'
-                    : 'opacity .3s ease .04s, transform .4s cubic-bezier(.22, 1, .36, 1)';
-            });
-        }
-
-        challengeNavTouchLayout.addEventListener('change', () => {
-            challengeNavs.forEach(nav => setChallengeNavExpanded(nav, false));
-        });
-
-        challengeNavs.forEach(nav => {
-            const cancelPendingClose = () => {
-                const timer = challengeNavTimers.get(nav);
-                if (timer) window.clearTimeout(timer);
-                challengeNavTimers.delete(nav);
-            };
-
-            const scheduleClose = () => {
-                cancelPendingClose();
-                const timer = window.setTimeout(() => {
-                    if (!nav.matches(':hover') && !nav.querySelector(':focus-visible')) {
-                        setChallengeNavExpanded(nav, false);
-                    }
-                    challengeNavTimers.delete(nav);
-                }, 180);
-                challengeNavTimers.set(nav, timer);
-            };
-
-            nav.addEventListener('pointerenter', () => {
-                cancelPendingClose();
-                setChallengeNavExpanded(nav, true);
-            });
-            nav.addEventListener('pointerleave', scheduleClose);
-            nav.addEventListener('focusin', event => {
-                if (event.target.matches(':focus-visible')) {
-                    cancelPendingClose();
-                    setChallengeNavExpanded(nav, true);
-                }
-            });
-            nav.addEventListener('focusout', () => {
-                window.requestAnimationFrame(() => {
-                    if (!nav.matches(':hover') && !nav.querySelector(':focus-visible')) scheduleClose();
-                });
+        document.querySelectorAll('.challenge-nav-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const challengeContent = button.closest('.challenge-content');
+                if (!challengeContent) return;
+                const isCollapsed = challengeContent.classList.toggle('is-nav-collapsed');
+                button.setAttribute('aria-expanded', String(!isCollapsed));
+                button.textContent = isCollapsed
+                    ? (currentLang === 'en' ? 'Show tabs' : 'Развернуть вкладки')
+                    : (currentLang === 'en' ? 'Hide tabs' : 'Свернуть вкладки');
             });
         });
 
