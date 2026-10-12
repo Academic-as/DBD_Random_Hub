@@ -4098,15 +4098,15 @@
                 <div class="home-hero">
                     <div class="home-hero-badge">DEAD BY DAYLIGHT · FAN TOOLS</div>
                     <h1 id="home-hero-title">DBD <span class="accent">TOOLS</span></h1>
-                    <p id="home-hero-desc">Ваш персональный помощник для Dead by Daylight: быстро выбирайте персонажей, ведите статистику побегов и добавляйте новые челленджи без лишнего хаоса.</p>
+                    <p id="home-hero-desc">Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи и калькулятор престижа.</p>
                     <button class="home-hero-cta" id="home-hero-cta" type="button">◉ Каталог инструментов</button>
                 </div>
 
                 <div class="home-stats">
                     <div class="home-stat">
                         <div class="home-stat-copy">
-                            <strong>4</strong>
-                            <span id="home-stat-tools">инструмента</span>
+                            <strong>5</strong>
+                            <span id="home-stat-tools">инструментов</span>
                         </div>
                     </div>
                     <div class="home-stat">
@@ -4124,7 +4124,7 @@
                 </div>
 
                 <div class="home-footer-note" id="home-footer-note">
-                    Ваш прогресс доступен в течение текущего сеанса: переключайтесь между разделами и возвращайтесь к настройкам без потери данных.
+                    Настройки и прогресс временно хранятся в текущей вкладке: после обновления страницы (F5) они сохранятся, но при закрытии вкладки будут сброшены. Чтобы сохранить данные надолго, воспользуйтесь доступным экспортом.
                 </div>
 
             </div>
@@ -4139,7 +4139,7 @@
                         <p id="catalog-description">Всё, что уже доступно на сайте, — кратко о возможностях и быстрые переходы к нужному разделу.</p>
                     </header>
 
-                    <section class="catalog-grid" aria-label="Инструменты сайта">
+                    <section class="catalog-grid" id="catalog-grid" aria-label="Инструменты сайта">
                         <article class="catalog-card">
                             <div class="catalog-card-top">
                                 <span class="catalog-card-icon" aria-hidden="true">🎡</span>
@@ -4194,6 +4194,20 @@
                                 <li id="catalog-challenges-point-3">Банк, покупки, результат матча и сохранение прогресса</li>
                             </ul>
                             <a class="catalog-action" href="#challenges" data-home-tab="challenges"><span id="catalog-challenges-action">Открыть челленджи</span> <span aria-hidden="true">→</span></a>
+                        </article>
+
+                        <article class="catalog-card">
+                            <div class="catalog-card-top">
+                                <span class="catalog-card-icon" aria-hidden="true">🩸</span>
+                                <div><span class="catalog-card-number">05 · BLOODWEB CALCULATOR</span><h2 id="catalog-bloodweb-title">Калькулятор престижа</h2></div>
+                            </div>
+                            <p id="catalog-bloodweb-description">Оцените, сколько очков крови, матчей и времени потребуется для достижения целевого престижа.</p>
+                            <ul>
+                                <li id="catalog-bloodweb-point-1">Учёт текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP</li>
+                                <li id="catalog-bloodweb-point-2">Настройка BP за матч и пользовательского множителя</li>
+                                <li id="catalog-bloodweb-point-3">До четырёх подношений, влияющих на расчёт наград</li>
+                            </ul>
+                            <a class="catalog-action" href="#bloodweb" data-home-tab="bloodweb"><span id="catalog-bloodweb-action">Открыть калькулятор</span> <span aria-hidden="true">→</span></a>
                         </article>
                     </section>
                     <p class="catalog-note" id="catalog-note">Данные инструментов хранятся в браузере на этом устройстве. Для некоторых разделов доступен экспорт файла с прогрессом или настройками.</p>
@@ -4495,6 +4509,7 @@
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="25">+25% Подношения</button>
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="50">+50% Подношения</button>
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="75">+75% Подношения</button>
+                                                    <button class="bloodweb-offering-option" type="button" data-bw-offering-option="100">+100% Подношения</button>
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="105">+105% Подношения</button>
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="106">+106% Подношения</button>
                                                     <button class="bloodweb-offering-option" type="button" data-bw-offering-option="107">+107% Подношения</button>
@@ -4768,15 +4783,16 @@
                 ],
                 tierlistCustom: "Свой",
                 homeHeroTitle: 'DBD <span class="accent">TOOLS</span>',
-                homeHeroDesc: "Панель для Dead by Daylight: выбирайте персонажей, ведите статистику матчей, изучайте тир-лист и запускайте игровые челленджи в одном месте.",
+                homeHeroDesc: "Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи и калькулятор престижа.",
                 homeHeroCta: "Каталог инструментов",
                 homeSectionTitle: "Инструменты для игры",
-                homeFooter: "Ваш прогресс доступен в течение текущего сеанса: переключайтесь между разделами и возвращайтесь к настройкам без потери данных.",
+                homeFooter: "Настройки и прогресс временно хранятся в текущей вкладке: после обновления страницы (F5) они сохранятся, но при закрытии вкладки будут сброшены. Чтобы сохранить данные надолго, воспользуйтесь доступным экспортом.",
                 catalog: {
                     kicker: "DBD HUB · ОБЗОР",
                     title: "Каталог инструментов",
-                    description: "Всё, что уже доступно на сайте, — кратко о возможностях и быстрые переходы к нужному разделу.",
-                    note: "Данные инструментов хранятся в браузере на этом устройстве. Для некоторых разделов доступен экспорт файла с прогрессом или настройками.",
+                    ariaLabel: "Инструменты сайта",
+                    description: "Пять инструментов для случайного выбора персонажа, учёта результатов, планирования престижа и игровых челленджей.",
+                    note: "Настройки и прогресс временно хранятся в текущей вкладке: после обновления страницы (F5) они сохранятся, но при закрытии вкладки будут сброшены. Доступный экспорт позволяет сохранить отдельные данные в файл.",
                     cards: [
                         {
                             title: "Колесо персонажей",
@@ -4801,6 +4817,12 @@
                             description: "Испытания для маньяков и выживших с колёсами удачи и игровым банком.",
                             points: ["Отдельные испытания для обеих ролей", "Колёса валюты, модификаторов и персонажей", "Банк, покупки, результат матча и сохранение прогресса"],
                             action: "Открыть челленджи"
+                        },
+                        {
+                            title: "Калькулятор престижа",
+                            description: "Оцените, сколько очков крови, матчей и времени потребуется для достижения целевого престижа.",
+                            points: ["Учёт текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP", "Настройка BP за матч и пользовательского множителя", "До четырёх подношений, влияющих на расчёт наград"],
+                            action: "Открыть калькулятор"
                         }
                     ]
                 },
@@ -4812,7 +4834,7 @@
                 feature3Desc: "Испытайте удачу в LUCKY: вращайте колеса, тратьте игровую валюту и собирайте необычные условия для следующей катки.",
                 feature4Title: "📊 Тир-лист",
                 feature4Desc: "Сравнивайте убийц по категориям S–D: от самых сильных и стабильных до ситуативных и слабых. Открывайте текущий список или создавайте свой.",
-                homeStatTools: "инструмента",
+                homeStatTools: "инструментов",
                 homeStatLanguage: "язык",
                 homeStatVariations: "вариаций",
                 escapeHeader: "Побег",
@@ -4909,15 +4931,16 @@
                 ],
                 tierlistCustom: "Custom",
                 homeHeroTitle: 'DBD <span class="accent">TOOLS</span>',
-                homeHeroDesc: "Your Dead by Daylight dashboard: choose characters, track match results, check the tier list, and launch game challenges from one place.",
+                homeHeroDesc: "Dead by Daylight tools in one place: a character wheel, escape statistics, killer tier list, challenges, and a prestige calculator.",
                 homeHeroCta: "Browse catalog",
                 homeSectionTitle: "Featured tools",
-                homeFooter: "Your progress is available during the current session: switch between sections and return to your settings without losing data.",
+                homeFooter: "Settings and progress are stored temporarily in the current tab: they remain after refreshing the page (F5), but are cleared when you close the tab. Use the available export to keep data longer.",
                 catalog: {
                     kicker: "DBD HUB · OVERVIEW",
                     title: "Tools catalog",
-                    description: "Explore the features currently available on the site and jump straight to the tool you need.",
-                    note: "Tool data is stored in your browser on this device. Some sections let you export progress or settings to a file.",
+                    ariaLabel: "Site tools",
+                    description: "Five tools for random character picks, match tracking, prestige planning, and in-game challenges.",
+                    note: "Settings and progress are stored temporarily in the current tab: they remain after refreshing the page (F5), but are cleared when you close the tab. Available exports let you save selected data to a file.",
                     cards: [
                         {
                             title: "Character wheel",
@@ -4942,6 +4965,12 @@
                             description: "Challenges for killers and survivors with luck wheels and an in-game bank.",
                             points: ["Separate challenges for both roles", "Currency, modifier, and character wheels", "Bank, purchases, match results, and progress saves"],
                             action: "Open challenges"
+                        },
+                        {
+                            title: "Prestige calculator",
+                            description: "Estimate the Bloodpoints, matches, and time needed to reach a target prestige.",
+                            points: ["Account for current and target prestige, Bloodweb level, and BP on hand", "Set BP per match and a custom multiplier", "Add up to four offerings to adjust the reward estimate"],
+                            action: "Open calculator"
                         }
                     ]
                 },
@@ -7556,7 +7585,8 @@
             document.getElementById('catalog-title').textContent = i18n[lang].catalog.title;
             document.getElementById('catalog-description').textContent = i18n[lang].catalog.description;
             document.getElementById('catalog-note').textContent = i18n[lang].catalog.note;
-            ['wheel', 'escapes', 'tierlist', 'challenges'].forEach((key, index) => {
+            document.getElementById('catalog-grid').setAttribute('aria-label', i18n[lang].catalog.ariaLabel);
+            ['wheel', 'escapes', 'tierlist', 'challenges', 'bloodweb'].forEach((key, index) => {
                 const card = i18n[lang].catalog.cards[index];
                 document.getElementById(`catalog-${key}-title`).textContent = card.title;
                 document.getElementById(`catalog-${key}-description`).textContent = card.description;
@@ -7737,7 +7767,7 @@
 
         function renderBloodwebOfferings(values) {
             const container = document.getElementById('bw-selected-offerings');
-            const availableOfferings = [25, 50, 75, 105, 106, 107, 109, 110];
+            const availableOfferings = [25, 50, 75, 100, 105, 106, 107, 109, 110];
             const offerings = (Array.isArray(values) ? values : getSelectedBloodwebOfferings())
                 .map(Number)
                 .filter(value => availableOfferings.includes(value))
