@@ -108,7 +108,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 25px;
-            z-index: 20;
+            z-index: 40;
         }
 
         .tabs {
@@ -1812,22 +1812,124 @@
             justify-content: center;
             flex: 1;
             gap: 0;
+            min-width: 0;
+            overflow: visible;
+            scrollbar-width: thin;
         }
 
         .header-nav .tab-btn {
+            flex: 0 0 auto;
             padding: 10px 14px;
             font-size: .72rem;
             letter-spacing: .8px;
+            white-space: nowrap;
+        }
+
+        .nav-item-content {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nav-item-icon {
+            flex: 0 0 auto;
+            font-size: .9rem;
+            line-height: 1;
+            text-transform: none;
+        }
+
+        .tools-menu {
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .tools-menu-toggle {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 14px;
+            border: 0;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font: inherit;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .tools-menu-toggle:hover,
+        .tools-menu-toggle[aria-expanded="true"] {
+            color: var(--text-main);
+        }
+
+        .tools-menu-toggle.active {
+            color: var(--accent-red);
+            border-bottom-color: var(--accent-red);
+            text-shadow: 0 0 10px var(--accent-red-glow);
+        }
+
+        .tools-menu-toggle .tools-menu-chevron {
+            font-size: .7rem;
+            transition: transform .18s ease;
+        }
+
+        .tools-menu-toggle[aria-expanded="true"] .tools-menu-chevron {
+            transform: rotate(180deg);
+        }
+
+        .tools-menu-list {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            z-index: 30;
+            display: grid;
+            min-width: 220px;
+            padding: 6px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 8px;
+            background: var(--theme-header-bg, var(--panel-bg));
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+        }
+
+        .tools-menu-list[hidden] {
+            display: none;
+        }
+
+        .header-nav .tools-menu-list .tab-btn {
+            width: 100%;
+            padding: 11px 12px;
+            border: 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .header-nav .tools-menu-list .tab-btn.active {
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .1));
         }
 
         .header-nav .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 2px;
             flex-shrink: 0;
             border-radius: 4px;
+            padding: 2px 4px;
+        }
+
+        .header-nav .lang-switcher-icon {
+            margin: 0 2px;
+            font-size: .78rem;
+            line-height: 1;
         }
 
         .header-nav .lang-btn {
             border-radius: 2px;
-            padding: 5px 9px;
+            padding: 4px 8px;
+            font-size: .68rem;
         }
 
         .app-container {
@@ -2055,10 +2157,20 @@
                 border-top: 1px solid rgba(255, 255, 255, .05);
             }
 
+            .tools-menu-list {
+                right: 0;
+                left: auto;
+            }
+
             .header-nav .tab-btn {
                 flex: 1 0 auto;
                 padding: 10px 9px;
                 font-size: .68rem;
+            }
+
+            .header-nav .tools-menu-list .tab-btn {
+                flex: initial;
+                padding: 11px 12px;
             }
 
             .app-container {
@@ -4066,12 +4178,449 @@
         @media (prefers-reduced-motion: reduce) {
             .challenge-nav-toggle { transition: none; }
         }
+
+        .mmr-page {
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: flex-start;
+            padding: clamp(24px, 5vw, 56px) 20px;
+            overflow-y: auto;
+            color: var(--text-main);
+        }
+
+        .mmr-shell {
+            width: min(100%, 1200px);
+            margin: 0 auto;
+        }
+
+        .mmr-header {
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .mmr-eyebrow {
+            color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+        }
+
+        .mmr-header h1 {
+            margin: 10px 0 8px;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .mmr-header p {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .mmr-disclaimer {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            padding: 20px 22px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-left: 4px solid var(--theme-highlight, var(--accent-red, #ff2a2a));
+            border-radius: 12px;
+            background: linear-gradient(115deg, var(--theme-accent-soft, rgba(255, 42, 42, .1)), var(--theme-surface, var(--panel-bg)));
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .2), inset 0 1px rgba(255, 255, 255, .035);
+        }
+
+        .mmr-disclaimer-icon {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            place-items: center;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 11px;
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .1));
+            color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+        }
+
+        .mmr-disclaimer-icon svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .mmr-disclaimer-copy {
+            display: grid;
+            gap: 5px;
+            min-width: 0;
+        }
+
+        .mmr-disclaimer strong {
+            color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+            font-size: .78rem;
+            text-transform: uppercase;
+            letter-spacing: .11em;
+        }
+
+        .mmr-disclaimer p {
+            margin: 0;
+            color: var(--text-main);
+            font-size: .94rem;
+            line-height: 1.65;
+        }
+
+        .mmr-card {
+            padding: clamp(18px, 4vw, 32px);
+            border: 1px solid var(--theme-accent-border, rgba(181, 140, 255, .2));
+            border-radius: 14px;
+            background: var(--panel-bg, #151419);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, .22);
+        }
+
+        .mmr-content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(290px, .8fr);
+            align-items: start;
+            gap: 18px;
+        }
+
+        .mmr-method-card {
+            padding: 22px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 14px;
+            background: var(--theme-surface, var(--panel-bg));
+            color: var(--text-main);
+        }
+
+        .mmr-method-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.1rem;
+        }
+
+        .mmr-method-card > p,
+        .mmr-method-section p {
+            margin: 0 0 14px;
+            color: var(--text-muted);
+            font-size: .84rem;
+            line-height: 1.55;
+        }
+
+        .mmr-method-section .mmr-method-example {
+            padding: 10px 12px;
+            border-left: 3px solid var(--theme-highlight, var(--accent-red, #ff2a2a));
+            border-radius: 0 7px 7px 0;
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .1));
+            color: var(--text-main);
+        }
+
+        .mmr-method-section + .mmr-method-section {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid var(--theme-accent-border, var(--border-color));
+        }
+
+        .mmr-method-section h3 {
+            margin: 0 0 8px;
+            color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+            font-size: .95rem;
+        }
+
+        .mmr-method-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text-muted);
+            font-size: .82rem;
+            line-height: 1.5;
+        }
+
+        .mmr-method-table-wrap {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        .mmr-method-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-main);
+            font-size: .75rem;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .mmr-method-table th,
+        .mmr-method-table td {
+            padding: 7px 5px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            white-space: nowrap;
+        }
+
+        .mmr-method-table th {
+            background: var(--theme-accent-soft, rgba(255, 42, 42, .1));
+            color: var(--text-main);
+        }
+
+        .mmr-method-note {
+            display: block;
+            margin-top: 12px;
+            color: var(--text-muted);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .mmr-rating-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 22px;
+            padding: 18px 20px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 11px;
+            background: linear-gradient(110deg, var(--theme-accent-soft, rgba(255, 42, 42, .1)), var(--theme-surface, var(--panel-bg)));
+        }
+
+        .mmr-rating-copy {
+            display: grid;
+            gap: 4px;
+        }
+
+        .mmr-rating-label {
+            color: var(--text-muted);
+            font-size: .76rem;
+            font-weight: 800;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+        }
+
+        .mmr-current-rating {
+            color: var(--text-main);
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .mmr-rating-meta {
+            color: var(--text-muted);
+            font-size: .8rem;
+        }
+
+        .mmr-download-btn,
+        .mmr-import-btn,
+        .mmr-record-btn {
+            min-height: 42px;
+            padding: 10px 16px;
+            border: 1px solid var(--theme-accent-border, rgba(181, 140, 255, .35));
+            border-radius: 8px;
+            background: var(--theme-accent-soft, rgba(181, 140, 255, .12));
+            color: var(--text-main);
+            cursor: pointer;
+            font: inherit;
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        .mmr-download-btn:hover,
+        .mmr-import-btn:hover,
+        .mmr-record-btn:hover:not(:disabled) {
+            border-color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+            filter: brightness(1.12);
+        }
+
+        .mmr-rating-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mmr-import-input {
+            display: none;
+        }
+
+        .mmr-record-btn {
+            width: 100%;
+            margin-top: 18px;
+            border-color: transparent;
+            background: var(--theme-action, var(--accent-red, #ff2a2a));
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .mmr-record-btn:disabled {
+            cursor: default;
+            opacity: .6;
+        }
+
+        .mmr-live-hint {
+            margin: 14px 0 18px;
+            color: var(--text-muted);
+            font-size: .82rem;
+            line-height: 1.5;
+        }
+
+        .mmr-role-switch {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 5px;
+            border: 1px solid var(--theme-accent-border, var(--border-color));
+            border-radius: 11px;
+            background: var(--theme-surface, var(--panel-bg));
+        }
+
+        .mmr-role-btn {
+            min-height: 46px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font: inherit;
+            font-weight: 800;
+        }
+
+        .mmr-role-btn.active {
+            border-color: var(--theme-accent-border, rgba(181, 140, 255, .35));
+            background: var(--theme-accent-soft, rgba(181, 140, 255, .14));
+            color: var(--text-main);
+        }
+
+        .mmr-returning {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+            margin: 0 0 20px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .mmr-returning input {
+            width: 19px;
+            height: 19px;
+            accent-color: var(--theme-action, var(--accent-red, #ff2a2a));
+        }
+
+        .mmr-emblems {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .mmr-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+            color: var(--text-muted);
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+        .mmr-field select {
+            width: 100%;
+            min-height: 46px;
+            padding: 0 12px;
+            border: 1px solid var(--theme-accent-border, rgba(181, 140, 255, .2));
+            border-radius: 8px;
+            background: var(--input-bg, #101014);
+            color: var(--text-main);
+            font: inherit;
+        }
+
+        .mmr-outcome-field,
+        .mmr-kills-field {
+            margin-top: 18px;
+        }
+
+        .mmr-range-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #mmr-killer-kills {
+            width: 100%;
+            accent-color: var(--theme-action, var(--accent-red, #ff2a2a));
+        }
+
+        .mmr-range-scale {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: .75rem;
+        }
+
+        .mmr-result {
+            margin-top: 22px;
+            padding: 22px;
+            border: 1px solid var(--theme-accent-border, rgba(181, 140, 255, .24));
+            border-radius: 10px;
+            background: var(--theme-accent-soft, rgba(181, 140, 255, .08));
+            text-align: center;
+        }
+
+        .mmr-result-kicker {
+            display: block;
+            color: var(--text-muted);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .mmr-result-delta {
+            display: block;
+            margin: 6px 0;
+            color: var(--theme-highlight, var(--accent-red, #ff2a2a));
+            font-size: clamp(2.6rem, 8vw, 4rem);
+            line-height: 1.1;
+        }
+
+        .mmr-result-current {
+            display: block;
+            margin-top: 12px;
+            color: var(--text-muted);
+            font-size: .88rem;
+        }
+
+        .mmr-result.is-positive .mmr-result-delta { color: #54d68b; }
+        .mmr-result.is-negative .mmr-result-delta { color: #ff6666; }
+        .mmr-result.is-neutral .mmr-result-delta { color: var(--text-muted); }
+
+        .mmr-result h2 {
+            margin: 8px 0;
+            font-size: 1.25rem;
+        }
+
+        .mmr-result p {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .mmr-page { padding: 22px 14px; }
+            .mmr-disclaimer { gap: 12px; padding: 16px; }
+            .mmr-disclaimer-icon { width: 34px; height: 34px; flex-basis: 34px; }
+            .mmr-emblems { grid-template-columns: 1fr; }
+            .mmr-rating-bar { align-items: flex-start; flex-direction: column; }
+            .mmr-rating-actions { width: 100%; flex-direction: column; }
+            .mmr-rating-actions button { width: 100%; }
+        }
+
+        @media (max-width: 980px) {
+            .mmr-content-grid { grid-template-columns: minmax(0, 1fr); }
+        }
     </style>
 </head>
 <body>
 
     <header class="header-nav">
-        <a class="site-brand" href="#" aria-label="DBD Hub — главная">
+        <a class="site-brand" href="#" aria-label="DBD Hub - главная">
             <img src="icon/d5e8f729-88e7-4fdb-83cb-60f39c987508.png" alt="">
             <span class="site-brand-copy">
                 <strong>DBD HUB</strong>
@@ -4079,14 +4628,25 @@
             </span>
         </a>
         <div class="tabs">
-            <button class="tab-btn active" data-tab="home" id="tab-home-btn">Главная</button>
-            <button class="tab-btn" data-tab="wheel" id="tab-wheel-btn">Колесо</button>
-            <button class="tab-btn" data-tab="escapes" id="tab-escapes-btn">Побег</button>
-            <button class="tab-btn" data-tab="tierlist" id="tab-tierlist-btn">Тир-лист</button>
-            <button class="tab-btn" data-tab="challenges" id="tab-challenges-btn">Челленджи</button>
-            <button class="tab-btn" data-tab="bloodweb" id="bw-tab-bloodweb">Калькулятор Престижей</button>
+            <button class="tab-btn active" data-tab="home" id="tab-home-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">🏠</span><span id="tab-home-label">Главная</span></span></button>
+            <button class="tab-btn" data-tab="tierlist" id="tab-tierlist-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">🏆</span><span id="tab-tierlist-label">Тир-лист</span></span></button>
+            <button class="tab-btn" data-tab="challenges" id="tab-challenges-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">🎯</span><span id="tab-challenges-label">Челленджи</span></span></button>
+            <div class="tools-menu">
+                <button class="tools-menu-toggle" id="tools-menu-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="tools-menu-list">
+                    <span class="nav-item-icon" aria-hidden="true">🧰</span>
+                    <span id="tools-menu-label">Инструменты</span>
+                    <span class="tools-menu-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="tools-menu-list" id="tools-menu-list" hidden>
+                    <button class="tab-btn" data-tab="escapes" id="tab-escapes-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">🏃</span><span id="tab-escapes-label">Побег</span></span></button>
+                    <button class="tab-btn" data-tab="wheel" id="tab-wheel-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">🎡</span><span id="tab-wheel-label">Колесо</span></span></button>
+                    <button class="tab-btn" data-tab="bloodweb" id="bw-tab-bloodweb"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">📈</span><span id="bw-tab-bloodweb-label">Калькулятор Престижей</span></span></button>
+                    <button class="tab-btn" data-tab="mmr" id="mmr-tab-btn"><span class="nav-item-content"><span class="nav-item-icon" aria-hidden="true">📊</span><span id="mmr-tab-label">MMR</span></span></button>
+                </div>
+            </div>
         </div>
         <div class="lang-switcher">
+            <span class="lang-switcher-icon" aria-hidden="true">🌐</span>
             <button class="lang-btn active" id="lang-ru">RU</button>
             <button class="lang-btn" id="lang-en">EN</button>
         </div>
@@ -4098,14 +4658,14 @@
                 <div class="home-hero">
                     <div class="home-hero-badge">DEAD BY DAYLIGHT · FAN TOOLS</div>
                     <h1 id="home-hero-title">DBD <span class="accent">TOOLS</span></h1>
-                    <p id="home-hero-desc">Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи и калькулятор престижа.</p>
+                    <p id="home-hero-desc">Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи, калькулятор престижа и симулятор MMR.</p>
                     <button class="home-hero-cta" id="home-hero-cta" type="button">◉ Каталог инструментов</button>
                 </div>
 
                 <div class="home-stats">
                     <div class="home-stat">
                         <div class="home-stat-copy">
-                            <strong>5</strong>
+                            <strong>6</strong>
                             <span id="home-stat-tools">инструментов</span>
                         </div>
                     </div>
@@ -4136,7 +4696,7 @@
                     <header class="catalog-intro">
                         <span class="catalog-kicker" id="catalog-kicker">DBD HUB · ОБЗОР</span>
                         <h1 id="catalog-title">Каталог инструментов</h1>
-                        <p id="catalog-description">Всё, что уже доступно на сайте, — кратко о возможностях и быстрые переходы к нужному разделу.</p>
+                        <p id="catalog-description">Шесть инструментов для выбора персонажей, учета результатов, планирования престижа, игровых челленджей и оценки условного изменения MMR.</p>
                     </header>
 
                     <section class="catalog-grid" id="catalog-grid" aria-label="Инструменты сайта">
@@ -4161,9 +4721,9 @@
                             </div>
                             <p id="catalog-escapes-description">Записывайте результаты матчей и следите за личным и командным процентом побегов.</p>
                             <ul>
-                                <li id="catalog-escapes-point-1">Отдельный учёт для себя и команды</li>
-                                <li id="catalog-escapes-point-2">Процент побегов и счётчики результатов</li>
-                                <li id="catalog-escapes-point-3">Счётчик побед, неудач и выгрузка статистики</li>
+                                <li id="catalog-escapes-point-1">Отдельный учет для себя и команды</li>
+                                <li id="catalog-escapes-point-2">Процент побегов и счетчики результатов</li>
+                                <li id="catalog-escapes-point-3">Счетчик побед, неудач и выгрузка статистики</li>
                             </ul>
                             <a class="catalog-action" href="#escapes" data-home-tab="escapes"><span id="catalog-escapes-action">Открыть статистику</span> <span aria-hidden="true">→</span></a>
                         </article>
@@ -4187,10 +4747,10 @@
                                 <span class="catalog-card-icon" aria-hidden="true">🎯</span>
                                 <div><span class="catalog-card-number">04 · LUCKY CHALLENGES</span><h2 id="catalog-challenges-title">Челленджи LUCKY</h2></div>
                             </div>
-                            <p id="catalog-challenges-description">Испытания для маньяков и выживших с колёсами удачи и игровым банком.</p>
+                            <p id="catalog-challenges-description">Испытания для маньяков и выживших с колесами удачи и игровым банком.</p>
                             <ul>
                                 <li id="catalog-challenges-point-1">Отдельные испытания для обеих ролей</li>
-                                <li id="catalog-challenges-point-2">Колёса валюты, модификаторов и персонажей</li>
+                                <li id="catalog-challenges-point-2">Колеса валюты, модификаторов и персонажей</li>
                                 <li id="catalog-challenges-point-3">Банк, покупки, результат матча и сохранение прогресса</li>
                             </ul>
                             <a class="catalog-action" href="#challenges" data-home-tab="challenges"><span id="catalog-challenges-action">Открыть челленджи</span> <span aria-hidden="true">→</span></a>
@@ -4203,11 +4763,25 @@
                             </div>
                             <p id="catalog-bloodweb-description">Оцените, сколько очков крови, матчей и времени потребуется для достижения целевого престижа.</p>
                             <ul>
-                                <li id="catalog-bloodweb-point-1">Учёт текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP</li>
+                                <li id="catalog-bloodweb-point-1">Учет текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP</li>
                                 <li id="catalog-bloodweb-point-2">Настройка BP за матч и пользовательского множителя</li>
-                                <li id="catalog-bloodweb-point-3">До четырёх подношений, влияющих на расчёт наград</li>
+                                <li id="catalog-bloodweb-point-3">До четырех подношений, влияющих на расчет наград</li>
                             </ul>
                             <a class="catalog-action" href="#bloodweb" data-home-tab="bloodweb"><span id="catalog-bloodweb-action">Открыть калькулятор</span> <span aria-hidden="true">→</span></a>
+                        </article>
+
+                        <article class="catalog-card">
+                            <div class="catalog-card-top">
+                                <span class="catalog-card-icon" aria-hidden="true">📈</span>
+                                <div><span class="catalog-card-number">06 · MMR SIMULATOR</span><h2 id="catalog-mmr-title">Симулятор MMR</h2></div>
+                            </div>
+                            <p id="catalog-mmr-description">Оцените условное изменение рейтинга по исходу матча и эмблемам.</p>
+                            <ul>
+                                <li id="catalog-mmr-point-1">Отдельные расчеты для выжившего и убийцы</li>
+                                <li id="catalog-mmr-point-2">Учитываются эмблемы, побег или количество убийств</li>
+                                <li id="catalog-mmr-point-3">Возвращение после перерыва удваивает изменение</li>
+                            </ul>
+                            <a class="catalog-action" href="#mmr" data-home-tab="mmr"><span id="catalog-mmr-action">Открыть MMR</span> <span aria-hidden="true">→</span></a>
                         </article>
                     </section>
                     <p class="catalog-note" id="catalog-note">Данные инструментов хранятся в браузере на этом устройстве. Для некоторых разделов доступен экспорт файла с прогрессом или настройками.</p>
@@ -4390,6 +4964,7 @@
                             <h1>В разработке</h1>
                             <p>Новый челлендж скоро появится здесь.</p>
                         </section>
+
                     </div>
                 </div>
                 <div class="challenge-tab-panel" id="survivors-challenge-panel">
@@ -4537,6 +5112,209 @@
                         </div>
             </div>
                 </section>
+                        <section class="tab-content mmr-page" id="mmr-tab" aria-labelledby="mmr-title">
+                            <div class="mmr-shell">
+                                <header class="mmr-header">
+                                    <span class="mmr-eyebrow">DBD HUB · MMR</span>
+                                    <h1 id="mmr-title">Симулятор MMR</h1>
+                                    <p id="mmr-description">Оцените примерное изменение рейтинга по результатам матча и эмблемам.</p>
+                                </header>
+
+                                <aside class="mmr-disclaimer" role="note">
+                                    <span class="mmr-disclaimer-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 3.5 21 20H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                            <path d="M12 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                            <circle cx="12" cy="17" r="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    <div class="mmr-disclaimer-copy">
+                                        <strong id="mmr-disclaimer-title">Важное уточнение</strong>
+                                        <p id="mmr-disclaimer">Точные значения MMR скрыты. Этот калькулятор - упрощенная модель. В реальной игре итоговый рейтинг зависит от сравнения ваших действий (эмблем) с результатами противника, а также от исхода матча. Результат в условных очках не является реальным значением MMR.</p>
+                                    </div>
+                                </aside>
+
+                                <div class="mmr-content-grid">
+                                <div class="mmr-card">
+                                    <div class="mmr-rating-bar">
+                                        <div class="mmr-rating-copy">
+                                            <span class="mmr-rating-label" id="mmr-rating-label">Текущий рейтинг выжившего</span>
+                                            <strong class="mmr-current-rating" id="mmr-current-rating">0</strong>
+                                            <span class="mmr-rating-meta"><span id="mmr-matches-label">Матчей записано</span>: <span id="mmr-matches-count">0</span></span>
+                                        </div>
+                                        <div class="mmr-rating-actions">
+                                            <button class="mmr-download-btn" id="mmr-download" type="button">Скачать рейтинг</button>
+                                            <button class="mmr-import-btn" id="mmr-import" type="button">Импортировать рейтинг</button>
+                                            <input class="mmr-import-input" id="mmr-import-file" type="file" accept=".json,application/json">
+                                        </div>
+                                    </div>
+
+                                    <div class="mmr-role-switch" id="mmr-role-switch" role="group" aria-label="Выберите роль">
+                                        <button class="mmr-role-btn active" id="mmr-role-survivor" type="button" data-mmr-role="survivor" aria-pressed="true">Выживший</button>
+                                        <button class="mmr-role-btn" id="mmr-role-killer" type="button" data-mmr-role="killer" aria-pressed="false">Убийца</button>
+                                    </div>
+
+                                    <form id="mmr-form">
+                                        <div class="mmr-role-panel active" id="mmr-survivor-panel">
+                                            <label class="mmr-returning">
+                                                <input id="mmr-survivor-returning" type="checkbox">
+                                                <span id="mmr-survivor-returning-label">Давно не играл на выжившем</span>
+                                            </label>
+                                            <div class="mmr-emblems">
+                                                <label class="mmr-field" for="mmr-survivor-emblem-objectives">
+                                                    <span id="mmr-emblem-objectives-label">Цели</span>
+                                                    <select id="mmr-survivor-emblem-objectives" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-survivor-emblem-survival">
+                                                    <span id="mmr-emblem-survival-label">Выживание</span>
+                                                    <select id="mmr-survivor-emblem-survival" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-survivor-emblem-altruism">
+                                                    <span id="mmr-emblem-altruism-label">Альтруизм</span>
+                                                    <select id="mmr-survivor-emblem-altruism" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-survivor-emblem-bravery">
+                                                    <span id="mmr-emblem-bravery-label">Храбрость</span>
+                                                    <select id="mmr-survivor-emblem-bravery" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <label class="mmr-field mmr-outcome-field" for="mmr-survivor-outcome">
+                                                <span id="mmr-survivor-outcome-label">Исход матча</span>
+                                                <select id="mmr-survivor-outcome">
+                                                    <option value="gate">Сбежал через ворота</option>
+                                                    <option value="hatch">Сбежал через люк</option>
+                                                    <option value="death">Умер</option>
+                                                </select>
+                                            </label>
+                                        </div>
+
+                                        <div class="mmr-role-panel" id="mmr-killer-panel" hidden>
+                                            <label class="mmr-returning">
+                                                <input id="mmr-killer-returning" type="checkbox">
+                                                <span id="mmr-killer-returning-label">Давно не играл на этом убийце</span>
+                                            </label>
+                                            <div class="mmr-emblems">
+                                                <label class="mmr-field" for="mmr-killer-emblem-brutality">
+                                                    <span id="mmr-emblem-brutality-label">Жестокость</span>
+                                                    <select id="mmr-killer-emblem-brutality" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-killer-emblem-deviousness">
+                                                    <span id="mmr-emblem-deviousness-label">Хитрость</span>
+                                                    <select id="mmr-killer-emblem-deviousness" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-killer-emblem-hunter">
+                                                    <span id="mmr-emblem-hunter-label">Охотник</span>
+                                                    <select id="mmr-killer-emblem-hunter" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                                <label class="mmr-field" for="mmr-killer-emblem-sacrifice">
+                                                    <span id="mmr-emblem-sacrifice-label">Жертвоприношение</span>
+                                                    <select id="mmr-killer-emblem-sacrifice" data-mmr-emblem>
+                                                        <option value="0">Нет</option><option value="1">Бронза</option><option value="2">Серебро</option><option value="3">Золото</option><option value="4">Изумруд</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <label class="mmr-field mmr-kills-field" for="mmr-killer-kills">
+                                                <span class="mmr-range-heading"><span id="mmr-killer-kills-label">Количество убийств</span><output id="mmr-killer-kills-value" for="mmr-killer-kills">0 / 4</output></span>
+                                                <input id="mmr-killer-kills" type="range" min="0" max="4" value="0" step="1" dir="ltr">
+                                                <span class="mmr-range-scale" aria-hidden="true"><span>0</span><span>4</span></span>
+                                            </label>
+                                        </div>
+
+                                    </form>
+
+                                    <p class="mmr-live-hint" id="mmr-live-hint">Предварительный результат обновляется автоматически. Зафиксируйте матч, чтобы добавить изменение к рейтингу.</p>
+                                    <section class="mmr-result" id="mmr-result" aria-live="polite">
+                                        <span class="mmr-result-kicker" id="mmr-result-kicker">ПРИМЕРНОЕ ИЗМЕНЕНИЕ РЕЙТИНГА</span>
+                                        <strong class="mmr-result-delta" id="mmr-result-delta">+0</strong>
+                                        <h2 id="mmr-result-summary"></h2>
+                                        <p id="mmr-result-reason"></p>
+                                        <span class="mmr-result-current"><span id="mmr-result-current-label">Рейтинг после матча</span>: <strong id="mmr-result-current">0</strong></span>
+                                        <button class="mmr-record-btn" id="mmr-record-match" type="button">Зафиксировать матч</button>
+                                    </section>
+                                </div>
+                                <aside class="mmr-method-card" aria-labelledby="mmr-method-title">
+                                    <h2 id="mmr-method-title">Как считается изменение</h2>
+                                    <p id="mmr-method-intro">Это упрощенная модель: значения скрытого рейтинга неизвестны, поэтому результат показан в условных единицах.</p>
+
+                                    <section class="mmr-method-section">
+                                        <h3 id="mmr-method-survivor-title">Выживший</h3>
+                                        <p id="mmr-method-survivor-intro">Сначала сложите баллы четырех эмблем, затем найдите в таблице исход матча и диапазон полученной суммы.</p>
+                                        <p class="mmr-method-emblem-help" id="mmr-method-emblem-help">Баллы за одну эмблему: Нет - 0, Бронза - 1, Серебро - 2, Золото - 3, Изумруд - 4. Сумма четырех эмблем - от 0 до 16.</p>
+                                        <p class="mmr-method-example" id="mmr-method-survivor-example">Пример: Бронза (1) + Золото (3) + Серебро (2) + Нет (0) = 6 баллов. Для побега через ворота это диапазон 5–8, значит результат +6.</p>
+                                        <div class="mmr-method-table-wrap">
+                                            <table class="mmr-method-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th id="mmr-method-outcome-head" rowspan="2">Исход матча</th>
+                                                        <th id="mmr-method-emblems-head" colspan="1">Сумма эмблем (баллы)</th>
+                                                        <th id="mmr-method-change-head" rowspan="2">Изменение за матч</th>
+                                                    </tr>
+                                                    <tr><th id="mmr-method-survivor-band-head">Диапазон суммы</th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr><th id="mmr-method-gate-label" scope="row" rowspan="5">Ворота</th><td>0</td><td>0</td></tr>
+                                                    <tr><td>1–4</td><td>+3</td></tr>
+                                                    <tr><td>5–8</td><td>+6</td></tr>
+                                                    <tr><td>9–12</td><td>+10</td></tr>
+                                                    <tr><td>13–16</td><td>+15</td></tr>
+                                                    <tr><th id="mmr-method-hatch-label" scope="row">Люк</th><td id="mmr-method-any-emblems">Любая сумма</td><td>0</td></tr>
+                                                    <tr><th id="mmr-method-death-label" scope="row" rowspan="4">Смерть</th><td>0–4</td><td>−15</td></tr>
+                                                    <tr><td>5–8</td><td>−10</td></tr>
+                                                    <tr><td>9–12</td><td>−4</td></tr>
+                                                    <tr><td>13–16</td><td>0</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+
+                                    <section class="mmr-method-section">
+                                        <h3 id="mmr-method-killer-title">Убийца</h3>
+                                        <p id="mmr-method-killer-intro">Найдите строку с количеством убийств и столбец с суммой баллов четырех эмблем - на их пересечении указано изменение:</p>
+                                        <p class="mmr-method-emblem-help" id="mmr-method-killer-emblem-help">Баллы за одну эмблему: Нет - 0, Бронза - 1, Серебро - 2, Золото - 3, Изумруд - 4. Сумма четырех эмблем - от 0 до 16.</p>
+                                        <p class="mmr-method-example" id="mmr-method-killer-example">Пример: сумма эмблем 6 и 2 убийства - строка «2», столбец «5–8», результат 0.</p>
+                                        <div class="mmr-method-table-wrap">
+                                            <table class="mmr-method-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th id="mmr-method-kills-head" rowspan="2">Убийства</th>
+                                                        <th id="mmr-method-killer-emblems-head" colspan="4">Сумма эмблем (баллы)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th id="mmr-method-band-0">0–4</th>
+                                                        <th id="mmr-method-band-1">5–8</th>
+                                                        <th id="mmr-method-band-2">9–12</th>
+                                                        <th id="mmr-method-band-3">13–16</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr><th scope="row">0</th><td>−15</td><td>−11</td><td>−5</td><td>0</td></tr>
+                                                    <tr><th scope="row">1</th><td>−12</td><td>−8</td><td>−3</td><td>0</td></tr>
+                                                    <tr><th scope="row">2</th><td>−5</td><td>0</td><td>+5</td><td>+10</td></tr>
+                                                    <tr><th scope="row">3</th><td>+5</td><td>+8</td><td>+11</td><td>+14</td></tr>
+                                                    <tr><th scope="row">4</th><td>+10</td><td>+12</td><td>+14</td><td>+15</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <span id="mmr-method-note" class="mmr-method-note">Все значения - условные единицы изменения за один матч. При отметке «Давно не играл» результат для выбранной роли удваивается. Точные значения реального MMR неизвестны.</span>
+                                    </section>
+                                </aside>
+                                </div>
+                            </div>
+                        </section>
     </div>
 
     <div class="modal" id="modal">
@@ -4765,10 +5543,89 @@
             ru: {
                 tabHome: "Главная",
                 tabCatalog: "Каталог",
+                toolsMenu: "Инструменты",
                 tabWheel: "Колесо",
                 tabEscapes: "Побег",
                 tabTierlist: "Тир-лист",
                 tabChallenges: "Челленджи",
+                mmr: {
+                    tab: "MMR",
+                    title: "Симулятор MMR",
+                    description: "Оцените примерное изменение рейтинга по результатам матча и эмблемам.",
+                    disclaimerTitle: "Важное уточнение",
+                    disclaimer: "Точные значения MMR скрыты. Этот калькулятор - упрощенная модель. В реальной игре итоговый рейтинг зависит от сравнения ваших действий (эмблем) с результатами противника, а также от исхода матча. Результат в условных очках не является реальным значением MMR.",
+                    chooseRole: "Выберите роль",
+                    survivor: "Выживший",
+                    killer: "Убийца",
+                    survivorRating: "Текущий рейтинг выжившего",
+                    killerRating: "Текущий рейтинг убийцы",
+                    matchesLabel: "Матчей записано",
+                    downloadRating: "Скачать рейтинг",
+                    importRating: "Импортировать рейтинг",
+                    importConfirm: "Импорт заменит текущие рейтинги и историю матчей для обеих ролей. Продолжить?",
+                    importSuccess: "Рейтинг и история матчей успешно импортированы.",
+                    importError: "Не удалось импортировать файл. Выберите корректный JSON-файл рейтинга DBD Hub.",
+                    liveHint: "Предварительный результат обновляется автоматически. Зафиксируйте матч, чтобы добавить изменение к рейтингу.",
+                    recordMatch: "Зафиксировать матч",
+                    recordAnotherMatch: "Зафиксировать еще один такой матч",
+                    resultCurrentLabel: "Рейтинг после матча",
+                    survivorReturning: "Давно не играл на выжившем",
+                    killerReturning: "Давно не играл на этом убийце",
+                    emblems: ["Нет", "Бронза", "Серебро", "Золото", "Изумруд"],
+                    objectives: "Цели",
+                    survival: "Выживание",
+                    altruism: "Альтруизм",
+                    bravery: "Храбрость",
+                    brutality: "Жестокость",
+                    deviousness: "Хитрость",
+                    hunter: "Охотник",
+                    sacrifice: "Жертвоприношение",
+                    outcome: "Исход матча",
+                    gate: "Сбежал через ворота",
+                    hatch: "Сбежал через люк",
+                    death: "Умер",
+                    kills: "Количество убийств",
+                    resultKicker: "ПРИМЕРНОЕ ИЗМЕНЕНИЕ РЕЙТИНГА",
+                    methodTitle: "Как считается изменение",
+                    methodIntro: "Таблицы показывают примерное изменение за один матч. Это условные очки симулятора, а не реальные значения MMR.",
+                    methodSurvivorTitle: "Выживший",
+                    methodSurvivorIntro: "Сначала сложите баллы четырех эмблем, затем найдите в таблице исход матча и диапазон полученной суммы.",
+                    methodEmblemHelp: "Баллы за одну эмблему: Нет - 0, Бронза - 1, Серебро - 2, Золото - 3, Изумруд - 4. Сложите значения четырех эмблем (от 0 до 16).",
+                    methodSurvivorExample: "Пример: Бронза (1) + Золото (3) + Серебро (2) + Нет (0) = 6 баллов. Для побега через ворота это диапазон 5–8, значит результат +6.",
+                    methodKillerExample: "Пример: сумма эмблем 6 и 2 убийства - строка «2», столбец «5–8», результат 0.",
+                    methodOutcomeHead: "Исход матча",
+                    methodEmblemsHead: "Сумма эмблем (баллы)",
+                    methodSurvivorBandHead: "Диапазон суммы",
+                    methodChangeHead: "Изменение за матч",
+                    methodGateOutcome: "Ворота",
+                    methodHatchOutcome: "Люк",
+                    methodDeathOutcome: "Смерть",
+                    methodAnyEmblems: "Любая сумма",
+                    methodKillerTitle: "Убийца",
+                    methodKillerIntro: "Сложите баллы четырех эмблем, затем найдите в таблице строку с числом убийств и столбец с этой суммой. Их пересечение - изменение рейтинга за матч.",
+                    methodKillerEmblemHelp: "Баллы за одну эмблему: Нет - 0, Бронза - 1, Серебро - 2, Золото - 3, Изумруд - 4. Сумма четырех эмблем - от 0 до 16.",
+                    methodKillsHead: "Убийства",
+                    methodKillerEmblemsHead: "Сумма эмблем (баллы)",
+                    methodEmblemBand: ["0–4", "5–8", "9–12", "13–16"],
+                    methodNote: "Все числа в таблицах - примерное изменение за один матч в условных очках. Если давно не играли на выбранной роли, изменение удваивается. Например, вместо -5 будет -10. Рейтинг не может опуститься ниже -300.",
+                    resultHighUp: "Ваш рейтинг значительно вырос",
+                    resultUp: "Ваш рейтинг вырос",
+                    resultSame: "Рейтинг не изменился",
+                    resultDown: "Рейтинг упал",
+                    resultHighDown: "Ваш рейтинг значительно упал",
+                    survivorNoEmblemsReason: "Все эмблемы имеют уровень «Нет» (0/16), поэтому изменение рейтинга равно 0.",
+                    survivorGateReason: "Побег через ворота повышает рейтинг: чем выше результат по эмблемам ({total}/16), тем заметнее прирост.",
+                    survivorHatchReason: "Побег через люк - нейтральный исход: изменение рейтинга равно 0 независимо от эмблем ({total}/16).",
+                    survivorDeathProtectedReason: "После смерти высокий результат по эмблемам ({total}/16) может уберечь рейтинг от снижения.",
+                    survivorDeathPenaltyReason: "После смерти рейтинг снижается; чем ниже результат по эмблемам ({total}/16), тем больше потеря.",
+                    killerHighKillsReason: "Матч с {kills} убийствами дает прирост; сумма эмблем ({total}/16) влияет на его размер.",
+                    killerTwoHighReason: "2 убийства в сочетании с сильным результатом по эмблемам ({total}/16) дают прирост.",
+                    killerFewMaxReason: "При {kills} убийствах максимальный результат по эмблемам ({total}/16) компенсирует недостающие убийства.",
+                    killerFewLowReason: "Малое количество убийств ({kills}) и низкая сумма эмблем ({total}/16) снижают рейтинг.",
+                    killerMixedReason: "Результат рассчитан по сочетанию {kills} убийств и суммы эмблем {total}/16.",
+                    returningReason: "Давнее отсутствие удваивает изменение в этой модели.",
+                    steadyReason: "Недавние игры: применяется обычный коэффициент."
+                },
                 challengeKillersTab: "Маньяки",
                 challengeSurvivorsTab: "Выжившие",
                 tierlistTitle: "Текущий визуальный тир-лист маньяков",
@@ -4777,13 +5634,13 @@
                 tierlistGuide: [
                     ["S", "Элита тир-листа: сильнейшее давление и высокий винрейт."],
                     ["A", "Очень сильные и стабильные убийцы почти на любой карте."],
-                    ["B", "Надёжные персонажи без явной имбы, но с хорошим потенциалом."],
+                    ["B", "Надежные персонажи без явной имбы, но с хорошим потенциалом."],
                     ["C", "Ситуативные маньяки, которым важны карта и ошибки выживших."],
                     ["D", "Слабые или заметно устаревшие по текущему балансу персонажи."]
                 ],
                 tierlistCustom: "Свой",
                 homeHeroTitle: 'DBD <span class="accent">TOOLS</span>',
-                homeHeroDesc: "Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи и калькулятор престижа.",
+                homeHeroDesc: "Инструменты Dead by Daylight в одном месте: колесо персонажей, статистика побегов, тир-лист убийц, челленджи, калькулятор престижа и симулятор MMR.",
                 homeHeroCta: "Каталог инструментов",
                 homeSectionTitle: "Инструменты для игры",
                 homeFooter: "Настройки и прогресс временно хранятся в текущей вкладке: после обновления страницы (F5) они сохранятся, но при закрытии вкладки будут сброшены. Чтобы сохранить данные надолго, воспользуйтесь доступным экспортом.",
@@ -4791,7 +5648,7 @@
                     kicker: "DBD HUB · ОБЗОР",
                     title: "Каталог инструментов",
                     ariaLabel: "Инструменты сайта",
-                    description: "Пять инструментов для случайного выбора персонажа, учёта результатов, планирования престижа и игровых челленджей.",
+                    description: "Шесть инструментов для выбора персонажей, учета результатов, планирования престижа, игровых челленджей и оценки условного изменения MMR.",
                     note: "Настройки и прогресс временно хранятся в текущей вкладке: после обновления страницы (F5) они сохранятся, но при закрытии вкладки будут сброшены. Доступный экспорт позволяет сохранить отдельные данные в файл.",
                     cards: [
                         {
@@ -4803,7 +5660,7 @@
                         {
                             title: "Статистика побегов",
                             description: "Записывайте результаты матчей и следите за личным и командным процентом побегов.",
-                            points: ["Отдельный учёт для себя и команды", "Процент побегов и счётчики результатов", "Счётчик побед, неудач и выгрузка статистики"],
+                            points: ["Отдельный учет для себя и команды", "Процент побегов и счетчики результатов", "Счетчик побед, неудач и выгрузка статистики"],
                             action: "Открыть статистику"
                         },
                         {
@@ -4814,15 +5671,21 @@
                         },
                         {
                             title: "Челленджи LUCKY",
-                            description: "Испытания для маньяков и выживших с колёсами удачи и игровым банком.",
-                            points: ["Отдельные испытания для обеих ролей", "Колёса валюты, модификаторов и персонажей", "Банк, покупки, результат матча и сохранение прогресса"],
+                            description: "Испытания для маньяков и выживших с колесами удачи и игровым банком.",
+                            points: ["Отдельные испытания для обеих ролей", "Колеса валюты, модификаторов и персонажей", "Банк, покупки, результат матча и сохранение прогресса"],
                             action: "Открыть челленджи"
                         },
                         {
                             title: "Калькулятор престижа",
                             description: "Оцените, сколько очков крови, матчей и времени потребуется для достижения целевого престижа.",
-                            points: ["Учёт текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP", "Настройка BP за матч и пользовательского множителя", "До четырёх подношений, влияющих на расчёт наград"],
+                            points: ["Учет текущего и целевого престижа, уровня Кровавой паутины и имеющихся BP", "Настройка BP за матч и пользовательского множителя", "До четырех подношений, влияющих на расчет наград"],
                             action: "Открыть калькулятор"
+                        },
+                        {
+                            title: "Симулятор MMR",
+                            description: "Оцените условное изменение рейтинга по исходу матча и эмблемам.",
+                            points: ["Отдельные расчеты для выжившего и убийцы", "Учитываются эмблемы, побег или количество убийств", "Возвращение после перерыва удваивает изменение"],
+                            action: "Открыть MMR"
                         }
                     ]
                 },
@@ -4913,10 +5776,89 @@
             en: {
                 tabHome: "Home",
                 tabCatalog: "Catalog",
+                toolsMenu: "Tools",
                 tabWheel: "Wheel",
                 tabEscapes: "Escapes",
                 tabTierlist: "Tier list",
                 tabChallenges: "Challenges",
+                mmr: {
+                    tab: "MMR",
+                    title: "MMR simulator",
+                    description: "Estimate the approximate rating change based on match results and emblems.",
+                    disclaimerTitle: "Simulation notice",
+                    disclaimer: "Exact MMR values are hidden. This calculator is a simplified model. In the actual game, your final rating depends on comparing your actions (emblems) with your opponent's results, as well as the match outcome. The result in hypothetical points is not your actual MMR.",
+                    chooseRole: "Choose a role",
+                    survivor: "Survivor",
+                    killer: "Killer",
+                    survivorRating: "Current survivor rating",
+                    killerRating: "Current killer rating",
+                    matchesLabel: "Matches recorded",
+                    downloadRating: "Download rating",
+                    importRating: "Import rating",
+                    importConfirm: "Importing will replace the current ratings and match histories for both roles. Continue?",
+                    importSuccess: "Rating and match history imported successfully.",
+                    importError: "Could not import the file. Choose a valid DBD Hub rating JSON file.",
+                    liveHint: "The estimate updates automatically. Record the match to add its change to your rating.",
+                    recordMatch: "Record match",
+                    recordAnotherMatch: "Record another match with these results",
+                    resultCurrentLabel: "Rating after match",
+                    survivorReturning: "Haven't played survivor in a while",
+                    killerReturning: "Haven't played this killer in a while",
+                    emblems: ["None", "Bronze", "Silver", "Gold", "Iridescent"],
+                    objectives: "Objectives",
+                    survival: "Survival",
+                    altruism: "Altruism",
+                    bravery: "Bravery",
+                    brutality: "Brutality",
+                    deviousness: "Deviousness",
+                    hunter: "Hunter",
+                    sacrifice: "Sacrifice",
+                    outcome: "Match outcome",
+                    gate: "Escaped through the gate",
+                    hatch: "Escaped through the hatch",
+                    death: "Died",
+                    kills: "Number of kills",
+                    resultKicker: "ESTIMATED RATING CHANGE",
+                    methodTitle: "How the estimate works",
+                    methodIntro: "The tables show the estimated change for one match. These are hypothetical simulator points, not actual MMR values.",
+                    methodSurvivorTitle: "Survivor",
+                    methodSurvivorIntro: "First add the points from your four emblems, then find your match outcome and that total's range in the table.",
+                    methodEmblemHelp: "Points per emblem: None - 0, Bronze - 1, Silver - 2, Gold - 3, Iridescent - 4. Add all four values (from 0 to 16).",
+                    methodSurvivorExample: "Example: Bronze (1) + Gold (3) + Silver (2) + None (0) = 6 points. A gate escape falls in the 5–8 range, so the result is +6.",
+                    methodOutcomeHead: "Match outcome",
+                    methodEmblemsHead: "Total emblem points",
+                    methodSurvivorBandHead: "Total range",
+                    methodChangeHead: "Change per match",
+                    methodGateOutcome: "Gate",
+                    methodHatchOutcome: "Hatch",
+                    methodDeathOutcome: "Death",
+                    methodAnyEmblems: "Any total",
+                    methodKillerTitle: "Killer",
+                    methodKillerIntro: "Add your four emblem scores, then find the row for your kill count and the column for that total. The intersecting cell is the change for that match.",
+                    methodKillerEmblemHelp: "Points per emblem: None - 0, Bronze - 1, Silver - 2, Gold - 3, Iridescent - 4. The four emblems total from 0 to 16.",
+                    methodKillerExample: "Example: a total of 6 emblem points and 2 kills - use row 2 and column 5–8. The result is 0.",
+                    methodKillsHead: "Kills",
+                    methodKillerEmblemsHead: "Total emblem points",
+                    methodEmblemBand: ["0–4", "5–8", "9–12", "13–16"],
+                    methodNote: "All table values are estimated changes per match in hypothetical points. If you have not played the selected role for a while, the change is doubled. For example, -5 becomes -10. The rating cannot go below -300.",
+                    resultHighUp: "Your rating increased significantly",
+                    resultUp: "Your rating increased",
+                    resultSame: "Your rating did not change",
+                    resultDown: "Your rating decreased",
+                    resultHighDown: "Your rating decreased significantly",
+                    survivorNoEmblemsReason: "All emblems are set to None (0/16), so the rating change is 0.",
+                    survivorGateReason: "Escaping through the gate increases the rating; the higher the emblem total ({total}/16), the larger the gain.",
+                    survivorHatchReason: "A hatch escape is a neutral outcome: the rating change is 0 regardless of emblems ({total}/16).",
+                    survivorDeathProtectedReason: "After a death, a high emblem total ({total}/16) may prevent the rating from decreasing.",
+                    survivorDeathPenaltyReason: "After a death, the rating decreases; a lower emblem total ({total}/16) means a larger loss.",
+                    killerHighKillsReason: "A match with {kills} kills increases the rating; the emblem total ({total}/16) affects the size of the gain.",
+                    killerTwoHighReason: "2 kills combined with a strong emblem result ({total}/16) produce a gain.",
+                    killerFewMaxReason: "With {kills} kills, a maximum emblem result ({total}/16) offsets the low kill count.",
+                    killerFewLowReason: "A low kill count ({kills}) and low emblem total ({total}/16) reduce the rating.",
+                    killerMixedReason: "The estimate combines {kills} kills with an emblem total of {total}/16.",
+                    returningReason: "A long absence doubles the change in this model.",
+                    steadyReason: "Recent play: the standard factor is applied."
+                },
                 challengeKillersTab: "Killers",
                 challengeSurvivorsTab: "Survivors",
                 tierlistTitle: "Current visual killer tier list",
@@ -4931,7 +5873,7 @@
                 ],
                 tierlistCustom: "Custom",
                 homeHeroTitle: 'DBD <span class="accent">TOOLS</span>',
-                homeHeroDesc: "Dead by Daylight tools in one place: a character wheel, escape statistics, killer tier list, challenges, and a prestige calculator.",
+                homeHeroDesc: "Dead by Daylight tools in one place: a character wheel, escape statistics, killer tier list, challenges, a prestige calculator, and an MMR simulator.",
                 homeHeroCta: "Browse catalog",
                 homeSectionTitle: "Featured tools",
                 homeFooter: "Settings and progress are stored temporarily in the current tab: they remain after refreshing the page (F5), but are cleared when you close the tab. Use the available export to keep data longer.",
@@ -4939,7 +5881,7 @@
                     kicker: "DBD HUB · OVERVIEW",
                     title: "Tools catalog",
                     ariaLabel: "Site tools",
-                    description: "Five tools for random character picks, match tracking, prestige planning, and in-game challenges.",
+                    description: "Six tools for character picks, match tracking, prestige planning, in-game challenges, and estimated MMR changes.",
                     note: "Settings and progress are stored temporarily in the current tab: they remain after refreshing the page (F5), but are cleared when you close the tab. Available exports let you save selected data to a file.",
                     cards: [
                         {
@@ -4971,6 +5913,12 @@
                             description: "Estimate the Bloodpoints, matches, and time needed to reach a target prestige.",
                             points: ["Account for current and target prestige, Bloodweb level, and BP on hand", "Set BP per match and a custom multiplier", "Add up to four offerings to adjust the reward estimate"],
                             action: "Open calculator"
+                        },
+                        {
+                            title: "MMR simulator",
+                            description: "Estimate a hypothetical rating change based on the match outcome and emblems.",
+                            points: ["Separate calculations for survivor and killer", "Uses emblems, escape outcome, or kill count", "Returning after a break doubles the change"],
+                            action: "Open MMR"
                         }
                     ]
                 },
@@ -5133,6 +6081,14 @@
         let currentMode = 'killers';
         let currentEscapeMode = '1vs4';
         let activeTab = 'home';
+        let mmrRole = 'survivor';
+        const MMR_MIN_RATING = -300;
+        let mmrRatings = {
+            survivor: { rating: 0, matches: [] },
+            killer: { rating: 0, matches: [] }
+        };
+        let lastMmrCalculation = null;
+        let mmrMatchRecorded = false;
         let selectedIndices = [];
         let selectedIndicesByMode = {
             killers: Array.from(Array(i18n.ru.killers.length).keys()),
@@ -6026,7 +6982,7 @@
                 escapedHelp: '0 or 1 means no reward, 2 = +2,000, 3 = +3,000, 4 = +5,000. Win counts and the wheels are available again after confirmation.',
                 cancel: 'Cancel',
                 confirm: 'Confirm',
-                messages: ['Nobody escaped? What a legend!', 'One escaped, but the others are still down!', 'Two escaped with you — +2,000 FanCoin!', 'Three escaped with you — +3,000 FanCoin!', 'All four escaped — +5,000 FanCoin!'],
+                messages: ['Nobody escaped? What a legend!', 'One escaped, but the others are still down!', 'Two escaped with you - +2,000 FanCoin!', 'Three escaped with you - +3,000 FanCoin!', 'All four escaped - +5,000 FanCoin!'],
                 itemNames: { redUpgrade: 'Red upgrade', purpleUpgrade: 'Purple upgrade', greenUpgrade: 'Green upgrade', grayUpgrade: 'Gray upgrade', perk: 'One perk', twoPerks: 'Two perks', threePerks: 'Three perks', fourPerks: 'Four perks', redMemento: 'Red memento' }
             } : {
                 author: 'Идея взята: <a href="https://www.youtube.com/@Des4rme" target="_blank" rel="noopener noreferrer">Desarme</a>',
@@ -6034,7 +6990,7 @@
                 rules: 'ИНФОРМАЦИЯ', matches: 'Каток сыграно', escaped: 'Побед', perkBlocked: 'Перк-блокировка', buy: 'Закуп', allowed: 'Разрешен', no: 'Нет',
                 lossNotice: 'При поражении банк и все покупки обнуляются. Если сбежало 3 или более выживших, нажмите «Я проиграл».', survivorLossNotice: 'Если вас убили любым способом, кроме читов и подобных случаев, нажмите «Я проиграл».',
                 challengeWheels: 'КОЛЕСА ИСПЫТАНИЯ', currencyWheel: 'Колесо валюты', modifierWheel: 'Колесо модификатора', killerWheel: 'Колесо маньяков', ready: 'Готово к вращению', spinCurrency: 'Крутить валюту', spinModifier: 'Крутить модификатор', spinKiller: 'Крутить маньяка',
-                wheelNotice: 'Оба колеса можно крутить один раз за катку. После результата выберите победу или поражение.', win: 'Я выиграл (+1 катка)', lose: 'Я проиграл', export: 'Скачать прогресс', import: 'Импортировать файл', killers: 'МАНЬЯКИ ДЛЯ ИСПЫТАНИЯ', selectAll: 'Выбрать всех', deselectAll: 'Убрать всех', search: 'Поиск маньяка...', shop: 'ЗАКУП В БАНКЕ', upgrades: 'Улучшения', perks: 'Перки', mementos: 'Мементо', escapedTitle: 'Сколько смогло сбежать с вами?', escapedHelp: '0 или 1 — без награды, 2 — +2.000, 3 — +3.000, 4 — +5.000. Победа засчитывается, а колеса снова доступны после подтверждения.', cancel: 'Отмена', confirm: 'Подтвердить', messages: ['Никто не сбежал? Вот это крутышка!', 'Один сбежал, зато остальные остались лежать!', 'Двое? Ничья, но для челленджа это тоже победа!', 'Ну... ты старался, но это поражение.', 'Ты вообще старался? Это уже лютый проигрыш!'], itemNames: { redUpgrade: 'Красное улучшение', purpleUpgrade: 'Фиолетовое улучшение', greenUpgrade: 'Зеленое улучшение', grayUpgrade: 'Серое улучшение', perk: 'Один перк', twoPerks: 'Два перка', threePerks: 'Три перка', fourPerks: 'Четыре перка', redMemento: 'Красное мементо' }
+                wheelNotice: 'Оба колеса можно крутить один раз за катку. После результата выберите победу или поражение.', win: 'Я выиграл (+1 катка)', lose: 'Я проиграл', export: 'Скачать прогресс', import: 'Импортировать файл', killers: 'МАНЬЯКИ ДЛЯ ИСПЫТАНИЯ', selectAll: 'Выбрать всех', deselectAll: 'Убрать всех', search: 'Поиск маньяка...', shop: 'ЗАКУП В БАНКЕ', upgrades: 'Улучшения', perks: 'Перки', mementos: 'Мементо', escapedTitle: 'Сколько смогло сбежать с вами?', escapedHelp: '0 или 1 - без награды, 2 - +2.000, 3 - +3.000, 4 - +5.000. Победа засчитывается, а колеса снова доступны после подтверждения.', cancel: 'Отмена', confirm: 'Подтвердить', messages: ['Никто не сбежал? Вот это крутышка!', 'Один сбежал, зато остальные остались лежать!', 'Двое? Ничья, но для челленджа это тоже победа!', 'Ну... ты старался, но это поражение.', 'Ты вообще старался? Это уже лютый проигрыш!'], itemNames: { redUpgrade: 'Красное улучшение', purpleUpgrade: 'Фиолетовое улучшение', greenUpgrade: 'Зеленое улучшение', grayUpgrade: 'Серое улучшение', perk: 'Один перк', twoPerks: 'Два перка', threePerks: 'Три перка', fourPerks: 'Четыре перка', redMemento: 'Красное мементо' }
             };
         }
 
@@ -7363,6 +8319,7 @@
                         team: { ...escapeTracker['2vs8'].team }
                     }
                 },
+                mmrTracker: structuredClone(mmrRatings),
                 bloodwebCalculator: {
                     currentPrestige: document.getElementById('bw-currentPrestige').value,
                     targetPrestige: document.getElementById('bw-targetPrestige').value,
@@ -7455,6 +8412,21 @@
                         };
                     }
                 }
+                if (state.mmrTracker && typeof state.mmrTracker === 'object') {
+                    ['survivor', 'killer'].forEach(role => {
+                        const savedRole = state.mmrTracker[role];
+                        if (!savedRole || !Number.isFinite(Number(savedRole.rating)) || !Array.isArray(savedRole.matches)) return;
+                        mmrRatings[role] = {
+                            rating: Math.max(MMR_MIN_RATING, Number(savedRole.rating)),
+                            matches: savedRole.matches.filter(match =>
+                                match &&
+                                Number.isFinite(Number(match.delta)) &&
+                                Number.isFinite(Number(match.rating)) &&
+                                typeof match.date === 'string'
+                            )
+                        };
+                    });
+                }
                 if (state.bloodwebCalculator) {
                     const calculator = state.bloodwebCalculator;
                     const calculatorFields = {
@@ -7505,17 +8477,93 @@
             }
         }
 
+        function applyMmrLanguage(lang) {
+            const text = i18n[lang].mmr;
+            document.getElementById('mmr-tab-label').textContent = text.tab;
+            document.getElementById('mmr-title').textContent = text.title;
+            document.getElementById('mmr-description').textContent = text.description;
+            document.getElementById('mmr-disclaimer-title').textContent = text.disclaimerTitle;
+            document.getElementById('mmr-disclaimer').textContent = text.disclaimer;
+            document.getElementById('mmr-role-switch').setAttribute('aria-label', text.chooseRole);
+            document.getElementById('mmr-role-survivor').textContent = text.survivor;
+            document.getElementById('mmr-role-killer').textContent = text.killer;
+            document.getElementById('mmr-rating-label').textContent = mmrRole === 'survivor' ? text.survivorRating : text.killerRating;
+            document.getElementById('mmr-matches-label').textContent = text.matchesLabel;
+            document.getElementById('mmr-download').textContent = text.downloadRating;
+            document.getElementById('mmr-import').textContent = text.importRating;
+            document.getElementById('mmr-live-hint').textContent = text.liveHint;
+            document.getElementById('mmr-method-title').textContent = text.methodTitle;
+            document.getElementById('mmr-method-intro').textContent = text.methodIntro;
+            document.getElementById('mmr-method-survivor-title').textContent = text.methodSurvivorTitle;
+            document.getElementById('mmr-method-survivor-intro').textContent = text.methodSurvivorIntro;
+            document.getElementById('mmr-method-emblem-help').textContent = text.methodEmblemHelp;
+            document.getElementById('mmr-method-survivor-example').textContent = text.methodSurvivorExample;
+            document.getElementById('mmr-method-outcome-head').textContent = text.methodOutcomeHead;
+            document.getElementById('mmr-method-emblems-head').textContent = text.methodEmblemsHead;
+            document.getElementById('mmr-method-survivor-band-head').textContent = text.methodSurvivorBandHead;
+            document.getElementById('mmr-method-change-head').textContent = text.methodChangeHead;
+            document.getElementById('mmr-method-gate-label').textContent = text.methodGateOutcome;
+            document.getElementById('mmr-method-hatch-label').textContent = text.methodHatchOutcome;
+            document.getElementById('mmr-method-death-label').textContent = text.methodDeathOutcome;
+            document.getElementById('mmr-method-any-emblems').textContent = text.methodAnyEmblems;
+            document.getElementById('mmr-method-killer-title').textContent = text.methodKillerTitle;
+            document.getElementById('mmr-method-killer-intro').textContent = text.methodKillerIntro;
+            document.getElementById('mmr-method-killer-emblem-help').textContent = text.methodKillerEmblemHelp;
+            document.getElementById('mmr-method-killer-example').textContent = text.methodKillerExample;
+            document.getElementById('mmr-method-kills-head').textContent = text.methodKillsHead;
+            document.getElementById('mmr-method-killer-emblems-head').textContent = text.methodKillerEmblemsHead;
+            text.methodEmblemBand.forEach((label, index) => {
+                document.getElementById(`mmr-method-band-${index}`).textContent = label;
+            });
+            document.getElementById('mmr-method-note').textContent = text.methodNote;
+            document.getElementById('mmr-result-current-label').textContent = text.resultCurrentLabel;
+            document.getElementById('mmr-record-match').textContent = mmrMatchRecorded ? text.recordAnotherMatch : text.recordMatch;
+            document.getElementById('mmr-survivor-returning-label').textContent = text.survivorReturning;
+            document.getElementById('mmr-killer-returning-label').textContent = text.killerReturning;
+
+            const emblemLabels = {
+                objectives: text.objectives,
+                survival: text.survival,
+                altruism: text.altruism,
+                bravery: text.bravery,
+                brutality: text.brutality,
+                deviousness: text.deviousness,
+                hunter: text.hunter,
+                sacrifice: text.sacrifice
+            };
+            Object.entries(emblemLabels).forEach(([key, label]) => {
+                document.getElementById(`mmr-emblem-${key}-label`).textContent = label;
+            });
+            document.querySelectorAll('[data-mmr-emblem]').forEach(select => {
+                Array.from(select.options).forEach((option, index) => {
+                    option.textContent = text.emblems[index];
+                });
+            });
+            document.getElementById('mmr-survivor-outcome-label').textContent = text.outcome;
+            const outcomeSelect = document.getElementById('mmr-survivor-outcome');
+            [text.gate, text.hatch, text.death].forEach((label, index) => {
+                outcomeSelect.options[index].textContent = label;
+            });
+            document.getElementById('mmr-killer-kills-label').textContent = text.kills;
+            document.getElementById('mmr-killer-kills-value').textContent = `${document.getElementById('mmr-killer-kills').value} / 4`;
+            document.getElementById('mmr-result-kicker').textContent = text.resultKicker;
+            if (lastMmrCalculation) renderMmrResult();
+            renderMmrTracker();
+        }
+
         function setLanguage(lang) {
             currentLang = lang;
             document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
 
-            document.getElementById('tab-home-btn').textContent = i18n[lang].tabHome;
-            document.getElementById('tab-wheel-btn').textContent = i18n[lang].tabWheel;
-            document.getElementById('tab-escapes-btn').textContent = i18n[lang].tabEscapes;
-            document.getElementById('tab-tierlist-btn').textContent = i18n[lang].tabTierlist;
-            document.getElementById('tab-challenges-btn').textContent = i18n[lang].tabChallenges;
-            document.getElementById('bw-tab-bloodweb').textContent = lang === 'en' ? 'Prestige Calculator' : 'Калькулятор Престижей';
+            document.getElementById('tools-menu-label').textContent = i18n[lang].toolsMenu;
+            document.getElementById('tab-home-label').textContent = i18n[lang].tabHome;
+            document.getElementById('tab-wheel-label').textContent = i18n[lang].tabWheel;
+            document.getElementById('tab-escapes-label').textContent = i18n[lang].tabEscapes;
+            document.getElementById('tab-tierlist-label').textContent = i18n[lang].tabTierlist;
+            document.getElementById('tab-challenges-label').textContent = i18n[lang].tabChallenges;
+            applyMmrLanguage(lang);
+            document.getElementById('bw-tab-bloodweb-label').textContent = lang === 'en' ? 'Prestige Calculator' : 'Калькулятор Престижей';
             document.getElementById('bw-title').textContent = lang === 'en' ? 'Prestige Calculator' : 'Калькулятор Престижей';
             document.getElementById('bw-description').textContent = lang === 'en'
                 ? 'Estimate how many Bloodpoints and matches you need for your target prestige.'
@@ -7586,7 +8634,7 @@
             document.getElementById('catalog-description').textContent = i18n[lang].catalog.description;
             document.getElementById('catalog-note').textContent = i18n[lang].catalog.note;
             document.getElementById('catalog-grid').setAttribute('aria-label', i18n[lang].catalog.ariaLabel);
-            ['wheel', 'escapes', 'tierlist', 'challenges', 'bloodweb'].forEach((key, index) => {
+            ['wheel', 'escapes', 'tierlist', 'challenges', 'bloodweb', 'mmr'].forEach((key, index) => {
                 const card = i18n[lang].catalog.cards[index];
                 document.getElementById(`catalog-${key}-title`).textContent = card.title;
                 document.getElementById(`catalog-${key}-description`).textContent = card.description;
@@ -7731,6 +8779,10 @@
 
             const tabButton = document.querySelector(`[data-tab="${tabName}"]`);
             if (tabButton) tabButton.classList.add('active');
+            const toolTabNames = ['escapes', 'wheel', 'bloodweb', 'mmr'];
+            const toolsMenuToggle = document.getElementById('tools-menu-toggle');
+            toolsMenuToggle.classList.toggle('active', toolTabNames.includes(tabName));
+            closeToolsMenu();
             targetTab.classList.add('active');
             if (tabName === 'home') chooseHomeArtwork();
             saveSessionState();
@@ -7744,9 +8796,307 @@
             switchTab('bloodweb');
         }
 
+        function closeToolsMenu() {
+            const toggle = document.getElementById('tools-menu-toggle');
+            const menu = document.getElementById('tools-menu-list');
+            if (!toggle || !menu) return;
+            toggle.setAttribute('aria-expanded', 'false');
+            menu.hidden = true;
+        }
+
+        function getMmrEmblemTotal(role) {
+            const panel = document.getElementById(`mmr-${role}-panel`);
+            return Array.from(panel.querySelectorAll('[data-mmr-emblem]'))
+                .reduce((total, select) => total + Number(select.value), 0);
+        }
+
+        function renderMmrTracker() {
+            const roleData = mmrRatings[mmrRole];
+            document.getElementById('mmr-rating-label').textContent = i18n[currentLang].mmr[`${mmrRole}Rating`];
+            document.getElementById('mmr-current-rating').textContent = String(roleData.rating);
+            document.getElementById('mmr-matches-count').textContent = String(roleData.matches.length);
+            const recordButton = document.getElementById('mmr-record-match');
+            recordButton.disabled = !lastMmrCalculation;
+            recordButton.textContent = mmrMatchRecorded
+                ? i18n[currentLang].mmr.recordAnotherMatch
+                : i18n[currentLang].mmr.recordMatch;
+        }
+
+        function renderMmrResult() {
+            if (!lastMmrCalculation) return;
+            const text = i18n[currentLang].mmr;
+            const { role, total, outcome, kills, delta, returning } = lastMmrCalculation;
+            let reason;
+
+            if (role === 'survivor') {
+                if (outcome === 'gate') {
+                    reason = total === 0 ? text.survivorNoEmblemsReason : text.survivorGateReason;
+                } else if (outcome === 'hatch') {
+                    reason = text.survivorHatchReason;
+                } else if (total >= 13) {
+                    reason = text.survivorDeathProtectedReason;
+                } else {
+                    reason = text.survivorDeathPenaltyReason;
+                }
+            } else if (kills >= 3) {
+                reason = text.killerHighKillsReason;
+            } else if (kills === 2 && total >= 9) {
+                reason = text.killerTwoHighReason;
+            } else if (kills <= 1 && total === 16) {
+                reason = text.killerFewMaxReason;
+            } else if (kills <= 1 && total <= 8) {
+                reason = text.killerFewLowReason;
+            } else {
+                reason = text.killerMixedReason;
+            }
+
+            reason = reason.replace('{total}', String(total)).replace('{kills}', String(kills));
+            if (role !== 'survivor' || (outcome !== 'hatch' && total !== 0)) {
+                reason += ` ${returning ? text.returningReason : text.steadyReason}`;
+            }
+
+            const summary = delta >= 20
+                ? text.resultHighUp
+                : delta > 0
+                    ? text.resultUp
+                    : delta === 0
+                        ? text.resultSame
+                        : delta <= -20
+                            ? text.resultHighDown
+                            : text.resultDown;
+
+            document.getElementById('mmr-result-delta').textContent = delta > 0 ? `+${delta}` : String(delta);
+            document.getElementById('mmr-result-summary').textContent = summary;
+            document.getElementById('mmr-result-reason').textContent = reason;
+            const displayedRating = mmrMatchRecorded && role === mmrRole
+                ? mmrRatings[role].rating
+                : mmrRatings[role].rating + delta;
+            document.getElementById('mmr-result-current').textContent = String(displayedRating);
+            document.getElementById('mmr-result').classList.toggle('is-positive', delta > 0);
+            document.getElementById('mmr-result').classList.toggle('is-negative', delta < 0);
+            document.getElementById('mmr-result').classList.toggle('is-neutral', delta === 0);
+            renderMmrTracker();
+        }
+
+        function setMmrRole(role) {
+            mmrRole = role;
+            ['survivor', 'killer'].forEach(roleName => {
+                const isActive = roleName === role;
+                document.getElementById(`mmr-role-${roleName}`).classList.toggle('active', isActive);
+                document.getElementById(`mmr-role-${roleName}`).setAttribute('aria-pressed', String(isActive));
+                document.getElementById(`mmr-${roleName}-panel`).hidden = !isActive;
+            });
+            mmrMatchRecorded = false;
+            calculateMmr();
+        }
+
+        function calculateMmr(event) {
+            event?.preventDefault();
+            const total = getMmrEmblemTotal(mmrRole);
+            const returning = document.getElementById(`mmr-${mmrRole}-returning`).checked;
+            let baseChange;
+            let outcome = '';
+            let kills = 0;
+
+            if (mmrRole === 'survivor') {
+                outcome = document.getElementById('mmr-survivor-outcome').value;
+                const tier = total <= 4 ? 0 : total <= 8 ? 1 : total <= 12 ? 2 : 3;
+                if (outcome === 'gate') {
+                    baseChange = total === 0 ? 0 : [3, 6, 10, 15][tier];
+                } else if (outcome === 'hatch') {
+                    baseChange = 0;
+                } else {
+                    baseChange = [-15, -10, -4, 0][tier];
+                }
+            } else {
+                kills = Number(document.getElementById('mmr-killer-kills').value);
+                const tier = total <= 4 ? 0 : total <= 8 ? 1 : total <= 12 ? 2 : 3;
+                const changesByKills = [
+                    [-15, -11, -5, 0],
+                    [-12, -8, -3, 0],
+                    [-5, 0, 5, 10],
+                    [5, 8, 11, 14],
+                    [10, 12, 14, 15]
+                ];
+                baseChange = changesByKills[kills][tier];
+            }
+
+            const currentRating = Math.max(MMR_MIN_RATING, mmrRatings[mmrRole].rating);
+            mmrRatings[mmrRole].rating = currentRating;
+            const estimatedChange = baseChange * (returning ? 2 : 1);
+
+            lastMmrCalculation = {
+                role: mmrRole,
+                total,
+                outcome,
+                kills,
+                returning,
+                delta: Math.max(MMR_MIN_RATING, currentRating + estimatedChange) - currentRating
+            };
+            mmrMatchRecorded = false;
+            renderMmrResult();
+        }
+
+        function recordMmrMatch() {
+            if (!lastMmrCalculation) return;
+            const { role, total, outcome, kills, returning } = lastMmrCalculation;
+            const roleData = mmrRatings[role];
+            const delta = Math.max(MMR_MIN_RATING, roleData.rating + lastMmrCalculation.delta) - roleData.rating;
+            roleData.rating += delta;
+            roleData.matches.push({
+                date: new Date().toISOString(),
+                delta,
+                rating: roleData.rating,
+                emblemTotal: total,
+                outcome: outcome || undefined,
+                kills: role === 'killer' ? kills : undefined,
+                returning
+            });
+            lastMmrCalculation.delta = delta;
+            mmrMatchRecorded = true;
+            renderMmrResult();
+            saveSessionState();
+        }
+
+        function downloadMmrRating() {
+            const payload = {
+                schemaVersion: 1,
+                exportedAt: new Date().toISOString(),
+                description: currentLang === 'ru'
+                    ? 'Условная оценка рейтинга симулятора DBD Hub; это не официальный MMR.'
+                    : 'Hypothetical rating from the DBD Hub simulator; this is not official MMR.',
+                ratings: structuredClone(mmrRatings)
+            };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'dbd-mmr-rating.json';
+            link.click();
+            window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        function validateMmrRatingImport(payload) {
+            if (!payload || payload.schemaVersion !== 1 || !payload.ratings || typeof payload.ratings !== 'object') {
+                return null;
+            }
+
+            const importedRatings = {};
+            for (const role of ['survivor', 'killer']) {
+                const roleData = payload.ratings[role];
+                if (
+                    !roleData ||
+                    typeof roleData.rating !== 'number' ||
+                    !Number.isFinite(roleData.rating) ||
+                    !Array.isArray(roleData.matches)
+                ) {
+                    return null;
+                }
+
+                const matches = [];
+                for (const match of roleData.matches) {
+                    if (
+                        !match ||
+                        typeof match.date !== 'string' ||
+                        !Number.isFinite(Date.parse(match.date)) ||
+                        typeof match.delta !== 'number' ||
+                        !Number.isFinite(match.delta) ||
+                        typeof match.rating !== 'number' ||
+                        !Number.isFinite(match.rating) ||
+                        !Number.isInteger(match.emblemTotal) ||
+                        match.emblemTotal < 0 ||
+                        match.emblemTotal > 16 ||
+                        typeof match.returning !== 'boolean'
+                    ) {
+                        return null;
+                    }
+
+                    if (role === 'survivor' && !['gate', 'hatch', 'death'].includes(match.outcome)) {
+                        return null;
+                    }
+                    if (role === 'killer' && (!Number.isInteger(match.kills) || match.kills < 0 || match.kills > 4)) {
+                        return null;
+                    }
+
+                    matches.push({
+                        date: match.date,
+                        delta: match.delta,
+                        rating: match.rating,
+                        emblemTotal: match.emblemTotal,
+                        ...(role === 'survivor' ? { outcome: match.outcome } : { kills: match.kills }),
+                        returning: match.returning
+                    });
+                }
+                importedRatings[role] = { rating: Math.max(MMR_MIN_RATING, roleData.rating), matches };
+            }
+
+            return importedRatings;
+        }
+
+        async function importMmrRating(file) {
+            const text = i18n[currentLang].mmr;
+            try {
+                const payload = JSON.parse(await file.text());
+                const importedRatings = validateMmrRatingImport(payload);
+                if (!importedRatings) {
+                    window.alert(text.importError);
+                    return;
+                }
+                if (!window.confirm(text.importConfirm)) return;
+
+                mmrRatings = importedRatings;
+                mmrMatchRecorded = false;
+                calculateMmr();
+                saveSessionState();
+                window.alert(text.importSuccess);
+            } catch (error) {
+                console.warn('Failed to import MMR rating', error);
+                window.alert(text.importError);
+            }
+        }
+
+        document.querySelectorAll('[data-mmr-role]').forEach(button => {
+            button.addEventListener('click', () => setMmrRole(button.dataset.mmrRole));
+        });
+        document.getElementById('mmr-form').addEventListener('submit', calculateMmr);
+        document.getElementById('mmr-form').addEventListener('input', event => {
+            if (event.target.id === 'mmr-killer-kills') {
+                document.getElementById('mmr-killer-kills-value').textContent = `${event.target.value} / 4`;
+            }
+            calculateMmr();
+        });
+        document.getElementById('mmr-form').addEventListener('change', calculateMmr);
+        document.getElementById('mmr-record-match').addEventListener('click', recordMmrMatch);
+        document.getElementById('mmr-download').addEventListener('click', downloadMmrRating);
+        document.getElementById('mmr-import').addEventListener('click', () => {
+            document.getElementById('mmr-import-file').click();
+        });
+        document.getElementById('mmr-import-file').addEventListener('change', async event => {
+            const [file] = event.target.files;
+            if (file) await importMmrRating(file);
+            event.target.value = '';
+        });
+
+        const toolsMenuToggle = document.getElementById('tools-menu-toggle');
+        const toolsMenu = document.getElementById('tools-menu-list');
+        toolsMenuToggle.addEventListener('click', () => {
+            const expanded = toolsMenuToggle.getAttribute('aria-expanded') === 'true';
+            toolsMenuToggle.setAttribute('aria-expanded', String(!expanded));
+            toolsMenu.hidden = expanded;
+        });
+        document.addEventListener('click', event => {
+            if (!event.target.closest('.tools-menu')) closeToolsMenu();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !toolsMenu.hidden) {
+                closeToolsMenu();
+                toolsMenuToggle.focus();
+            }
+        });
+
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const tabName = e.target.getAttribute('data-tab');
+                const tabName = e.currentTarget.getAttribute('data-tab');
                 if (tabName === 'bloodweb') {
                     openBloodwebPage();
                 } else {
@@ -8217,6 +9567,7 @@
         drawLuckyKillerWheel();
         renderLuckyState();
         setLanguage(currentLang || 'ru');
+        calculateMmr();
         applySavedTabState();
     </script>
 </body>
